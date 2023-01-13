@@ -13,7 +13,6 @@ export class Object {
    */
   onCollision(collidedObjectId) {
     if (this.collidedObjectIds.indexOf(collidedObjectId) >= 0) return;
-    console.log("START Collision with: " + collidedObjectId);
     this.collidedObjectIds.push(collidedObjectId);
     this.updateCollisionStatus();
   }
@@ -34,12 +33,10 @@ export class Object {
    */
   endCollision(removedObjectId) {
     if (this.collidedObjectIds.indexOf(removedObjectId) < 0) return;
-    console.log(this.id + " ENDS Collision with: " + removedObjectId);
     this.collidedObjectIds.splice(
       this.collidedObjectIds.indexOf(removedObjectId),
       1
     );
-    console.log(this.collidedObjectIds);
     this.updateCollisionStatus();
   }
 }

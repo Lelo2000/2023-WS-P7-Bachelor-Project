@@ -55,6 +55,10 @@ function setupCanvas() {
 }
 
 function onChange(options) {
+  console.log(options);
+  if (!options.target.id) {
+    return;
+  }
   options.target.setCoords();
   let movedObjectId = options.target.id;
   let movedObject = objectList.get(movedObjectId);
@@ -81,12 +85,6 @@ function onChange(options) {
   copyObjectList.forEach((object) => {
     object.endCollision(movedObjectId);
     movedObject.endCollision(object.id);
-  });
-
-  objectList.forEach((object) => {
-    console.log(
-      `Objects: ${object.id} Collided Objects: ${object.collidedObjectIds}`
-    );
   });
 }
 

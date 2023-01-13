@@ -1,0 +1,23 @@
+{
+  "name": "2023-ws-p7-bachelor-project",
+  "version": "1.0.0",
+  "description": "Bachelor Projekt von Eva Haugrund, Lynn Dunkel und Leander Schmidt",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://leander.schmidt%40stud.h-da.de@github.com/Lelo2000/2023-WS-P7-Bachelor-Project.git"
+  },
+  "keywords": [
+    "Bachelor",
+    "Simulation"
+  ],
+  "author": "Eva Haugrund, Lynn Dunkel, Leander Schmidt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lelo2000/2023-WS-P7-Bachelor-Project/issues"
+  },
+  "homepage": "https://github.com/Lelo2000/2023-WS-P7-Bachelor-Project#readme"
+}

@@ -2,14 +2,14 @@
   width: 10vw;
   max-width: 100px;
   height: 80vh;
-  background-color: yellow;
+  background-color: rgb(169, 169, 169);
   position: absolute;
   top: 10vh;
   left: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .button {

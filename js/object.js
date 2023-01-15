@@ -1,6 +1,6 @@
 export class Object {
   constructor(displayObject) {
-    this.id = Math.random().toFixed(4);
+    this.id = Math.random();
     this.tags = ["object"];
     this.displayObject = displayObject;
     this.isCollided = false;

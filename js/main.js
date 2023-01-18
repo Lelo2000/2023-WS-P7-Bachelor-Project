@@ -10,4 +10,9 @@ $(document).ready(function () {
     world.addImage(`./images/${imgName}.png`, { x: 300, y: 300 }, true);
     console.log(event.target.id);
   });
+
+  $("#toggleHeatmap").click(function (e) {
+    e.preventDefault();
+    world.toggleHeatmap();
+  });
 });

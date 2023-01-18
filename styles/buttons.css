@@ -23,3 +23,18 @@
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+
+#toggleHeatmap {
+  position: absolute;
+  right: 50px;
+  bottom: 50px;
+  width: 100px;
+  height: 100px;
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  cursor: pointer;
+}

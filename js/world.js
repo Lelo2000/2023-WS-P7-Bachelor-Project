@@ -1,3 +1,4 @@
+import Heatmap from "./heatmap.js";
 import { Object } from "./object.js";
 
 export default class World {
@@ -22,6 +23,16 @@ export default class World {
       selectable: false,
     });
     this.canvas.add(this.errorText);
+    this.heatMap = new Heatmap(this.canvas, this.objectList);
+    this.heatMap.createHeatmap();
+  }
+
+  toggleHeatmap() {
+    if (this.heatMap.isVisible) {
+      this.heatMap.hide();
+      return;
+    }
+    this.heatMap.show();
   }
 
   /**
@@ -112,7 +123,11 @@ export default class World {
       movedObject.endCollision(object.id);
     });
     this.checkForErrors();
+    if (this.heatMap.isVisible) {
+      this.heatMap.colorHeatmap();
+    }
   }
+
   checkForErrors() {
     let wasCollision = false;
 

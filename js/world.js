@@ -1,5 +1,8 @@
+import Car from "./car.js";
 import Heatmap from "./heatmap.js";
 import { Object } from "./object.js";
+import Street from "./street.js";
+import StreetCarManager from "./streetCarManager.js";
 
 export default class World {
   /**
@@ -25,6 +28,16 @@ export default class World {
     this.canvas.add(this.errorText);
     this.heatMap = new Heatmap(this.canvas, this.objectList);
     this.heatMap.createHeatmap();
+    this.streetCarManager = new StreetCarManager(this.canvas);
+    // this.car.startDriving();
+    this.render();
+  }
+  render() {
+    this.streetCarManager.driveCars();
+    this.canvas.renderAll();
+    window.requestAnimationFrame(() => {
+      this.render();
+    });
   }
 
   toggleHeatmap() {

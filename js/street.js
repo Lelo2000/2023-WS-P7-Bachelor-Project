@@ -6,8 +6,24 @@ export default class Street {
     this.startPoint = startPoint;
     this.endPoint = endPoint;
     this.streetTiles = [];
+    this.id = Math.random();
     this.streetTileSize = 30;
     this.normalVector = { x: 0, y: 0 };
+  }
+
+  /**
+   * @param {StreetTile} streetTile
+   */
+  insertStreetTile(streetTile, index) {
+    this.streetTiles.splice(index, 0, {
+      tile: streetTile,
+      normalVector: this.normalVector,
+    });
+    if (index > 0) {
+      this.streetTiles[index - 1].tile.nextTile = [
+        { normalVector: this.normalVector, tile: streetTile },
+      ];
+    }
   }
 
   createStreetTiles() {
@@ -31,18 +47,16 @@ export default class Street {
         new fabric.Rect({
           top: newY,
           left: newX,
-          width: this.streetTileSize,
-          height: this.streetTileSize,
+          width: 2,
+          height: 2,
           fill: "red",
           selectable: false,
         })
       );
-      console.log(newX, newY);
     }
     this.streetTiles.forEach((streetTile, index) => {
       if (index === this.streetTiles.length - 1) return;
       streetTile.tile.addNextTile(this.streetTiles[index + 1]);
     });
-    console.log(this.streetTiles);
   }
 }

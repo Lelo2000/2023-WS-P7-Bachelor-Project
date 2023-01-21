@@ -9,8 +9,13 @@ export default class Car {
       opacity: 0,
       selectable: false,
     });
-    this.speed = 0.1;
+    this.tag = "car";
+    this.id = Math.random();
+    this.speed = 0.05;
+    this.directionChangeCoolDownMax = 5;
+    this.directionChangeCoolDown = 0;
     this.currentStreetTile;
+    this.isAtTheEnd = false;
     this.canvas.add(this.displayObject);
   }
   show() {
@@ -21,8 +26,6 @@ export default class Car {
   }
   moveToStreetTile(streetTile) {
     this.currentStreetTile = streetTile;
-    console.log(this.currentStreetTile);
-    console.log(this.currentStreetTile);
     this.displayObject.set("left", this.currentStreetTile.tile.x);
     this.displayObject.set("top", this.currentStreetTile.tile.y);
     this.canvas.renderAll();
@@ -32,7 +35,7 @@ export default class Car {
     let x = this.displayObject.left;
     let y = this.displayObject.top;
 
-    let deltaAllowed = 1;
+    let deltaAllowed = this.speed * 20;
     if (
       x > this.currentStreetTile.tile.x - deltaAllowed &&
       x < this.currentStreetTile.tile.x + deltaAllowed &&
@@ -66,7 +69,29 @@ export default class Car {
   }
 
   decideNextTile() {
-    if (this.currentStreetTile.tile.nextTile.length == 0) return false;
-    this.currentStreetTile = this.currentStreetTile.tile.nextTile[0];
+    let numberOfNextTiles = this.currentStreetTile.tile.nextTile.length;
+    if (numberOfNextTiles == 0) {
+      this.isAtTheEnd = true;
+      return false;
+    }
+    let nextIndex = 0;
+    let oldTile = this.currentStreetTile;
+    let oldNormVector = oldTile.normalVector;
+    if (this.directionChangeCoolDown === 0) {
+      nextIndex = Math.floor(Math.random() * numberOfNextTiles);
+      this.currentStreetTile = this.currentStreetTile.tile.nextTile[nextIndex];
+    } else {
+      this.currentStreetTile = this.currentStreetTile.tile.nextTile.find(
+        (obj) =>
+          obj.normalVector.x === oldNormVector.x &&
+          obj.normalVector.y === oldNormVector.y
+      );
+    }
+    if (oldNormVector != this.currentStreetTile.normalVector) {
+      this.directionChangeCoolDown = this.directionChangeCoolDownMax;
+    }
+    if (this.directionChangeCoolDown > 0) {
+      this.directionChangeCoolDown--;
+    }
   }
 }

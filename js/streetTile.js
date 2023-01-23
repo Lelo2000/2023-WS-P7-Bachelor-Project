@@ -9,6 +9,14 @@ export class StreetTile {
     this.occupantsMax = { car: 1 };
   }
 
+  deleteSpecificNextTile(id) {
+    this.nextTile.forEach((tile, index) => {
+      if (tile.id === id) {
+        this.nextTile.splice(index, 1);
+      }
+    });
+  }
+
   tryToOccupie(id, occupant) {
     if (this.occupantsCount[occupant.tag] >= this.occupantsMax[occupant.tag]) {
       return false;
@@ -17,13 +25,23 @@ export class StreetTile {
     return true;
   }
 
+  getOccupants(occupantTag) {
+    let occupants = [];
+    this.occupants.forEach((occupant) => {
+      if (occupant.tag === occupantTag) {
+        occupants.push(occupant);
+      }
+    });
+    return occupants;
+  }
+
   removeOccupant(id, occupant) {
-    this.occupant.delete(id);
+    this.occupants.delete(id);
     this.occupantsCount[occupant.tag]--;
   }
 
   getOccupied(id, occupant) {
-    this.occupant.set(id, occupant);
+    this.occupants.set(id, occupant);
     this.occupantsCount[occupant.tag]++;
   }
 

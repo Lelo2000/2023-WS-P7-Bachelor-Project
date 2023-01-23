@@ -6,8 +6,9 @@ export default class Street {
     this.startPoint = startPoint;
     this.endPoint = endPoint;
     this.streetTiles = [];
+    this.drawnTiles = [];
     this.id = Math.random();
-    this.streetTileSize = 30;
+    this.streetTileSize = 20;
     this.normalVector = { x: 0, y: 0 };
   }
 
@@ -23,7 +24,60 @@ export default class Street {
       this.streetTiles[index - 1].tile.nextTile = [
         { normalVector: this.normalVector, tile: streetTile },
       ];
+      let getTileBeforeSpacing = this.getSpacingBetweenTiles(index, index - 1);
+      if (getTileBeforeSpacing < this.streetTileSize) {
+        this.deleteStreetTile(index - 1);
+      }
     }
+    index = index - 1;
+    // if (index + 1 >= this.streetTiles.length) return;
+    let getTileAfterSpacing = this.getSpacingBetweenTiles(index + 1, index);
+    if (getTileAfterSpacing < this.streetTileSize) {
+      this.deleteStreetTile(index + 1);
+      console.log("Nächstes Tile zu nahe", getTileAfterSpacing);
+    }
+  }
+
+  deleteStreetTile(index) {
+    console.log(`Straße: ${this.id.toFixed(3)} Tile: ${index} wurde gelöscht`);
+    /**@type {StreetTile} */
+    let streetTileBefore = this.streetTiles[index - 1];
+    streetTileBefore.tile.deleteSpecificNextTile(this.streetTiles[index]);
+    let streetTilesAfter = this.streetTiles[index].tile.nextTile;
+    this.streetTiles.splice(index, 1);
+    streetTilesAfter.forEach((tile) => {
+      streetTileBefore.tile.addNextTile(tile);
+    });
+  }
+
+  getSpacingBetweenTiles(indexA, indexB) {
+    let tileA = this.streetTiles[indexA];
+    let tileB = this.streetTiles[indexB];
+    let deltaX = tileA.tile.x - tileB.tile.x;
+    let deltaY = tileA.tile.y - tileB.tile.y;
+    let distanceBetweenTiles = Math.sqrt(
+      Math.pow(deltaX, 2) + Math.pow(deltaY, 2)
+    );
+    return distanceBetweenTiles;
+  }
+
+  draw() {
+    this.drawnTiles.forEach((drawnTile) => {
+      this.canvas.remove(drawnTile);
+    });
+    this.drawnTiles = [];
+    this.streetTiles.forEach((tile) => {
+      let rect = new fabric.Rect({
+        top: tile.tile.y,
+        left: tile.tile.x,
+        width: 2,
+        height: 2,
+        fill: "red",
+        selectable: false,
+      });
+      this.drawnTiles.push(rect);
+      this.canvas.add(rect);
+    });
   }
 
   createStreetTiles() {
@@ -43,16 +97,7 @@ export default class Street {
         tile: streetTile,
         normalVector: this.normalVector,
       });
-      this.canvas.add(
-        new fabric.Rect({
-          top: newY,
-          left: newX,
-          width: 2,
-          height: 2,
-          fill: "red",
-          selectable: false,
-        })
-      );
+      this.draw();
     }
     this.streetTiles.forEach((streetTile, index) => {
       if (index === this.streetTiles.length - 1) return;

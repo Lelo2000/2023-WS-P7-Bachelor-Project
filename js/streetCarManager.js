@@ -8,13 +8,13 @@ export default class StreetCarManager {
     this.streets = [];
     this.cars = new Map();
     this.addStreet({ x: 400, y: 0 }, { x: 400, y: this.canvas.height });
-    this.addStreet({ x: 430, y: this.canvas.height }, { x: 430, y: 0 });
+    this.addStreet({ x: 450, y: this.canvas.height }, { x: 450, y: 0 });
     this.addStreet({ x: 0, y: 400 }, { x: this.canvas.width, y: 400 });
-    this.addStreet({ x: this.canvas.width, y: 430 }, { x: 0, y: 430 });
+    this.addStreet({ x: this.canvas.width, y: 450 }, { x: 0, y: 450 });
 
     setInterval(() => {
       this.spawnCar();
-    }, 1000);
+    }, 500);
     this.crossings = [];
     this.streets.forEach((streetA) => {
       this.streets.forEach((streetB) => {
@@ -59,6 +59,7 @@ export default class StreetCarManager {
   spawnCar() {
     let randomIndex = Math.floor(Math.random() * this.streets.length);
     this.addCar(this.streets[randomIndex]);
+    console.log(this.streets[2]);
   }
   linkStreetsOnIntersections() {
     this.crossings.forEach((crossing) => {
@@ -75,6 +76,8 @@ export default class StreetCarManager {
       streetB.insertStreetTile(crossingTile, streetTileIndexB + 1);
       console.log(streetA.streetTiles);
       console.log(streetB.streetTiles);
+      streetA.draw();
+      streetB.draw();
       //   console.log(streetTileIndexA, streetTileIndexB);
       //   console.log(
       //     "Tile vor der Kreuzung StreetA",

@@ -4,14 +4,14 @@ export default class Car {
     this.displayObject = new fabric.Circle({
       top: 0,
       left: 0,
-      radius: 15,
+      radius: 6,
       fill: "#ffff00",
       opacity: 0,
       selectable: false,
     });
     this.tag = "car";
     this.id = Math.random();
-    this.speed = 0.05;
+    this.speed = Math.floor(Math.random() * 3 + 1) / 100;
     this.directionChangeCoolDownMax = 5;
     this.directionChangeCoolDown = 0;
     this.currentStreetTile;
@@ -70,28 +70,39 @@ export default class Car {
 
   decideNextTile() {
     let numberOfNextTiles = this.currentStreetTile.tile.nextTile.length;
+    let nextTile;
+    let oldTile = this.currentStreetTile;
+    let oldNormVector = oldTile.normalVector;
+
     if (numberOfNextTiles == 0) {
+      oldTile.tile.removeOccupant(this.id, this);
       this.isAtTheEnd = true;
       return false;
     }
-    let nextIndex = 0;
-    let oldTile = this.currentStreetTile;
-    let oldNormVector = oldTile.normalVector;
     if (this.directionChangeCoolDown === 0) {
-      nextIndex = Math.floor(Math.random() * numberOfNextTiles);
-      this.currentStreetTile = this.currentStreetTile.tile.nextTile[nextIndex];
+      let nextIndex = Math.floor(Math.random() * numberOfNextTiles);
+      nextTile = this.currentStreetTile.tile.nextTile[nextIndex];
     } else {
-      this.currentStreetTile = this.currentStreetTile.tile.nextTile.find(
+      nextTile = this.currentStreetTile.tile.nextTile.find(
         (obj) =>
           obj.normalVector.x === oldNormVector.x &&
           obj.normalVector.y === oldNormVector.y
       );
     }
-    if (oldNormVector != this.currentStreetTile.normalVector) {
-      this.directionChangeCoolDown = this.directionChangeCoolDownMax;
-    }
-    if (this.directionChangeCoolDown > 0) {
-      this.directionChangeCoolDown--;
+    let tryToOccupie = nextTile.tile.tryToOccupie(this.id, this);
+    if (tryToOccupie) {
+      oldTile.tile.removeOccupant(this.id, this);
+      this.currentStreetTile = nextTile;
+      if (this.directionChangeCoolDown > 0) {
+        this.directionChangeCoolDown--;
+      }
+      if (oldNormVector != this.currentStreetTile.normalVector) {
+        this.directionChangeCoolDown = this.directionChangeCoolDownMax;
+      }
+    } else {
+      this.speed = nextTile.tile.getOccupants(this.tag)[0].speed;
+
+      this.currentStreetTile = oldTile;
     }
   }
 }

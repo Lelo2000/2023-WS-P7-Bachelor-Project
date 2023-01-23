@@ -11,7 +11,8 @@ export default class Car {
     });
     this.tag = "car";
     this.id = Math.random();
-    this.speed = Math.floor(Math.random() * 3 + 1) / 100;
+    this.speed = 0.05;
+    // Math.floor(Math.random() * 3 + 1) / 100;
     this.directionChangeCoolDownMax = 5;
     this.directionChangeCoolDown = 0;
     this.currentStreetTile;
@@ -35,16 +36,18 @@ export default class Car {
     let x = this.displayObject.left;
     let y = this.displayObject.top;
 
-    let deltaAllowed = this.speed * 20;
+    let deltaAllowed = this.speed * 15;
     if (
       x > this.currentStreetTile.tile.x - deltaAllowed &&
       x < this.currentStreetTile.tile.x + deltaAllowed &&
       y > this.currentStreetTile.tile.y - deltaAllowed &&
       y < this.currentStreetTile.tile.y + deltaAllowed
     ) {
-      if (!this.decideNextTile()) return;
+      if (!this.decideNextTile()) {
+        console.log("Weg Blockiert");
+        return;
+      }
     }
-
     if (x != this.currentStreetTile.tile.x) {
       x += this.currentStreetTile.normalVector.x * this.speed;
     }
@@ -73,8 +76,7 @@ export default class Car {
     let nextTile;
     let oldTile = this.currentStreetTile;
     let oldNormVector = oldTile.normalVector;
-
-    if (numberOfNextTiles == 0) {
+    if (numberOfNextTiles === 0) {
       oldTile.tile.removeOccupant(this.id, this);
       this.isAtTheEnd = true;
       return false;
@@ -89,6 +91,7 @@ export default class Car {
           obj.normalVector.y === oldNormVector.y
       );
     }
+
     let tryToOccupie = nextTile.tile.tryToOccupie(this.id, this);
     if (tryToOccupie) {
       oldTile.tile.removeOccupant(this.id, this);
@@ -100,9 +103,14 @@ export default class Car {
         this.directionChangeCoolDown = this.directionChangeCoolDownMax;
       }
     } else {
+      console.log(nextTile.tile.id);
+      console.log(this.displayObject.left, this.displayObject.top);
+      this.canvas.renderAll();
       this.speed = nextTile.tile.getOccupants(this.tag)[0].speed;
 
       this.currentStreetTile = oldTile;
     }
+    console.log(this.currentStreetTile);
+    return true;
   }
 }

@@ -11,13 +11,35 @@ export default class StreetCarManager {
     this.addStreet({ x: 450, y: this.canvas.height }, { x: 450, y: 0 });
     this.addStreet({ x: 0, y: 400 }, { x: this.canvas.width, y: 400 });
     this.addStreet({ x: this.canvas.width, y: 450 }, { x: 0, y: 450 });
+    this.addCar(this.streets[0]);
+    this.addCar(this.streets[2]);
 
     setInterval(() => {
       this.spawnCar();
     }, 500);
     this.crossings = [];
+    this.createCrossings();
+    this.linkStreetsOnIntersections();
+    // this.streets[0].streetTiles[20].tile.getOccupied("asfas", { tag: "car" });
+    // console.log("Street 0: ", this.streets[0]);
+    // console.log("Street 2: ", this.streets[2]);
+    // console.log("search for sheets");
+    // this.streets[0].streetTiles.forEach((element, index) => {
+    //   if (element.tile.x === 400 && element.tile.y === 400) {
+    //     console.log(index);
+    //   }
+    // });
+    // this.streets[2].streetTiles.forEach((element, index) => {
+    //   if (element.tile.x === 400 && element.tile.y === 400) {
+    //     console.log(index);
+    //   }
+    // });
+  }
+
+  createCrossings() {
     this.streets.forEach((streetA) => {
       this.streets.forEach((streetB) => {
+        if (streetA.id === streetB.id) return;
         let intersection = this.intersection(
           streetA.normalVector,
           streetB.normalVector,
@@ -40,20 +62,22 @@ export default class StreetCarManager {
             isDouble = true;
           }
         });
-        if (!isDouble) this.crossings.push(intersection);
-        let circle = new fabric.Circle({
-          top: intersection.y,
-          left: intersection.x,
-          radius: 4,
-          fill: "#ff22ff",
-          originX: "center",
-          originY: "center",
-        });
-        this.canvas.add(circle);
+        if (!isDouble) {
+          this.crossings.push(intersection);
+          console.log("create Crossing");
+          let circle = new fabric.Circle({
+            top: intersection.y,
+            left: intersection.x,
+            radius: 4,
+            fill: "#ff22ff",
+            originX: "center",
+            originY: "center",
+          });
+          this.canvas.add(circle);
+        }
       });
     });
-    console.log(this.crossings);
-    this.linkStreetsOnIntersections();
+    console.log("Crossings: ", this.crossings);
   }
 
   spawnCar() {
@@ -68,14 +92,13 @@ export default class StreetCarManager {
       let streetB = crossing.streetB;
       let streetTileIndexA = this.getStreetTileBeforeAPoint(streetA, crossing);
       let streetTileIndexB = this.getStreetTileBeforeAPoint(streetB, crossing);
+      console.log("Create Crossing Tile");
       let crossingTile = new StreetTile(crossing.x, crossing.y);
       crossingTile.name = "JEAAAAAAAAAAAAAAAAAAAAAAAA";
       crossingTile.addNextTile(streetA.streetTiles[streetTileIndexA + 1]);
       crossingTile.addNextTile(streetB.streetTiles[streetTileIndexB + 1]);
       streetA.insertStreetTile(crossingTile, streetTileIndexA + 1);
       streetB.insertStreetTile(crossingTile, streetTileIndexB + 1);
-      console.log(streetA.streetTiles);
-      console.log(streetB.streetTiles);
       streetA.draw();
       streetB.draw();
       //   console.log(streetTileIndexA, streetTileIndexB);

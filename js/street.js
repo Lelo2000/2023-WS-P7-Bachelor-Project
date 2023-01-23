@@ -42,7 +42,9 @@ export default class Street {
     console.log(`Straße: ${this.id.toFixed(3)} Tile: ${index} wurde gelöscht`);
     /**@type {StreetTile} */
     let streetTileBefore = this.streetTiles[index - 1];
-    streetTileBefore.tile.deleteSpecificNextTile(this.streetTiles[index]);
+    streetTileBefore.tile.deleteSpecificNextTile(
+      this.streetTiles[index].tile.id
+    );
     let streetTilesAfter = this.streetTiles[index].tile.nextTile;
     this.streetTiles.splice(index, 1);
     streetTilesAfter.forEach((tile) => {

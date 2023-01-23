@@ -11,7 +11,9 @@ export class StreetTile {
 
   deleteSpecificNextTile(id) {
     this.nextTile.forEach((tile, index) => {
-      if (tile.id === id) {
+      console.log(tile.tile.id, id);
+      if (tile.tile.id === id) {
+        console.log("DELETED SPECIFIC TILE");
         this.nextTile.splice(index, 1);
       }
     });

@@ -1,9 +1,6 @@
-import Car from "./car.js";
 import Heatmap from "./heatmap.js";
 import { Object } from "./object.js";
-import Street from "./street.js";
-import StreetCarManager from "./streetCarManager.js";
-
+import TrafficMap from "./trafficSim/grid.js";
 export default class World {
   /**
    * @constructor
@@ -28,12 +25,13 @@ export default class World {
     this.canvas.add(this.errorText);
     this.heatMap = new Heatmap(this.canvas, this.objectList);
     this.heatMap.createHeatmap();
-    this.streetCarManager = new StreetCarManager(this.canvas);
+    /**@type {TrafficMap} */
+    this.map = new TrafficMap(this.canvas);
+    console.log(this.map);
     // this.car.startDriving();
     this.render();
   }
   render() {
-    this.streetCarManager.driveCars();
     this.canvas.renderAll();
     window.requestAnimationFrame(() => {
       this.render();
@@ -101,12 +99,6 @@ export default class World {
       "object:rotating": (options) => {
         this.onChange(options);
       },
-    });
-
-    document.addEventListener("keydown", (event) => {
-      const keyCode = event.code;
-      console.log(keyCode);
-      if (keyCode === "Space") this.streetCarManager.togglePause();
     });
   }
 

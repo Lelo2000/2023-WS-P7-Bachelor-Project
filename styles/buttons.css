@@ -1,3 +1,10 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
 .button-container {
   width: 10vw;
   max-width: 100px;

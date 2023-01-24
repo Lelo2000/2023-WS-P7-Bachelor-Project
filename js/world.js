@@ -27,7 +27,6 @@ export default class World {
     this.heatMap.createHeatmap();
     /**@type {TrafficMap} */
     this.map = new TrafficMap(this.canvas);
-    console.log(this.map);
     // this.car.startDriving();
     this.render();
   }

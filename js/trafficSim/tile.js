@@ -46,7 +46,9 @@ export default class Tile {
   getNextTile(index) {
     if (index < 0 || index >= this.nextTile.length) {
       console.error(
-        "INDEX von NextTile bei getNextTile nicht im Rahmen des Arrays"
+        "INDEX " +
+          index +
+          " von NextTile bei getNextTile nicht im Rahmen des Arrays"
       );
       return false;
     }

@@ -19,22 +19,32 @@ export default class Car {
     });
     tile.map.canvas.add(this.displayObject);
     this.progressToNextTile = 0;
-    this.distanceToCoverX = this.nextTile.realCoords.x - this.tile.realCoords.x;
-    this.distanceToCoverY = this.nextTile.realCoords.y - this.tile.realCoords.y;
+    this.updateDistnaceToCover();
   }
 
   decideNextTile() {
-    if (this.nextTile) this.tile = this.nextTile;
-    let nextTile;
-    switch (this.tile.type) {
-      case TRAFFIC_SIM.TILES.ROAD:
-        nextTile = this.tile.getNextTile(0);
-        break;
-      case TRAFFIC_SIM.TILES.CROSSING:
-        nextTile = this.tile.getNextTile(1);
+    if (this.nextTile) {
+      this.tile = this.nextTile;
     }
-    if (nextTile) this.nextTile = nextTile;
-    this.progressToNextTile = 0;
+    let nextTile;
+    if (this.tile.nextTile.length > 0) {
+      switch (this.tile.type) {
+        case TRAFFIC_SIM.TILES.ROAD:
+          nextTile = this.tile.getNextTile(0);
+          break;
+        case TRAFFIC_SIM.TILES.CROSSING:
+          let randomIndex = Math.floor(
+            Math.random() * this.tile.nextTile.length
+          );
+          console.log(randomIndex);
+          nextTile = this.tile.getNextTile(randomIndex);
+      }
+      if (nextTile) this.nextTile = nextTile;
+      this.progressToNextTile = 0;
+      this.updateDistnaceToCover();
+    }
+  }
+  updateDistnaceToCover() {
     this.distanceToCoverX = this.nextTile.realCoords.x - this.tile.realCoords.x;
     this.distanceToCoverY = this.nextTile.realCoords.y - this.tile.realCoords.y;
   }

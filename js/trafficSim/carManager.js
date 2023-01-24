@@ -7,7 +7,7 @@ export default class CarManager {
     this.cars = new Map();
     this.pause = false;
     setInterval(() => {
-      this.spawnCar(10, 20);
+      this.spawnCar(20, 1);
     }, 200);
   }
 

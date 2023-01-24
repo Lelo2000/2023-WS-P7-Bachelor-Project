@@ -29,12 +29,24 @@ export default class Tile {
     });
   }
 
+  isFreeOf(id, tag) {
+    let result = true;
+    this.vehicles.forEach((vehicle) => {
+      if (vehicle.tag === tag && vehicle.id !== id) {
+        result = false;
+      }
+    });
+    return result;
+  }
+
   addVehicle(id, vehicle) {
-    this.vehicles.set(id, vehicle);
+    this.displayObject.set("fill", "#6666ff");
+    if (!this.vehicles.has(id)) this.vehicles.set(id, vehicle);
   }
 
   removeVehicle(id) {
     if (this.vehicles.has(id)) this.vehicles.delete(id);
+    if (this.vehicles.size === 0) this.displayObject.set("fill", "#777777");
   }
 
   /**@return {Array} */

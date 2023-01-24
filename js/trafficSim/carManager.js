@@ -7,7 +7,12 @@ export default class CarManager {
     this.cars = new Map();
     this.pause = false;
     setInterval(() => {
-      this.spawnCar(20, 1);
+      let rnd = Math.random();
+      if (rnd < 0.5) {
+        this.spawnCar(20, 1);
+      } else {
+        this.spawnCar(1, 20);
+      }
     }, 200);
   }
 
@@ -34,5 +39,6 @@ export default class CarManager {
     let newCar = new Car(tile);
     tile.addVehicle(newCar.id, newCar);
     this.cars.set(newCar.id, newCar);
+    return newCar;
   }
 }

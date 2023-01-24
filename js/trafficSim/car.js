@@ -10,6 +10,7 @@ export default class Car {
     this.iy = tile.iy;
     this.speed = 0.2;
     this.id = Math.random();
+    this.tag = TRAFFIC_SIM.VEHICLES.CAR;
     this.displayObject = new fabric.Circle({
       left: tile.realCoords.x,
       top: tile.realCoords.y,
@@ -24,8 +25,11 @@ export default class Car {
 
   decideNextTile() {
     if (this.nextTile) {
+      this.tile.removeVehicle(this.id);
       this.tile = this.nextTile;
+      this.tile.addVehicle(this.id, this);
     }
+    /**@type {Tile} */
     let nextTile;
     if (this.tile.nextTile.length > 0) {
       switch (this.tile.type) {
@@ -39,8 +43,11 @@ export default class Car {
           console.log(randomIndex);
           nextTile = this.tile.getNextTile(randomIndex);
       }
-      if (nextTile) this.nextTile = nextTile;
-      this.progressToNextTile = 0;
+      if (nextTile && nextTile.isFreeOf(this.id, this.tag)) {
+        this.nextTile = nextTile;
+        this.nextTile.addVehicle(this.id, this);
+        this.progressToNextTile = 0;
+      }
       this.updateDistnaceToCover();
     }
   }
@@ -71,6 +78,7 @@ export default class Car {
   }
 
   destroy() {
+    this.tile.removeVehicle(this.id);
     this.tile.map.canvas.remove(this.displayObject);
   }
 }

@@ -5,6 +5,9 @@ const TRAFFIC_SIM = {
     ROAD: "road",
     CROSSING: "crossing",
   },
+  VEHICLES: {
+    CAR: "car",
+  },
 };
 
 export { TRAFFIC_SIM };

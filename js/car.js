@@ -11,7 +11,7 @@ export default class Car {
     });
     this.tag = "car";
     this.id = Math.random();
-    this.speed = Math.floor(Math.random() * 2 + 1);
+    this.speed = 1.5;
     this.directionChangeCoolDownMax = 5;
     this.directionChangeCoolDown = 0;
     this.currentStreetTile;
@@ -60,16 +60,31 @@ export default class Car {
     return false;
   }
 
-  drive() {
-    let x = this.displayObject.left;
-    let y = this.displayObject.top;
+  correctCoordinates() {
+    if (this.currentStreetTile.normalVector.x === 0) {
+      this.displayObject.set("left", this.currentStreetTile.tile.x);
+    }
+    if (this.currentStreetTile.normalVector.y === 0) {
+      this.displayObject.set("top", this.currentStreetTile.tile.y);
+    }
+    console.log(
+      this.id.toFixed(4),
+      this.displayObject.left,
+      this.displayObject.top
+    );
+  }
 
+  drive() {
     if (this.hasReachedNextTile()) {
+      this.correctCoordinates();
       if (!this.decideNextTile()) {
         console.log("Weg Blockiert");
         return;
       }
     }
+    let x = this.displayObject.left;
+    let y = this.displayObject.top;
+
     if (x != this.currentStreetTile.tile.x) {
       x += this.currentStreetTile.normalVector.x * this.speed;
     }
@@ -118,6 +133,7 @@ export default class Car {
     if (tryToOccupie) {
       oldTile.tile.removeOccupant(this.id, this);
       this.currentStreetTile = nextTile;
+
       if (this.directionChangeCoolDown > 0) {
         this.directionChangeCoolDown--;
       }
@@ -127,9 +143,15 @@ export default class Car {
     } else {
       this.canvas.renderAll();
       this.speed = nextTile.tile.getOccupants(this.tag)[0].speed;
-
       this.currentStreetTile = oldTile;
     }
     return true;
+  }
+
+  checkForSpeedLimit() {
+    let speedLimit = this.currentStreetTile.tile.getSpeedLimit();
+    if (speedLimit) {
+      this.speed = this.currentStreetTile.tile.getSpeedLimit();
+    }
   }
 }

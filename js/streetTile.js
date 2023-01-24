@@ -7,6 +7,14 @@ export class StreetTile {
     this.occupants = new Map();
     this.occupantsCount = { car: 0 };
     this.occupantsMax = { car: 1 };
+    this.speedLimit;
+  }
+
+  getSpeedLimit() {
+    if (this.speedLimit > 0) {
+      return this.speedLimit;
+    }
+    return false;
   }
 
   deleteSpecificNextTile(id) {

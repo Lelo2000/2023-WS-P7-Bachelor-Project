@@ -102,6 +102,12 @@ export default class World {
         this.onChange(options);
       },
     });
+
+    document.addEventListener("keydown", (event) => {
+      const keyCode = event.code;
+      console.log(keyCode);
+      if (keyCode === "Space") this.streetCarManager.togglePause();
+    });
   }
 
   onChange(options) {

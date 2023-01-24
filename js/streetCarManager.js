@@ -33,6 +33,11 @@ export default class StreetCarManager {
     //     console.log(index);
     //   }
     // });
+    this.pause = false;
+  }
+
+  togglePause() {
+    this.pause = Math.abs(this.pause - 1);
   }
 
   createCrossings() {
@@ -61,31 +66,42 @@ export default class StreetCarManager {
             isDouble = true;
           }
         });
-        if (!isDouble) {
-          this.crossings.push(intersection);
-          console.log("create Crossing");
-          let circle = new fabric.Circle({
-            top: intersection.y,
-            left: intersection.x,
-            radius: 4,
-            fill: "#ff22ff",
-            originX: "center",
-            originY: "center",
-          });
-          this.canvas.add(circle);
-        }
+        if (isDouble) return;
+        this.crossings.push(intersection);
+        console.log("create Crossing");
+        let circle = new fabric.Circle({
+          top: intersection.y,
+          left: intersection.x,
+          radius: 4,
+          fill: "#ff22ff",
+          originX: "center",
+          originY: "center",
+        });
+        this.canvas.add(circle);
       });
     });
     console.log("Crossings: ", this.crossings);
   }
 
   spawnCar() {
+    if (this.pause) return;
     if (this.cars.size < this.maxCars) {
       let randomIndex = Math.floor(Math.random() * this.streets.length);
       this.addCar(this.streets[randomIndex]);
       console.log(this.cars);
     }
   }
+
+  driveCars() {
+    if (this.pause) return;
+    this.cars.forEach((car) => {
+      car.drive();
+      if (car.isAtTheEnd) {
+        this.deleteCar(car);
+      }
+    });
+  }
+
   linkStreetsOnIntersections() {
     this.crossings.forEach((crossing) => {
       /**@type {Street} street */
@@ -138,14 +154,7 @@ export default class StreetCarManager {
     newCar.show();
     this.cars.set(newCar.id, newCar);
   }
-  driveCars() {
-    this.cars.forEach((car) => {
-      car.drive();
-      if (car.isAtTheEnd) {
-        this.deleteCar(car);
-      }
-    });
-  }
+
   deleteCar(car) {
     this.canvas.remove(car.displayObject);
     this.cars.delete(car.id);

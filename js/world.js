@@ -10,6 +10,8 @@ export default class World {
   constructor(htmlAnchorId) {
     this.canvas = new fabric.Canvas(htmlAnchorId, {
       backgroundColor: "#8C8C8C",
+      fireMiddleClick: true,
+      renderOnAddRemove: false,
     });
 
     /**@type {Map} Eine Map mit allen Objekten, welche auf dem Canvas platziert wurden*/
@@ -22,7 +24,6 @@ export default class World {
       originX: "right",
       hasControls: false,
       selectable: false,
-      renderOnAddRemove: false,
     });
     this.canvas.add(this.errorText);
     this.heatMap = new Heatmap(this.canvas, this.objectList);
@@ -111,6 +112,9 @@ export default class World {
       "object:rotating": (options) => {
         this.onChange(options);
       },
+      "mouse:down": (options) => {
+        this.handleMouseClick(options);
+      },
     });
     document.addEventListener("keydown", (event) => {
       let keyCode = event.code;
@@ -119,6 +123,10 @@ export default class World {
         this.carManager.togglePause();
       }
     });
+  }
+
+  handleMouseClick(options) {
+    if (options.button === 2) this.map.logTile(options.pointer);
   }
 
   onChange(options) {

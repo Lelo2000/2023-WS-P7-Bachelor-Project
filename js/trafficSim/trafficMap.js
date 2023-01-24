@@ -91,4 +91,11 @@ export default class TrafficMap {
       }
     }
   }
+
+  logTile(pointer) {
+    console.log(pointer);
+    let ixPointer = Math.ceil(pointer.x / TRAFFIC_SIM.GRID.RESOLUTION);
+    let iyPointer = Math.ceil(pointer.y / TRAFFIC_SIM.GRID.RESOLUTION);
+    console.log("Pointer Debug:", this.grid[ixPointer][iyPointer]);
+  }
 }

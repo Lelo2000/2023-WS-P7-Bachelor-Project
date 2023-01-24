@@ -40,7 +40,6 @@ export default class Car {
           let randomIndex = Math.floor(
             Math.random() * this.tile.nextTile.length
           );
-          console.log(randomIndex);
           nextTile = this.tile.getNextTile(randomIndex);
       }
       if (nextTile && nextTile.isFreeOf(this.id, this.tag)) {

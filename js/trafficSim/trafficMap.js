@@ -1,4 +1,5 @@
 import { TRAFFIC_SIM } from "../constants.js";
+import Car from "./car.js";
 import Tile from "./tile.js";
 
 export default class TrafficMap {
@@ -11,8 +12,9 @@ export default class TrafficMap {
     this.iHeight = 0;
     this.grid = [];
     this.createGrid();
-    console.log(this);
     this.createRoad({ ix: 0, iy: 20 }, { ix: this.iWidth, iy: 20 });
+    this.createRoad({ ix: 20, iy: 0 }, { ix: 20, iy: this.iHeight });
+    console.log(this);
   }
 
   createGrid() {
@@ -24,7 +26,7 @@ export default class TrafficMap {
         let newGridTile = new Tile(this, ix, iy, TRAFFIC_SIM.TILES.EMPTY);
         if (ix === 0 || ix === this.iWidth || iy === 0 || iy === this.iHeight)
           newGridTile.isEnd = true;
-        newGridTile.show();
+        // newGridTile.show();
 
         this.grid[ix].push(newGridTile);
       }
@@ -71,7 +73,20 @@ export default class TrafficMap {
           nextIy >= 0
         )
           nextTile = this.grid[ix + directionX][iy + directionY];
-        this.grid[ix][iy].convertTo(TRAFFIC_SIM.TILES.ROAD, { nextTile });
+        switch (this.grid[ix][iy].type) {
+          case TRAFFIC_SIM.TILES.EMPTY:
+            this.grid[ix][iy].convertTo(TRAFFIC_SIM.TILES.ROAD, {
+              nextTile,
+              direction: { x: directionX, y: directionY },
+            });
+            break;
+          case TRAFFIC_SIM.TILES.ROAD:
+            this.grid[ix][iy].convertTo(TRAFFIC_SIM.TILES.CROSSING, {
+              nextTile,
+              direction: { x: directionX, y: directionY },
+            });
+            break;
+        }
         this.grid[ix][iy].show();
       }
     }

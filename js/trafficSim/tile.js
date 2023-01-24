@@ -1,5 +1,5 @@
 import { TRAFFIC_SIM } from "../constants.js";
-import TrafficMap from "./grid.js";
+import TrafficMap from "./trafficMap.js";
 
 export default class Tile {
   /**
@@ -9,11 +9,12 @@ export default class Tile {
     this.map = map;
     this.ix = ix;
     this.iy = iy;
+    this.direction = { x: 0, y: 0 };
     this.type = type;
     /**@type {Array} */
     this.nextTile = [];
-    /**@type {Array} */
-    this.vehicles = [];
+    /**@type {Map} */
+    this.vehicles = new Map();
     this.color = "blue";
     this.convertTo(type, params);
     this.realCoords = this.map.getRealCoordinates(ix, iy);
@@ -28,6 +29,14 @@ export default class Tile {
     });
   }
 
+  addVehicle(id, vehicle) {
+    this.vehicles.set(id, vehicle);
+  }
+
+  removeVehicle(id) {
+    if (this.vehicles.has(id)) this.vehicles.delete(id);
+  }
+
   /**@return {Array} */
   getNextTiles() {
     return this.nextTile;
@@ -39,6 +48,7 @@ export default class Tile {
       console.error(
         "INDEX von NextTile bei getNextTile nicht im Rahmen des Arrays"
       );
+      return false;
     }
     return this.nextTile[index];
   }
@@ -69,7 +79,14 @@ export default class Tile {
       case TRAFFIC_SIM.TILES.ROAD:
         this.color = "#777777";
         if (!params) return;
-        this.nextTile.push(params.nextTile);
+        if (params.nextTile) this.nextTile.push(params.nextTile);
+        this.direction = params.direction;
+        break;
+      case TRAFFIC_SIM.TILES.CROSSING:
+        this.color = "#990099";
+        if (!params) return;
+        if (params.nextTile) this.nextTile.push(params.nextTile);
+        this.direction = TRAFFIC_SIM.TILES.CROSSING;
         break;
     }
   }

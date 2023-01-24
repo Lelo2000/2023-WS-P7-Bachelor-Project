@@ -1,5 +1,5 @@
 const TRAFFIC_SIM = {
-  GRID: { RESOLUTION: 20 },
+  GRID: { RESOLUTION: 30 },
   TILES: {
     EMPTY: "empty",
     ROAD: "road",

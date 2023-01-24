@@ -1,6 +1,7 @@
 import Heatmap from "./heatmap.js";
 import { Object } from "./object.js";
-import TrafficMap from "./trafficSim/grid.js";
+import CarManager from "./trafficSim/carManager.js";
+import TrafficMap from "./trafficSim/trafficMap.js";
 export default class World {
   /**
    * @constructor
@@ -21,17 +22,29 @@ export default class World {
       originX: "right",
       hasControls: false,
       selectable: false,
+      renderOnAddRemove: false,
     });
     this.canvas.add(this.errorText);
     this.heatMap = new Heatmap(this.canvas, this.objectList);
     this.heatMap.createHeatmap();
     /**@type {TrafficMap} */
     this.map = new TrafficMap(this.canvas);
-    // this.car.startDriving();
+    this.carManager = new CarManager(this.map);
+
+    this.lastTime = new Date().getTime();
+    this.currentTime = 0;
+    this.deltaTime = 0;
+    this.interval = 1000 / 30;
     this.render();
   }
   render() {
-    this.canvas.renderAll();
+    this.currentTime = new Date().getTime();
+    this.deltaTime = this.currentTime - this.lastTime;
+    if (this.deltaTime > this.interval) {
+      this.carManager.moveCars(this.deltaTime);
+      this.canvas.renderAll();
+      this.lastTime = this.currentTime - (this.deltaTime % this.interval);
+    }
     window.requestAnimationFrame(() => {
       this.render();
     });
@@ -98,6 +111,13 @@ export default class World {
       "object:rotating": (options) => {
         this.onChange(options);
       },
+    });
+    document.addEventListener("keydown", (event) => {
+      let keyCode = event.code;
+      console.log(keyCode);
+      if (keyCode === "Space") {
+        this.carManager.togglePause();
+      }
     });
   }
 

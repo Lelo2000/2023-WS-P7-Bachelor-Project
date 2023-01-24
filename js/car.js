@@ -11,8 +11,7 @@ export default class Car {
     });
     this.tag = "car";
     this.id = Math.random();
-    this.speed = 0.05;
-    // Math.floor(Math.random() * 3 + 1) / 100;
+    this.speed = Math.floor(Math.random() * 2 + 1);
     this.directionChangeCoolDownMax = 5;
     this.directionChangeCoolDown = 0;
     this.currentStreetTile;
@@ -26,23 +25,46 @@ export default class Car {
     this.displayObject.set("opacity", 0);
   }
   moveToStreetTile(streetTile) {
-    this.currentStreetTile = streetTile;
+    this.currentStreetTile = streetTile.tile.nextTile[0];
     this.displayObject.set("left", this.currentStreetTile.tile.x);
     this.displayObject.set("top", this.currentStreetTile.tile.y);
     this.canvas.renderAll();
+  }
+
+  hasReachedNextTile() {
+    let normalX = this.currentStreetTile.normalVector.x;
+    let normalY = this.currentStreetTile.normalVector.y;
+    if (normalX != 0) {
+      if (normalX > 0) {
+        if (this.displayObject.left >= this.currentStreetTile.tile.x)
+          return true;
+      } else if (normalX < 0) {
+        if (this.displayObject.left <= this.currentStreetTile.tile.x)
+          return true;
+      }
+    }
+    if (normalY != 0) {
+      if (normalY > 0) {
+        if (this.displayObject.top >= this.currentStreetTile.tile.y)
+          return true;
+      } else if (normalY < 0) {
+        if (this.displayObject.top <= this.currentStreetTile.tile.y)
+          return true;
+      }
+    }
+    if (
+      this.displayObject.left === this.currentStreetTile.tile.x &&
+      this.displayObject.top === this.currentStreetTile.tile.y
+    )
+      return true;
+    return false;
   }
 
   drive() {
     let x = this.displayObject.left;
     let y = this.displayObject.top;
 
-    let deltaAllowed = this.speed * 15;
-    if (
-      x > this.currentStreetTile.tile.x - deltaAllowed &&
-      x < this.currentStreetTile.tile.x + deltaAllowed &&
-      y > this.currentStreetTile.tile.y - deltaAllowed &&
-      y < this.currentStreetTile.tile.y + deltaAllowed
-    ) {
+    if (this.hasReachedNextTile()) {
       if (!this.decideNextTile()) {
         console.log("Weg Blockiert");
         return;
@@ -103,14 +125,11 @@ export default class Car {
         this.directionChangeCoolDown = this.directionChangeCoolDownMax;
       }
     } else {
-      console.log(nextTile.tile.id);
-      console.log(this.displayObject.left, this.displayObject.top);
       this.canvas.renderAll();
       this.speed = nextTile.tile.getOccupants(this.tag)[0].speed;
 
       this.currentStreetTile = oldTile;
     }
-    console.log(this.currentStreetTile);
     return true;
   }
 }

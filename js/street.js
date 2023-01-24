@@ -8,7 +8,7 @@ export default class Street {
     this.streetTiles = [];
     this.drawnTiles = [];
     this.id = Math.random();
-    this.streetTileSize = 20;
+    this.streetTileSize = 15;
     this.normalVector = { x: 0, y: 0 };
   }
 
@@ -20,6 +20,8 @@ export default class Street {
       tile: streetTile,
       normalVector: this.normalVector,
     });
+    console.log(this.streetTiles);
+    console.log(index);
     if (index > 0) {
       this.streetTiles[index - 1].tile.nextTile = [
         { normalVector: this.normalVector, tile: streetTile },
@@ -88,12 +90,14 @@ export default class Street {
     let streetLength = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
     let normalX = (1 / streetLength) * deltaX;
     let normalY = (1 / streetLength) * deltaY;
-    this.normalVector.x = this.streetTileSize * normalX;
-    this.normalVector.y = this.streetTileSize * normalY;
+    this.normalVector.x = normalX;
+    this.normalVector.y = normalY;
     let stepsNeeded = Math.floor(streetLength / this.streetTileSize) + 1;
     for (let i = 0; i < stepsNeeded; i++) {
-      let newX = this.startPoint.x + this.normalVector.x * i;
-      let newY = this.startPoint.y + this.normalVector.y * i;
+      let newX =
+        this.startPoint.x + this.normalVector.x * i * this.streetTileSize;
+      let newY =
+        this.startPoint.y + this.normalVector.y * i * this.streetTileSize;
       let streetTile = new StreetTile(newX, newY);
       this.streetTiles.push({
         tile: streetTile,

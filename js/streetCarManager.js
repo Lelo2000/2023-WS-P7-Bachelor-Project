@@ -8,11 +8,9 @@ export default class StreetCarManager {
     this.streets = [];
     this.cars = new Map();
     this.addStreet({ x: 400, y: 0 }, { x: 400, y: this.canvas.height });
-    this.addStreet({ x: 450, y: this.canvas.height }, { x: 450, y: 0 });
+    this.addStreet({ x: 420, y: this.canvas.height }, { x: 420, y: 0 });
     this.addStreet({ x: 0, y: 400 }, { x: this.canvas.width, y: 400 });
-    this.addStreet({ x: this.canvas.width, y: 450 }, { x: 0, y: 450 });
-    this.addCar(this.streets[0]);
-    this.addCar(this.streets[2]);
+    this.addStreet({ x: this.canvas.width, y: 420 }, { x: 0, y: 420 });
 
     setInterval(() => {
       this.spawnCar();
@@ -20,6 +18,7 @@ export default class StreetCarManager {
     this.crossings = [];
     this.createCrossings();
     this.linkStreetsOnIntersections();
+    this.maxCars = 30;
     // this.streets[0].streetTiles[20].tile.getOccupied("asfas", { tag: "car" });
     // console.log("Street 0: ", this.streets[0]);
     // console.log("Street 2: ", this.streets[2]);
@@ -81,9 +80,11 @@ export default class StreetCarManager {
   }
 
   spawnCar() {
-    let randomIndex = Math.floor(Math.random() * this.streets.length);
-    this.addCar(this.streets[randomIndex]);
-    console.log(this.streets[2]);
+    if (this.cars.size < this.maxCars) {
+      let randomIndex = Math.floor(Math.random() * this.streets.length);
+      this.addCar(this.streets[randomIndex]);
+      console.log(this.cars);
+    }
   }
   linkStreetsOnIntersections() {
     this.crossings.forEach((crossing) => {
@@ -115,9 +116,13 @@ export default class StreetCarManager {
     let startPoint = street.startPoint;
     let index = -1;
     if (street.normalVector.x != 0) {
-      index = (point.x - startPoint.x) / street.normalVector.x;
+      index =
+        (point.x - startPoint.x) /
+        (street.normalVector.x * street.streetTileSize);
     } else if (street.normalVector.y != 0) {
-      index = (point.y - startPoint.y) / street.normalVector.y;
+      index =
+        (point.y - startPoint.y) /
+        (street.normalVector.y * street.streetTileSize);
     }
     return Math.floor(index);
   }

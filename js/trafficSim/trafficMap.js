@@ -14,6 +14,8 @@ export default class TrafficMap {
     this.createGrid();
     this.createRoad({ ix: 0, iy: 20 }, { ix: this.iWidth, iy: 20 });
     this.createRoad({ ix: 20, iy: 0 }, { ix: 20, iy: this.iHeight });
+    this.createRoad({ ix: this.iWidth, iy: 19 }, { ix: 0, iy: 19 });
+    this.createRoad({ ix: 21, iy: this.iHeight }, { ix: 21, iy: 0 });
     console.log(this);
   }
 

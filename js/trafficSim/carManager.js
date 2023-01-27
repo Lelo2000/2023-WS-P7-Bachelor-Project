@@ -13,7 +13,7 @@ export default class CarManager {
       } else {
         this.spawnCar(1, 20);
       }
-    }, 300);
+    }, 200);
   }
 
   togglePause() {

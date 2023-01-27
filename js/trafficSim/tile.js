@@ -40,13 +40,13 @@ export default class Tile {
   }
 
   addVehicle(id, vehicle) {
-    this.displayObject.set("fill", "#6666ff");
+    // this.displayObject.set("fill", "#6666ff");
     if (!this.vehicles.has(id)) this.vehicles.set(id, vehicle);
   }
 
   removeVehicle(id) {
     if (this.vehicles.has(id)) this.vehicles.delete(id);
-    if (this.vehicles.size === 0) this.displayObject.set("fill", "#777777");
+    // if (this.vehicles.size === 0) this.displayObject.set("fill", "#777777");
   }
 
   /**@return {Array} */

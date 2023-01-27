@@ -5,12 +5,15 @@ import http from "http";
 import { Server } from "socket.io";
 import { EVENTS } from "./public/js/constants.js";
 import { readFile } from "fs/promises";
+import MessageManager from "./server/messageManager.js";
 
 const app = express();
 let server = http.Server(app);
 const io = new Server(server);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const messageManager = new MessageManager();
 
 const port = 8090;
 
@@ -29,14 +32,14 @@ app.get("/", (req, res) => {
  * Setup Socket io on connection
  *************************************/
 io.on("connection", (socket) => {
-  socket.on(EVENTS.REQUEST_PROPOSAL_OBJECTS, async () => {
+  socket.on(EVENTS.CLIENT.REQUEST_PROPOSAL_OBJECTS, async () => {
     try {
       let proposalsJSON = await readFile("./storage/proposals.json");
       let proposals = JSON.parse(proposalsJSON);
       let chosenProposal = proposals.proposals[0];
 
       let chosenProposalJSON = JSON.stringify(chosenProposal);
-      socket.emit(EVENTS.RECIEVE_PROPOSAL_OBJECTS, {
+      socket.emit(EVENTS.SERVER.RECIEVE_PROPOSAL_OBJECTS, {
         data: chosenProposalJSON,
       });
     } catch (err) {

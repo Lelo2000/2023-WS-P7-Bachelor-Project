@@ -11,9 +11,13 @@ const TRAFFIC_SIM = {
 };
 
 const EVENTS = {
-  STARTED: "started",
-  REQUEST_PROPOSAL_OBJECTS: "getProposalObjects",
-  RECIEVE_PROPOSAL_OBJECTS: "recievePRoposalObjects",
+  SERVER: {
+    RECIEVE_PROPOSAL_OBJECTS: "recievePRoposalObjects",
+  },
+  CLIENT: {
+    REQUEST_PROPOSAL_OBJECTS: "getProposalObjects",
+    SEND_MESSAGE: "sendMessage",
+  },
 };
 
 export { TRAFFIC_SIM, EVENTS };

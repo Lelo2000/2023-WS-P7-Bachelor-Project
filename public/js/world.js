@@ -125,8 +125,8 @@ export default class World {
       selectable: false,
     });
     this.canvas.add(this.errorText);
-    this.socket.emit(EVENTS.REQUEST_PROPOSAL_OBJECTS);
-    this.socket.on(EVENTS.RECIEVE_PROPOSAL_OBJECTS, (payload) => {
+    this.socket.emit(EVENTS.CLIENT.REQUEST_PROPOSAL_OBJECTS);
+    this.socket.on(EVENTS.SERVER.RECIEVE_PROPOSAL_OBJECTS, (payload) => {
       let proposalJSON = payload.data;
       this.currentProposal = JSON.parse(proposalJSON);
       this.currentProposal.objects = new Map(
@@ -148,7 +148,12 @@ export default class World {
   loadObjectToCanvas(object) {
     console.log(object.displayObject);
     fabric.Image.fromObject(object.displayObject, (oImg) => {
-      this.objectList.set(object.id, object);
+      object.displayObject = oImg;
+      object.displayObject.id = object.id;
+      let newObject = new Object("a");
+      window.Object.assign(newObject, object);
+      console.log(newObject);
+      this.objectList.set(object.id, newObject);
       oImg.setControlsVisibility({
         mt: object.isScaleable,
         mb: object.isScaleable,

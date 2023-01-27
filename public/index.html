@@ -4,16 +4,26 @@
     <script src="/js/src/fabric.min.js" type="application/javascript"></script>
     <script src="/js/src/jquery-3.6.3.min.js"  type="application/javascript"></script>
     <link href="/styles/buttons.css" rel="stylesheet" />
+    <link href="/styles/areas.css" rel="stylesheet" />
+    <link href="/styles/messages.css" rel="stylesheet" />
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/object.js" type="module"></script>
   </head>
   <body>
     <canvas id="simulationCanvas"></canvas>
     <div class="button-container">
-      <img class="button" id="button-blue" src="/images/blue.png"></img>
-      <img class="button" id="button-red" src="/images/red.png"></img>
-      <img class="button" id="button-green" src="/images/green.png"></img>
-      <img class="button" id="button-yellow" src="/images/yellow.png"></img>
+      <img class="create-button" id="button-blue" src="/images/blue.png"></img>
+      <img class="create-button" id="button-red" src="/images/red.png"></img>
+      <img class="create-button" id="button-green" src="/images/green.png"></img>
+      <img class="create-button" id="button-yellow" src="/images/yellow.png"></img>
+    </div>
+    <div class="area" id="message-container">
+      <div id="messages-area">
+      </div>
+      <div class="message-actions">
+        <input type="text" id="message-input">
+        <button class="ui-button" id="message-send">Senden</button>
+      </div>
     </div>
     <img class="ui-button" id="toggleHeatmap" src="/images/yellow.png"></img>
     <script type ="module" src="/js/main.js"></script>

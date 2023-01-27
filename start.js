@@ -13,7 +13,7 @@ const io = new Server(server);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const messageManager = new MessageManager();
+const messageManager = new MessageManager(io);
 
 const port = 8090;
 
@@ -32,6 +32,8 @@ app.get("/", (req, res) => {
  * Setup Socket io on connection
  *************************************/
 io.on("connection", (socket) => {
+  messageManager.newConnection(socket);
+
   socket.on(EVENTS.CLIENT.REQUEST_PROPOSAL_OBJECTS, async () => {
     try {
       let proposalsJSON = await readFile("./storage/proposals.json");

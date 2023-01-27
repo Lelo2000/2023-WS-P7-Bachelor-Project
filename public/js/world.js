@@ -105,7 +105,6 @@ export default class World {
     });
     document.addEventListener("keydown", (event) => {
       let keyCode = event.code;
-      console.log(keyCode);
       if (keyCode === "Space") {
         this.carManager.togglePause();
       }

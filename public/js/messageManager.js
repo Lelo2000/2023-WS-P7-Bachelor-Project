@@ -31,7 +31,7 @@ export default class MessageManager {
     let message = this.messages.get(id);
     if (!message) return;
     $(this.messageArea).append(`
-    <div class="message">
+    <div class="message" id="${message.id}">
     <p class="message-author">
       ${message.author}
     </p>

@@ -6,6 +6,22 @@ export class Object {
     this.isCollided = false;
     /**@type {Array} Array an Objekt Ids von den Objekten mit denen es kollidiert ist. */
     this.collidedObjectIds = [];
+    this.isMoveable = true;
+    this.isDeleteable = true;
+    this.isRotateable = true;
+    this.messagesWithObject = [];
+    this.isVisible = true;
+    this.name = "";
+  }
+
+  show() {
+    this.isVisible = true;
+    this.displayObject.set("opacity", 1);
+  }
+
+  hide() {
+    this.isVisible = false;
+    this.displayObject.set("opacity", 0);
   }
 
   getWithDisplayObjectAsJSON() {

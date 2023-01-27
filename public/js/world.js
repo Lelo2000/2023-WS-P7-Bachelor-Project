@@ -1,3 +1,4 @@
+import { EVENTS } from "./constants.js";
 import Heatmap from "./heatmap.js";
 import { Object } from "./object.js";
 import CarManager from "./trafficSim/carManager.js";
@@ -7,25 +8,18 @@ export default class World {
    * @constructor
    * @param htmlAnchorId ID des HTML Elements, in welchem die World verankert sein soll.
    */
-  constructor(htmlAnchorId) {
+  constructor(htmlAnchorId, socket) {
+    this.socket = socket;
     this.canvas = new fabric.Canvas(htmlAnchorId, {
       backgroundColor: "#8C8C8C",
       fireMiddleClick: true,
       renderOnAddRemove: false,
     });
-
-    /**@type {Map} Eine Map mit allen Objekten, welche auf dem Canvas platziert wurden*/
-    this.objectList = new Map();
     this.setupCanvas();
-    this.errorText = new fabric.Text("", {
-      fill: "red",
-      top: 0,
-      left: this.canvas.width,
-      originX: "right",
-      hasControls: false,
-      selectable: false,
-    });
-    this.canvas.add(this.errorText);
+    /**@type {Map<String, Object>} Eine Map mit allen Objekten, welche auf dem Canvas platziert wurden*/
+    this.objectList = new Map();
+    this.name;
+    this.currentProposal;
     this.heatMap = new Heatmap(this.canvas, this.objectList);
     this.heatMap.createHeatmap();
     /**@type {TrafficMap} */
@@ -38,6 +32,7 @@ export default class World {
     this.interval = 1000 / 30;
     this.render();
   }
+
   render() {
     this.currentTime = new Date().getTime();
     this.deltaTime = this.currentTime - this.lastTime;
@@ -49,14 +44,6 @@ export default class World {
     window.requestAnimationFrame(() => {
       this.render();
     });
-  }
-
-  toggleHeatmap() {
-    if (this.heatMap.isVisible) {
-      this.heatMap.hide();
-      return;
-    }
-    this.heatMap.show();
   }
 
   /**
@@ -122,6 +109,66 @@ export default class World {
       if (keyCode === "Space") {
         this.carManager.togglePause();
       }
+      if (keyCode === "KeyP") {
+        this.saveCanvas().then((results) => {
+          console.log(results);
+        });
+      }
+    });
+
+    this.errorText = new fabric.Text("", {
+      fill: "red",
+      top: 0,
+      left: this.canvas.width,
+      originX: "right",
+      hasControls: false,
+      selectable: false,
+    });
+    this.canvas.add(this.errorText);
+    this.socket.emit(EVENTS.REQUEST_PROPOSAL_OBJECTS);
+    this.socket.on(EVENTS.RECIEVE_PROPOSAL_OBJECTS, (payload) => {
+      let proposalJSON = payload.data;
+      this.currentProposal = JSON.parse(proposalJSON);
+      this.currentProposal.objects = new Map(
+        window.Object.entries(this.currentProposal.objects)
+      );
+      this.loadObjectsToCanvas(this.currentProposal.objects);
+    });
+  }
+
+  /**
+   * Lädt Objekte auf den Canvas
+   */
+  loadObjectsToCanvas(objects) {
+    objects.forEach((object) => {
+      this.loadObjectToCanvas(object);
+    });
+  }
+
+  loadObjectToCanvas(object) {
+    console.log(object.displayObject);
+    fabric.Image.fromObject(object.displayObject, (oImg) => {
+      this.objectList.set(object.id, object);
+      this.canvas.add(oImg);
+    });
+  }
+
+  saveCanvas() {
+    return new Promise((resolve) => {
+      let listForJson = new Map();
+      this.objectList.forEach(async (object, key) => {
+        let objectJson = await object.getWithDisplayObjectAsJSON();
+        listForJson.set(key, objectJson);
+        if (listForJson.size === this.objectList.size) {
+          resolve(JSON.stringify(window.Object.fromEntries(listForJson)));
+        }
+      });
+      // console.log("AUS DEM LOOP:", objectJson);
+      // let cloneIt = await JSON.parse(objectJson);
+      // console.log(cloneIt.displayObject);
+      // // fabric.Image.fromObject(cloneIt.displayObject, (oImg) => {
+      //   this.canvas.add(oImg);
+      // });
     });
   }
 
@@ -179,5 +226,12 @@ export default class World {
       return;
     }
     this.errorText.set("text", "");
+  }
+  toggleHeatmap() {
+    if (this.heatMap.isVisible) {
+      this.heatMap.hide();
+      return;
+    }
+    this.heatMap.show();
   }
 }

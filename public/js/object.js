@@ -7,6 +7,21 @@ export class Object {
     /**@type {Array} Array an Objekt Ids von den Objekten mit denen es kollidiert ist. */
     this.collidedObjectIds = [];
   }
+
+  getWithDisplayObjectAsJSON() {
+    return new Promise((resolve) => {
+      this.displayObject.setCoords();
+      this.displayObject.clone((displayTemp) => {
+        this.displayObject = "PLATZHALTER";
+        let jsonObject = structuredClone(this);
+        this.displayObject = displayTemp;
+        jsonObject.displayObject = displayTemp;
+        jsonObject.displayObject = jsonObject.displayObject.toJSON();
+        resolve(jsonObject);
+      });
+    });
+  }
+
   /**
    * Wird aufgerufen, wenn es mit einem anderen Objekt kollidiert
    * @param collidedObjectId ID des Objektes mit dem es kollidiert ist.

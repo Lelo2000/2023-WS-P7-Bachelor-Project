@@ -1,6 +1,9 @@
+import { EVENTS } from "./constants.js";
 import World from "./world.js";
 
-const world = new World("simulationCanvas");
+const socket = io();
+console.log(socket);
+const world = new World("simulationCanvas", socket);
 
 $(document).ready(function () {
   $(".button").on("mousedown", function (event) {

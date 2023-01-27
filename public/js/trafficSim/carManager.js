@@ -9,9 +9,9 @@ export default class CarManager {
     setInterval(() => {
       let rnd = Math.random();
       if (rnd < 0.5) {
-        this.spawnCar(20, 1);
+        this.spawnCar(15, 1);
       } else {
-        this.spawnCar(1, 20);
+        this.spawnCar(1, 15);
       }
     }, 200);
   }

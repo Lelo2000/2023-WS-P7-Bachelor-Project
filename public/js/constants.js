@@ -1,5 +1,5 @@
 const TRAFFIC_SIM = {
-  GRID: { RESOLUTION: 30 },
+  GRID: { RESOLUTION: 20 },
   TILES: {
     EMPTY: "empty",
     ROAD: "road",
@@ -10,4 +10,10 @@ const TRAFFIC_SIM = {
   },
 };
 
-export { TRAFFIC_SIM };
+const EVENTS = {
+  STARTED: "started",
+  REQUEST_PROPOSAL_OBJECTS: "getProposalObjects",
+  RECIEVE_PROPOSAL_OBJECTS: "recievePRoposalObjects",
+};
+
+export { TRAFFIC_SIM, EVENTS };

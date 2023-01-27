@@ -9,9 +9,11 @@ export class Object {
     this.isMoveable = true;
     this.isDeleteable = true;
     this.isRotateable = true;
+    this.isScaleable = false;
     this.messagesWithObject = [];
     this.isVisible = true;
     this.name = "";
+    this.explanation = "";
   }
 
   show() {

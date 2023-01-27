@@ -46,7 +46,15 @@
             "filters": []
           },
           "isCollided": false,
-          "collidedObjectIds": []
+          "collidedObjectIds": [],
+          "isMoveable": false,
+          "isDeleteable": false,
+          "isRotateable": false,
+          "isScaleable": false,
+          "messagesWithObject": [],
+          "isVisible": true,
+          "name": "",
+          "explanation": ""
         },
         "0.15793386959260425": {
           "id": 0.15793386959260425,
@@ -90,7 +98,15 @@
             "filters": []
           },
           "isCollided": false,
-          "collidedObjectIds": []
+          "collidedObjectIds": [],
+          "isMoveable": false,
+          "isDeleteable": false,
+          "isRotateable": false,
+          "isScaleable": false,
+          "messagesWithObject": [],
+          "isVisible": true,
+          "name": "",
+          "explanation": ""
         },
         "0.8566209612895621": {
           "id": 0.8566209612895621,
@@ -134,7 +150,15 @@
             "filters": []
           },
           "isCollided": false,
-          "collidedObjectIds": []
+          "collidedObjectIds": [],
+          "isMoveable": false,
+          "isDeleteable": false,
+          "isRotateable": false,
+          "isScaleable": false,
+          "messagesWithObject": [],
+          "isVisible": true,
+          "name": "",
+          "explanation": ""
         },
         "0.8810791944713332": {
           "id": 0.8810791944713332,
@@ -178,7 +202,15 @@
             "filters": []
           },
           "isCollided": false,
-          "collidedObjectIds": []
+          "collidedObjectIds": [],
+          "isMoveable": false,
+          "isDeleteable": false,
+          "isRotateable": false,
+          "isScaleable": false,
+          "messagesWithObject": [],
+          "isVisible": true,
+          "name": "",
+          "explanation": ""
         },
         "0.6204898722734613": {
           "id": 0.6204898722734613,
@@ -222,7 +254,15 @@
             "filters": []
           },
           "isCollided": false,
-          "collidedObjectIds": []
+          "collidedObjectIds": [],
+          "isMoveable": false,
+          "isDeleteable": false,
+          "isRotateable": false,
+          "isScaleable": false,
+          "messagesWithObject": [],
+          "isVisible": true,
+          "name": "",
+          "explanation": ""
         }
       }
     }

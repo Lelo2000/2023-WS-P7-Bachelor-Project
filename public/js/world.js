@@ -149,6 +149,19 @@ export default class World {
     console.log(object.displayObject);
     fabric.Image.fromObject(object.displayObject, (oImg) => {
       this.objectList.set(object.id, object);
+      oImg.setControlsVisibility({
+        mt: object.isScaleable,
+        mb: object.isScaleable,
+        ml: object.isScaleable,
+        mr: object.isScaleable,
+        bl: object.isScaleable,
+        br: object.isScaleable,
+        tl: object.isScaleable,
+        tr: object.isScaleable,
+        mtr: object.isRotateable,
+      });
+      oImg.lockMovementX = !object.isMoveable;
+      oImg.lockMovementY = !object.isMoveable;
       this.canvas.add(oImg);
     });
   }

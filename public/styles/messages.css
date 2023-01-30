@@ -7,6 +7,12 @@
   overflow-x: hidden;
 }
 
+#messages-area p {
+  margin: 0px;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
+
 #message-container {
   position: absolute;
   right: 10px;
@@ -37,6 +43,10 @@
   flex-direction: row;
   justify-content: space-between;
   word-wrap: break-word;
+  cursor: pointer;
+}
+.message:hover {
+  background-color: gray;
 }
 
 .message-author {

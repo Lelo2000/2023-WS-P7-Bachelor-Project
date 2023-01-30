@@ -21,4 +21,13 @@ const EVENTS = {
   },
 };
 
-export { TRAFFIC_SIM, EVENTS };
+const CHANGES = {
+  TYPES: {
+    ADDED: "added",
+    DELETED: "deleted",
+    CHANGED: "changed",
+    MOVED: "moved",
+  },
+};
+
+export { TRAFFIC_SIM, EVENTS, CHANGES };

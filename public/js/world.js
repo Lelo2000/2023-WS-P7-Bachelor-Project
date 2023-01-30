@@ -3,6 +3,7 @@ import Heatmap from "./heatmap.js";
 import { Object } from "./object.js";
 import CarManager from "./trafficSim/carManager.js";
 import TrafficMap from "./trafficSim/trafficMap.js";
+import ViewManager from "./viewManager.js";
 export default class World {
   /**
    * @constructor
@@ -16,6 +17,7 @@ export default class World {
       renderOnAddRemove: false,
     });
     this.setupCanvas();
+
     /**@type {Map<String, Object>} Eine Map mit allen Objekten, welche auf dem Canvas platziert wurden*/
     this.objectList = new Map();
     this.name;
@@ -25,7 +27,7 @@ export default class World {
     /**@type {TrafficMap} */
     this.map = new TrafficMap(this.canvas);
     this.carManager = new CarManager(this.map);
-
+    this.viewManager = new ViewManager(this);
     this.lastTime = new Date().getTime();
     this.currentTime = 0;
     this.deltaTime = 0;
@@ -125,48 +127,60 @@ export default class World {
     });
     this.canvas.add(this.errorText);
     this.socket.emit(EVENTS.CLIENT.REQUEST_PROPOSAL_OBJECTS);
-    this.socket.on(EVENTS.SERVER.RECIEVE_PROPOSAL_OBJECTS, (payload) => {
+    this.socket.on(EVENTS.SERVER.RECIEVE_PROPOSAL_OBJECTS, async (payload) => {
       let proposalJSON = payload.data;
       this.currentProposal = JSON.parse(proposalJSON);
       this.currentProposal.objects = new Map(
         window.Object.entries(this.currentProposal.objects)
       );
-      this.loadObjectsToCanvas(this.currentProposal.objects);
+      await this.loadObjectsToCanvas(this.currentProposal.objects);
+      this.onProposalObjectLoadFinished();
     });
+  }
+
+  onProposalObjectLoadFinished() {
+    console.log(this.objectList.entries());
+    this.viewManager.updateSavedView();
+    console.log(this.viewManager);
   }
 
   /**
    * Lädt Objekte auf den Canvas
    */
-  loadObjectsToCanvas(objects) {
-    objects.forEach((object) => {
-      this.loadObjectToCanvas(object);
-    });
+  async loadObjectsToCanvas(objects) {
+    console.log("LOADING OBJECTS", [...objects.values()]);
+    await Promise.all(
+      [...objects.values()].map(async (object) => {
+        await this.loadObjectToCanvas(object);
+      })
+    );
   }
 
   loadObjectToCanvas(object) {
-    console.log(object.displayObject);
-    fabric.Image.fromObject(object.displayObject, (oImg) => {
-      object.displayObject = oImg;
-      object.displayObject.id = object.id;
-      let newObject = new Object("a");
-      window.Object.assign(newObject, object);
-      console.log(newObject);
-      this.objectList.set(object.id, newObject);
-      oImg.setControlsVisibility({
-        mt: object.isScaleable,
-        mb: object.isScaleable,
-        ml: object.isScaleable,
-        mr: object.isScaleable,
-        bl: object.isScaleable,
-        br: object.isScaleable,
-        tl: object.isScaleable,
-        tr: object.isScaleable,
-        mtr: object.isRotateable,
+    return new Promise((resolve) => {
+      fabric.Image.fromObject(object.displayObject, (oImg) => {
+        object.displayObject = oImg;
+        object.displayObject.id = object.id;
+        let newObject = new Object("a");
+        window.Object.assign(newObject, object);
+        console.log(newObject);
+        this.objectList.set(object.id, newObject);
+        oImg.setControlsVisibility({
+          mt: object.isScaleable,
+          mb: object.isScaleable,
+          ml: object.isScaleable,
+          mr: object.isScaleable,
+          bl: object.isScaleable,
+          br: object.isScaleable,
+          tl: object.isScaleable,
+          tr: object.isScaleable,
+          mtr: object.isRotateable,
+        });
+        oImg.lockMovementX = !object.isMoveable;
+        oImg.lockMovementY = !object.isMoveable;
+        this.canvas.add(oImg);
+        resolve();
       });
-      oImg.lockMovementX = !object.isMoveable;
-      oImg.lockMovementY = !object.isMoveable;
-      this.canvas.add(oImg);
     });
   }
 
@@ -244,6 +258,7 @@ export default class World {
     }
     this.errorText.set("text", "");
   }
+
   toggleHeatmap() {
     if (this.heatMap.isVisible) {
       this.heatMap.hide();

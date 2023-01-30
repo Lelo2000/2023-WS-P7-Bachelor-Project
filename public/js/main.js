@@ -14,10 +14,11 @@ const messageManager = new MessageManager(
 );
 
 $(document).ready(function () {
-  $(".button").on("mousedown", function (event) {
+  $(".create-button").on("mousedown", function (event) {
     const htmlObj = event.target;
     const objId = htmlObj.id;
     let imgName = objId.split("-")[1];
+    console.log("clicked");
     world.addImage(`./images/${imgName}.png`, { x: 300, y: 300 }, true);
     console.log(event.target.id);
   });
@@ -26,4 +27,14 @@ $(document).ready(function () {
     e.preventDefault();
     world.toggleHeatmap();
   });
+
+  $("#messages-area").on("click", ".message", function (e) {
+    let messageId = e.currentTarget.id;
+    let changes = messageManager.getMessage(messageId).changes;
+    console.log("Message Clicked", messageId, changes);
+  });
 });
+
+function showChanges(id) {
+  console.log("Zeige Changes der Nachricht: ", id);
+}

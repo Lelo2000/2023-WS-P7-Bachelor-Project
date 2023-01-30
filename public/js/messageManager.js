@@ -17,6 +17,7 @@ export default class MessageManager {
     this.setEvents();
     this.author = Math.random().toFixed(4);
     this.activeMessages = new Map();
+    this.lastMessageSentId;
   }
 
   setEvents() {
@@ -76,6 +77,9 @@ export default class MessageManager {
     this.messages.set(message.id, message);
     this.showMessage(message.id);
     console.log("NEUE NACHRICHT VOM SERVER:", message);
+    if (message.id === this.lastMessageSentId) {
+      this.messageClicked(message.id);
+    }
   }
 
   sendMessage(msg) {
@@ -84,6 +88,7 @@ export default class MessageManager {
     message.changes = changes;
     message.author = this.author;
     this.socket.emit(EVENTS.CLIENT.SEND_MESSAGE, { data: message });
+    this.lastMessageSentId = message.id;
   }
 
   getMessage(idParam) {

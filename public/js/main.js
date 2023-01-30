@@ -29,9 +29,7 @@ $(document).ready(function () {
   });
 
   $("#messages-area").on("click", ".message", function (e) {
-    let messageId = e.currentTarget.id;
-    let changes = messageManager.getMessage(messageId).changes;
-    console.log("Message Clicked", messageId, changes);
+    messageManager.messageClicked(e.currentTarget.id);
   });
 });
 

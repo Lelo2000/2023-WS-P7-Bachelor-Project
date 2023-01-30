@@ -16,6 +16,7 @@ export default class MessageManager {
     this.messageArea = messageArea;
     this.setEvents();
     this.author = Math.random().toFixed(4);
+    this.activeMessages = new Map();
   }
 
   setEvents() {
@@ -28,6 +29,27 @@ export default class MessageManager {
       let msg = serverMsg.data;
       this.recieveMessage(msg);
     });
+  }
+
+  messageClicked(messageId) {
+    let message = this.getMessage(messageId);
+    if (this.activeMessages.has(message.id)) {
+      this.setMessageUnactive(message);
+    } else {
+      this.setMessageActive(message);
+    }
+    this.world.viewManager.loadMessages([...this.activeMessages.values()]);
+  }
+
+  setMessageUnactive(message) {
+    $(document.getElementById(message.id)).removeClass("active");
+    this.activeMessages.delete(message.id);
+  }
+
+  setMessageActive(message) {
+    this.activeMessages.set(message.id, message);
+    let htmlId = "#" + message.id;
+    $(document.getElementById(message.id)).addClass("active");
   }
 
   showMessage(id) {
@@ -69,7 +91,6 @@ export default class MessageManager {
     if (typeof id === "string") {
       id = Number(id);
     }
-    console.log("ID TYPE", typeof id);
     if (this.messages.has(id)) {
       return this.messages.get(id);
     } else {

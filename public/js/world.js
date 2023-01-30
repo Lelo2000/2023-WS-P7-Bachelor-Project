@@ -138,6 +138,13 @@ export default class World {
     });
   }
 
+  clearCanvas() {
+    this.objectList.forEach((object) => {
+      this.canvas.remove(object.displayObject);
+    });
+    this.objectList = new Map();
+  }
+
   onProposalObjectLoadFinished() {
     console.log(this.objectList.entries());
     this.viewManager.updateSavedView();
@@ -163,7 +170,6 @@ export default class World {
         object.displayObject.id = object.id;
         let newObject = new Object("a");
         window.Object.assign(newObject, object);
-        console.log(newObject);
         this.objectList.set(object.id, newObject);
         oImg.setControlsVisibility({
           mt: object.isScaleable,

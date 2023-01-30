@@ -45,8 +45,12 @@
   word-wrap: break-word;
   cursor: pointer;
 }
+
 .message:hover {
   background-color: gray;
+}
+.message.active {
+  color: red;
 }
 
 .message-author {

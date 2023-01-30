@@ -46,7 +46,10 @@ export default class ViewManager {
       switch (change.type) {
         case CHANGES.TYPES.ADDED:
           if (!this.world.objectList.has(change.options.addedObject.id))
-            await this.world.loadObjectToCanvas(change.options.addedObject);
+            await this.world.loadObjectToCanvas(
+              change.options.addedObject,
+              change.type
+            );
           break;
       }
     }

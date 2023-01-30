@@ -163,13 +163,15 @@ export default class World {
     );
   }
 
-  loadObjectToCanvas(object) {
+  loadObjectToCanvas(object, changeType = false) {
     return new Promise((resolve) => {
       fabric.Image.fromObject(object.displayObject, (oImg) => {
         object.displayObject = oImg;
         object.displayObject.id = object.id;
         let newObject = new Object("a");
         window.Object.assign(newObject, object);
+
+        if (changeType) newObject.showChangeType(changeType);
         this.objectList.set(object.id, newObject);
         oImg.setControlsVisibility({
           mt: object.isScaleable,

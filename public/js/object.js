@@ -1,3 +1,5 @@
+import { CHANGES } from "./constants.js";
+
 export class Object {
   constructor(displayObject) {
     this.id = Math.random();
@@ -14,6 +16,14 @@ export class Object {
     this.isVisible = true;
     this.name = "";
     this.explanation = "";
+  }
+
+  showChangeType(type) {
+    switch (type) {
+      case CHANGES.TYPES.ADDED:
+        this.displayObject.set({ stroke: "#a1ff85", strokeWidth: 4 });
+        break;
+    }
   }
 
   show() {

@@ -155,7 +155,6 @@ export default class World {
    * Lädt Objekte auf den Canvas
    */
   async loadObjectsToCanvas(objects) {
-    console.log("LOADING OBJECTS", [...objects.values()]);
     await Promise.all(
       [...objects.values()].map(async (object) => {
         await this.loadObjectToCanvas(object);
@@ -165,27 +164,29 @@ export default class World {
 
   loadObjectToCanvas(object, changeType = false) {
     return new Promise((resolve) => {
-      fabric.Image.fromObject(object.displayObject, (oImg) => {
-        object.displayObject = oImg;
-        object.displayObject.id = object.id;
-        let newObject = new Object("a");
-        window.Object.assign(newObject, object);
+      let newObject = new Object("a");
+      window.Object.assign(newObject, object);
+      fabric.Image.fromObject(newObject.displayObject, (oImg) => {
+        newObject.displayObject = oImg;
+        newObject.displayObject.id = newObject.id;
 
-        if (changeType) newObject.showChangeType(changeType);
-        this.objectList.set(object.id, newObject);
+        this.objectList.set(newObject.id, newObject);
         oImg.setControlsVisibility({
-          mt: object.isScaleable,
-          mb: object.isScaleable,
-          ml: object.isScaleable,
-          mr: object.isScaleable,
-          bl: object.isScaleable,
-          br: object.isScaleable,
-          tl: object.isScaleable,
-          tr: object.isScaleable,
-          mtr: object.isRotateable,
+          mt: newObject.isScaleable,
+          mb: newObject.isScaleable,
+          ml: newObject.isScaleable,
+          mr: newObject.isScaleable,
+          bl: newObject.isScaleable,
+          br: newObject.isScaleable,
+          tl: newObject.isScaleable,
+          tr: newObject.isScaleable,
+          mtr: newObject.isRotateable,
         });
-        oImg.lockMovementX = !object.isMoveable;
-        oImg.lockMovementY = !object.isMoveable;
+        oImg.lockMovementX = !newObject.isMoveable;
+        oImg.lockMovementY = !newObject.isMoveable;
+        if (changeType) {
+          newObject.showChangeType(changeType);
+        }
         this.canvas.add(oImg);
         resolve();
       });

@@ -62,12 +62,10 @@ export default class ViewManager {
 
   /**@param {Array<Message>} messages */
   async loadMessages(messages) {
-    console.log("MESSAGES WERDEN GELADEN: ", messages);
     await this.resetCanvasToBasics();
     for (let message of messages) {
       await this.loadMessage(message);
     }
     this.updateSavedView();
-    console.log("SAVED VIEW: ", this.savedView);
   }
 }

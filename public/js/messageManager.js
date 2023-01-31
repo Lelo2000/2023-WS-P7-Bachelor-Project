@@ -1,4 +1,4 @@
-import { EVENTS } from "./constants.js";
+import { EVENTS, MESSSAGES } from "./constants.js";
 import Message from "./message.js";
 import World from "./world.js";
 
@@ -16,6 +16,7 @@ export default class MessageManager {
     this.messageArea = messageArea;
     this.setEvents();
     this.author = Math.random().toFixed(4);
+    /**@type {Map<Number, {activeType: string, message: Message, options:{}}>*/
     this.activeMessages = new Map();
     this.lastMessageSentId;
   }
@@ -32,25 +33,95 @@ export default class MessageManager {
     });
   }
 
-  messageClicked(messageId) {
+  async messageClicked(messageId) {
     let message = this.getMessage(messageId);
     if (this.activeMessages.has(message.id)) {
-      this.setMessageUnactive(message);
+      if (
+        this.activeMessages.get(message.id).activeType ===
+        MESSSAGES.ACTIVE_TYPES.DEPENDENCY
+      ) {
+        this.updateMessageActiveContainer(message);
+      } else {
+        this.setMessageUnactive(message.id);
+      }
     } else {
-      this.setMessageActive(message);
+      this.updateMessageActiveContainer(message);
     }
-    this.world.viewManager.loadMessages([...this.activeMessages.values()]);
+    await this.world.viewManager.loadMessages(this.activeMessagesAsArray());
   }
 
-  setMessageUnactive(message) {
-    $(document.getElementById(message.id)).removeClass("active");
-    this.activeMessages.delete(message.id);
+  activeMessagesAsArray() {
+    let result = [];
+    this.activeMessages.forEach((messageContainer) => {
+      result.push(messageContainer.message);
+    });
+    return result;
   }
 
-  setMessageActive(message) {
-    this.activeMessages.set(message.id, message);
-    let htmlId = "#" + message.id;
-    $(document.getElementById(message.id)).addClass("active");
+  setMessageUnactive(messageId) {
+    if (!this.activeMessages.has(messageId)) return;
+    let messageContainer = this.activeMessages.get(messageId);
+    let messageDependencies = messageContainer.message.dependencies;
+    this.activeMessages.delete(messageId);
+    $(document.getElementById(messageId)).removeClass(
+      messageContainer.activeType
+    );
+    if (messageDependencies.length > 0) {
+      messageDependencies.forEach((dependency) => {
+        this.setMessageUnactive(dependency.id);
+      });
+    }
+    if (messageContainer.activeType === MESSSAGES.ACTIVE_TYPES.DEPENDENCY) {
+      this.setMessageUnactive(messageContainer.options.dependendMessage.id);
+    }
+  }
+
+  addNewMessageToActive(message, activeType, options) {
+    let messageContainer = {
+      activeType: activeType,
+      message: message,
+      options: options,
+    };
+    this.activeMessages.set(message.id, messageContainer);
+    return messageContainer;
+  }
+
+  /**@param {Message} message */
+  updateMessageActiveContainer(
+    message,
+    activeType = MESSSAGES.ACTIVE_TYPES.ACTIVE,
+    options = {}
+  ) {
+    let messageContainer;
+    if (this.activeMessages.has(message.id)) {
+      messageContainer = this.activeMessages.get(message.id);
+      // if (messageContainer.type === MESSSAGES.ACTIVE_TYPES.DEPENDENCY) {
+      //   //HIER WEITERSCHREIBEN!!!!!!!!!
+      // }
+      this.setMessageUnactive(messageContainer.id);
+    } else {
+      messageContainer = this.addNewMessageToActive(
+        message,
+        activeType,
+        options
+      );
+    }
+
+    $(document.getElementById(message.id)).addClass(
+      messageContainer.activeType
+    );
+    if (message.dependencies.length > 0) {
+      message.dependencies.forEach((dependency) => {
+        this.updateMessageActiveContainer(
+          dependency,
+          MESSSAGES.ACTIVE_TYPES.DEPENDENCY,
+          {
+            dependendMessage: message,
+          }
+        );
+      });
+    }
+    console.log(this.activeMessages);
   }
 
   showMessage(id) {
@@ -73,11 +144,18 @@ export default class MessageManager {
     // });
   }
 
-  recieveMessage(message) {
+  async turnOfAllActiveMessages() {
+    this.activeMessages.forEach((messageContainer, messageId) => {
+      this.setMessageUnactive(messageId);
+    });
+    await this.world.viewManager.loadMessages(this.activeMessagesAsArray());
+  }
+
+  async recieveMessage(message) {
     this.messages.set(message.id, message);
     this.showMessage(message.id);
-    console.log("NEUE NACHRICHT VOM SERVER:", message);
     if (message.id === this.lastMessageSentId) {
+      await this.turnOfAllActiveMessages();
       this.messageClicked(message.id);
     }
   }
@@ -87,6 +165,9 @@ export default class MessageManager {
     let message = new Message(msg);
     message.changes = changes;
     message.author = this.author;
+    if (this.activeMessages.size > 0) {
+      message.addDependencies(this.activeMessagesAsArray());
+    }
     this.socket.emit(EVENTS.CLIENT.SEND_MESSAGE, { data: message });
     this.lastMessageSentId = message.id;
   }

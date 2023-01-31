@@ -53,6 +53,10 @@
   color: red;
 }
 
+.message.dependency {
+  color: orange;
+}
+
 .message-author {
   max-width: 100px;
   min-width: 60px;

@@ -56,7 +56,6 @@ export default class World {
    */
   addImage(imgURL, position = { x: 0, y: 0 }, center = false) {
     fabric.Image.fromURL(imgURL, (oImg) => {
-      console.log(oImg);
       if (center) {
         oImg.top = position.y - oImg.height / 2;
         oImg.left = position.x - oImg.width / 2;
@@ -82,7 +81,6 @@ export default class World {
       this.canvas.setActiveObject(oImg);
       let newObject = new Object(oImg);
       oImg.id = newObject.id;
-      console.log(oImg);
       this.objectList.set(newObject.id, newObject);
     });
   }
@@ -146,9 +144,7 @@ export default class World {
   }
 
   onProposalObjectLoadFinished() {
-    console.log(this.objectList.entries());
     this.viewManager.updateSavedView();
-    console.log(this.viewManager);
   }
 
   /**

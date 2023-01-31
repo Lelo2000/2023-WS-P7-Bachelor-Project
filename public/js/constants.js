@@ -29,5 +29,11 @@ const CHANGES = {
     MOVED: "moved",
   },
 };
+const MESSSAGES = {
+  ACTIVE_TYPES: {
+    ACTIVE: "active",
+    DEPENDENCY: "dependency",
+  },
+};
 
-export { TRAFFIC_SIM, EVENTS, CHANGES };
+export { TRAFFIC_SIM, EVENTS, CHANGES, MESSSAGES };

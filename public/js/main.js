@@ -18,9 +18,7 @@ $(document).ready(function () {
     const htmlObj = event.target;
     const objId = htmlObj.id;
     let imgName = objId.split("-")[1];
-    console.log("clicked");
     world.addImage(`./images/${imgName}.png`, { x: 300, y: 300 }, true);
-    console.log(event.target.id);
   });
 
   $("#toggleHeatmap").click(function (e) {

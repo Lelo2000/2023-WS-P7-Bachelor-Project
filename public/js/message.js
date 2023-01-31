@@ -8,5 +8,17 @@ export default class Message {
     this.id = Math.random();
     this.tags = [];
     this.changes = [];
+    this.dependencies = [];
+  }
+
+  addDependency(message) {
+    this.dependencies.push(message);
+  }
+
+  /**@param {Array<Message>} */
+  addDependencies(messages) {
+    for (let message of messages) {
+      if (message.id !== this.id) this.dependencies.push(message);
+    }
   }
 }

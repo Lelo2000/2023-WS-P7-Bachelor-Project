@@ -1,4 +1,4 @@
-import { EVENTS, MESSSAGES } from "./constants.js";
+import { EVENTS, MESSSAGES } from "../constants.js";
 import Message from "./message.js";
 import World from "./world.js";
 

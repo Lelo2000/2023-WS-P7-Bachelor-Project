@@ -1,4 +1,4 @@
-import { EVENTS } from "./constants.js";
+import { EVENTS } from "../constants.js";
 import Heatmap from "./heatmap.js";
 import { Object } from "./object.js";
 import CarManager from "./trafficSim/carManager.js";

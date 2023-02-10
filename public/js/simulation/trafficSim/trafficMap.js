@@ -1,4 +1,4 @@
-import { TRAFFIC_SIM } from "../constants.js";
+import { TRAFFIC_SIM } from "../../constants.js";
 import Car from "./car.js";
 import Tile from "./tile.js";
 

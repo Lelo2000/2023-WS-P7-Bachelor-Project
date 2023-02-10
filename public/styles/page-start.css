@@ -1,0 +1,26 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.page-button {
+  background-color: gray;
+  border-radius: 999999999999999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 200px;
+  height: 200px;
+  font-size: 40px;
+}
+a:link,
+a:visited {
+  text-decoration: none;
+  color: black;
+}

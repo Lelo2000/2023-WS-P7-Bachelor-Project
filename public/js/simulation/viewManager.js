@@ -1,5 +1,5 @@
 import Change from "./change.js";
-import { CHANGES } from "./constants.js";
+import { CHANGES } from "../constants.js";
 import Message from "./message.js";
 import World from "./world.js";
 

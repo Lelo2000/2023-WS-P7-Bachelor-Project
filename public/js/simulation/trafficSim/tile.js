@@ -1,4 +1,4 @@
-import { TRAFFIC_SIM } from "../constants.js";
+import { TRAFFIC_SIM } from "../../constants.js";
 import TrafficMap from "./trafficMap.js";
 
 export default class Tile {

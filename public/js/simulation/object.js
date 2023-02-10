@@ -1,4 +1,4 @@
-import { CHANGES } from "./constants.js";
+import { CHANGES } from "../constants.js";
 
 export class Object {
   constructor(displayObject) {

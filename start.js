@@ -21,13 +21,18 @@ app.use(express.static(__dirname + "/public"));
 /*************************************
  * Setup Server URLS
  *************************************/
-console.log(__dirname + "/public/index.html");
 
 app.get("/", (req, res) => {
-  console.log(__dirname + "/public/index.html");
-  res.sendFile(__dirname + "/public/index.html");
+  res.sendFile(__dirname + "/public/start.html");
 });
 
+app.get("/simulation", (req, res) => {
+  res.sendFile(__dirname + "/public/websites/simulation.html");
+});
+
+app.get("/ideas", (req, res) => {
+  res.sendFile(__dirname + "/public/websites/ideas.html");
+});
 /*************************************
  * Setup Socket io on connection
  *************************************/

@@ -31,4 +31,5 @@ socket.on(EVENTS.SERVER.NEW_IDEA, (idea) => {
   let newIdea = new Idea();
   newIdea.fromServerData(idea.data);
   proposalMap.createMarker(newIdea.marker, newIdea.popUp);
+  $("#ideaContainer").append(newIdea.html);
 });

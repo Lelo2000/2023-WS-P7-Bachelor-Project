@@ -13,7 +13,11 @@ export default class Idea extends MessageBaseObject {
     this.createHtml();
     this.createPopUp();
   }
-  createHtml() {}
+  createHtml() {
+    this.html = `
+      <div class="idea" >Autor: ${this.author}</b> <br><br> ${this.text}</div>
+    `;
+  }
   createPopUp() {
     this.popUp = `<b>Autor: ${this.author}</b> <br><br> ${this.text} `;
   }

@@ -24,6 +24,7 @@ export default class RealWorldMap {
   initMarker() {}
 
   createMarker(point, popUp = false) {
+    console.log(point);
     let marker = L.marker(point).addTo(this.map);
     this.setPopUp(marker, popUp);
     this.markers.set(marker._leaflet_id, marker);

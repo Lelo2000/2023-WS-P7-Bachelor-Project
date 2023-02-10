@@ -1,3 +1,17 @@
+const TEMPORARY = {
+  AUTHOR: {
+    NAME: "Test User",
+  },
+};
+
+const IDEA = {
+  STATUS: {
+    FINISHED: "finished",
+    ACTIVE: "active",
+    IDEA: "idea",
+  },
+};
+
 const TRAFFIC_SIM = {
   GRID: { RESOLUTION: 20 },
   TILES: {
@@ -14,10 +28,12 @@ const EVENTS = {
   SERVER: {
     RECIEVE_PROPOSAL_OBJECTS: "recievePRoposalObjects",
     NEW_MESSAGE: "newMessage",
+    NEW_IDEA: "newidea",
   },
   CLIENT: {
     REQUEST_PROPOSAL_OBJECTS: "getProposalObjects",
     SEND_MESSAGE: "sendMessage",
+    SEND_IDEA: "sendIdea",
   },
 };
 
@@ -36,4 +52,4 @@ const MESSSAGES = {
   },
 };
 
-export { TRAFFIC_SIM, EVENTS, CHANGES, MESSSAGES };
+export { TRAFFIC_SIM, EVENTS, CHANGES, MESSSAGES, TEMPORARY, IDEA };

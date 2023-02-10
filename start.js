@@ -6,6 +6,7 @@ import { Server } from "socket.io";
 import { EVENTS } from "./public/js/constants.js";
 import { readFile } from "fs/promises";
 import MessageManager from "./server/messageManager.js";
+import IdeaManager from "./server/ideaManager.js";
 
 const app = express();
 let server = http.Server(app);
@@ -14,6 +15,7 @@ const io = new Server(server);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const messageManager = new MessageManager(io);
+const ideaManager = new IdeaManager(io);
 
 const port = 8090;
 
@@ -38,6 +40,7 @@ app.get("/ideas", (req, res) => {
  *************************************/
 io.on("connection", (socket) => {
   messageManager.newConnection(socket);
+  ideaManager.newConnection(socket);
 
   socket.on(EVENTS.CLIENT.REQUEST_PROPOSAL_OBJECTS, async () => {
     try {

@@ -27,7 +27,8 @@ $(document).ready(function () {
   $("#ideaContainer").on("mouseover", ".idea", function (e) {
     const ideaId = $(e.currentTarget).attr("class").split(" ")[1];
     if (!ideaId) return;
-    console.log(ideas.get(Number(ideaId)));
+    const idea = ideas.get(Number(ideaId));
+    proposalMap.map.setView(idea.markerPoint, 15, { duration: 2 });
   });
 });
 

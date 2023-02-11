@@ -114,12 +114,20 @@
   background-color: white;
   padding: 8px;
   border-radius: 10px;
-  border: 1px solid #5aaa3e;
   font-size: 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2));
+}
+.idea-greenStroke {
+  border: 1px solid #5aaa3e;
+}
+.idea-blueStroke {
+  border: 1px solid #1e95bb;
+}
+.idea-invisibleStroke {
+  border: 1px solid #1e94bb00;
 }
 
 .idea .top {

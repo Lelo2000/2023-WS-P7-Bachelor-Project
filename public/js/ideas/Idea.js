@@ -1,4 +1,5 @@
 import MessageBaseObject from "../baseClasses/messageBaseObject.js";
+import { IDEA } from "../constants.js";
 
 export default class Idea extends MessageBaseObject {
   constructor(map) {
@@ -16,8 +17,20 @@ export default class Idea extends MessageBaseObject {
     this.createPopUp();
   }
   createHtml() {
+    let stroke;
+    switch (this.status) {
+      case IDEA.STATUS.ACTIVE:
+        stroke = "idea-greenStroke";
+        break;
+      case IDEA.STATUS.IDEA:
+        stroke = "idea-blueStroke";
+        break;
+      case IDEA.STATUS.FINISHED:
+        stroke = "idea-invisibleStroke";
+        break;
+    }
     this.html = $(`
-    <div class="idea ${this.id}">
+    <div class="idea ${this.id} ${stroke}">
     <div class="top"><p class="date">${this.getDate()}</p></div>
     <div class="text">
       <h2>Umgestaltung des Mathildenplatzes</h2>

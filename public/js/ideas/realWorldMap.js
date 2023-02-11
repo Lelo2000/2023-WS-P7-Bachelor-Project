@@ -1,3 +1,7 @@
+import { IDEA } from "../constants.js";
+import markerBig from "./markerBig.js";
+import markerSmall from "./markerSmall.js";
+
 export default class RealWorldMap {
   constructor(mapContainerId, startPoint) {
     this.mapContainerId = "map";
@@ -23,18 +27,44 @@ export default class RealWorldMap {
 
   initMarker() {}
 
-  createMarker(point, popUp = false) {
-    console.log(point);
-    let marker = L.marker(point).addTo(this.map);
+  createMarker(point, icon, popUp = false) {
+    let newIcon;
+    switch (icon) {
+      case IDEA.STATUS.ACTIVE:
+        newIcon = new markerBig({
+          iconUrl: "../../images/icons/leaflet/marker_active.svg",
+        });
+        break;
+      case IDEA.STATUS.FINISHED:
+        newIcon = new markerSmall({
+          iconUrl: "../../images/icons/leaflet/marker_finished.svg",
+        });
+        break;
+      case IDEA.STATUS.IDEA:
+        newIcon = new markerSmall({
+          iconUrl: "../../images/icons/leaflet/marker_idea.svg",
+        });
+        break;
+      default:
+        newIcon = new markerSmall({
+          iconUrl: "../../images/icons/leaflet/marker_finished.svg",
+        });
+    }
+    let marker = L.marker(point, { icon: newIcon }).addTo(this.map);
     this.setPopUp(marker, popUp);
     this.markers.set(marker._leaflet_id, marker);
-    console.log(this.markers);
+    marker.on("remove", () => {
+      this.markers.delete(marker._leaflet_id);
+    });
     return marker;
   }
 
-  setPopUp(marker, popUp) {
+  setPopUp(marker, popUp, destroyIfClosed = false) {
     if (popUp) {
       marker.bindPopup(popUp);
+      marker.on("popupclose", () => {
+        if (destroyIfClosed) marker.remove();
+      });
     }
   }
 
@@ -47,13 +77,13 @@ export default class RealWorldMap {
   /**@param {Event} e */
   onMapClicked(e) {
     e.originalEvent.preventDefault();
-    let newMarker = this.createMarker(e.latlng);
+    let newMarker = this.createMarker(e.latlng, IDEA.STATUS.IDEA);
     this.setPopUp(
       newMarker,
       `<textarea name="text" cols="35" rows="4"></textarea> 	
-    <button class="sendButton ${newMarker._leaflet_id}"> Senden </button>`
+    <button class="sendButton ${newMarker._leaflet_id}"> Senden </button>`,
+      true
     );
-    console.log(newMarker);
     newMarker.openPopup();
   }
 }

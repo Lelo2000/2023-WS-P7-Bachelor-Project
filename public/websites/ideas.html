@@ -7,21 +7,51 @@
     ></script>
     <script src="/socket.io/socket.io.js"></script>
     <link href="/styles/main.css" rel="stylesheet" />
+    <link href="/styles/fonts.css" rel="stylesheet" />
+    <link href="/styles/icons.css" rel="stylesheet" />
     <link href="/styles/page-ideas.css" rel="stylesheet" />
     <link rel="stylesheet" href="/styles/leaflet.css" />
     <script src="/js/src/leaflet.js"></script>
   </head>
   <body>
-    <div id="sideMenu">
-      <p>test1</p>
-      <p>test1</p>
-      <p>test1</p>
-      <p>test1</p>
-      <p>test1</p>
-      <p>test1</p>
+    <div id="sideMenu" class="shadow">
+      <div class="sideMenuItem">
+        <img class="icon-burger" />
+        <p>Übersicht</p>
+      </div>
+      <div class="sideMenuItem">
+        <img class="icon-lightbulb" />
+        <p>Ideen</p>
+      </div>
+      <div class="sideMenuItem">
+        <img class="icon-arrow_circle_checked" />
+        <p>Fertig</p>
+      </div>
+      <div class="sideMenuItem">
+        <img class="icon-arrow_circle" />
+        <p>Laufend</p>
+      </div>
+      <div class="sideMenuLine"></div>
+      <div class="sideMenuItem">
+        <img class="icon-map-gear" />
+        <p>Laufend</p>
+      </div>
     </div>
-    <div id="ideaOverview">
+    <div id="sideMenuFoldOut">
+      <div class="flex-spacebetween">
+        <h1>5 Ideen & Projekte</h1>
+        <div class="flex-spacebetween funelTagSpace">
+          <img class="icon-funnel" /> <img class="icon-burger-diagonal" />
+        </div>
+      </div>
+      <div class="searchSpace">
+        <input type="text" class="search" placeholder="Durchsuchen" />
+        <img class="icon-search" />
+      </div>
       <div id="ideaContainer"></div>
+    </div>
+    <div id="sideMenuFoldOutButton" class="shadow">
+      <img class="icon-arrow-right" />
     </div>
     <div id="map"></div>
   </body>

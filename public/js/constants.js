@@ -27,11 +27,13 @@ const TRAFFIC_SIM = {
 const EVENTS = {
   SERVER: {
     RECIEVE_PROPOSAL_OBJECTS: "recievePRoposalObjects",
+    SEND_IDEAS: "send ideas",
     NEW_MESSAGE: "newMessage",
     NEW_IDEA: "newidea",
   },
   CLIENT: {
     REQUEST_PROPOSAL_OBJECTS: "getProposalObjects",
+    REQUEST_IDEAS: "reqeust Ideas",
     SEND_MESSAGE: "sendMessage",
     SEND_IDEA: "sendIdea",
   },

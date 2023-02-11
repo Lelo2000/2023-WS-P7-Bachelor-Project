@@ -4,4 +4,14 @@ body {
   padding: 0px;
   overflow-x: hidden;
   overflow-y: hidden;
+  font-family: Inter-Regular;
+}
+
+.shadow {
+  filter: drop-shadow(9px 9px 5px rgba(0, 0, 0, 0.2));
+}
+.flex-spacebetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

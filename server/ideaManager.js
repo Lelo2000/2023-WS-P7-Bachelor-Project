@@ -16,6 +16,17 @@ export default class IdeaManager {
       markerPoint: { lat: 49.8759698310847, lng: 8.649415969848635 },
       status: "active",
     });
+    this.ideas.set(0.283775612578277, {
+      text: "Luisenplatz",
+      author: "Test User",
+      time: 1676134963354,
+      votes: { likes: 0, dislikes: 0 },
+      id: 0.283775612578277,
+      tags: [],
+      comments: [],
+      markerPoint: { lat: 49.8769798310847, lng: 8.659515969848635 },
+      status: "finished",
+    });
   }
 
   newConnection(socket) {

@@ -66,6 +66,7 @@
   left: 80px;
   z-index: 1001;
   width: 250px;
+  visibility: hidden;
   height: 100vh;
   background-color: white;
   display: flex;

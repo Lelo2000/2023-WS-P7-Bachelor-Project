@@ -4,6 +4,22 @@ const TEMPORARY = {
   },
 };
 
+const HTML_IDS = {
+  SIDE_MENU: {
+    ID: "sideMenu",
+    ACTIVE: "active",
+    ALL: "all",
+    FINISHED: "finished",
+    IDEAS: "ideas",
+    VIEW: "view",
+  },
+  FOLD_OUT: {
+    ID: "sideMenuFoldOut",
+    IDEA_CONTAINER: "ideaContainer",
+    BUTTON: "sideMenuFoldOutButton",
+  },
+};
+
 const IDEA = {
   STATUS: {
     FINISHED: "finished",
@@ -54,4 +70,4 @@ const MESSSAGES = {
   },
 };
 
-export { TRAFFIC_SIM, EVENTS, CHANGES, MESSSAGES, TEMPORARY, IDEA };
+export { TRAFFIC_SIM, EVENTS, CHANGES, MESSSAGES, TEMPORARY, IDEA, HTML_IDS };

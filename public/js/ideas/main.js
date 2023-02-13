@@ -1,4 +1,4 @@
-import { EVENTS, IDEA, TEMPORARY } from "../constants.js";
+import { EVENTS, HTML_IDS, IDEA, TEMPORARY } from "../constants.js";
 import Idea from "./Idea.js";
 import RealWorldMap from "./realWorldMap.js";
 
@@ -6,6 +6,7 @@ const socket = io();
 
 const proposalMap = new RealWorldMap("map", [49.8727994, 8.6471883]);
 const ideas = new Map();
+let currentFoldOut = false;
 $(document).ready(function () {
   socket.emit(EVENTS.CLIENT.REQUEST_IDEAS);
 
@@ -24,17 +25,111 @@ $(document).ready(function () {
     socket.emit(EVENTS.CLIENT.SEND_IDEA, { data: newIdea });
     marker.remove();
   });
-  $("#ideaContainer").on("mouseover", ".idea", function (e) {
-    const ideaId = $(e.currentTarget).attr("class").split(" ")[1];
-    if (!ideaId) return;
-    const idea = ideas.get(Number(ideaId));
-    proposalMap.map.setView(idea.markerPoint, 15, { duration: 2 });
+  $("#" + HTML_IDS.SIDE_MENU.ID).on("click", ".sideMenuItem", (e) => {
+    let menuItem = e.currentTarget;
+    foldOut(menuItem.id);
   });
+  $("#" + HTML_IDS.FOLD_OUT.BUTTON).on("click", (e) => {
+    if (currentFoldOut === false) {
+      foldOut(HTML_IDS.SIDE_MENU.ALL);
+      return;
+    }
+    foldOut(currentFoldOut);
+  });
+  $("#" + HTML_IDS.FOLD_OUT.IDEA_CONTAINER).on(
+    "mouseover",
+    ".idea",
+    function (e) {
+      const ideaId = $(e.currentTarget).attr("class").split(" ")[1];
+      if (!ideaId) return;
+      const idea = ideas.get(Number(ideaId));
+      proposalMap.map.setView(idea.markerPoint, 15, { duration: 2 });
+    }
+  );
 });
 
 socket.on(EVENTS.SERVER.NEW_IDEA, (idea) => {
   addIdea(idea.data);
 });
+
+function foldOut(menuId) {
+  console.log(menuId);
+  let foldOut = $("#" + HTML_IDS.FOLD_OUT.ID);
+  let sideMenu = $("#" + HTML_IDS.SIDE_MENU.ID);
+  let sideMenuFoldOutButton = $("#" + HTML_IDS.FOLD_OUT.BUTTON);
+
+  if (currentFoldOut === menuId) {
+    foldOut.css("visibility", "hidden");
+    sideMenuFoldOutButton.css("left", sideMenu.outerWidth(true) + "px");
+    sideMenuFoldOutButton
+      .find("img")
+      .removeClass("icon-arrow-left")
+      .addClass("icon-arrow-right");
+
+    currentFoldOut = false;
+    return;
+  }
+  updateFoldOutToMenuId(menuId);
+  currentFoldOut = menuId;
+  foldOut.css("visibility", "visible");
+  sideMenuFoldOutButton.css(
+    "left",
+    foldOut.outerWidth(true) + sideMenu.outerWidth(true) + "px"
+  );
+  sideMenuFoldOutButton
+    .find("img")
+    .removeClass("icon-arrow-right")
+    .addClass("icon-arrow-left");
+}
+
+function updateFoldOutToMenuId(menuId) {
+  switch (menuId) {
+    case HTML_IDS.SIDE_MENU.ALL:
+      let allIdeas = Array.from(ideas.values());
+      addIdeasToFoldOut(allIdeas);
+      break;
+    case HTML_IDS.SIDE_MENU.ACTIVE:
+      let activeIdeas = filterIdeas([{ status: IDEA.STATUS.ACTIVE }]);
+      addIdeasToFoldOut(activeIdeas);
+      break;
+    case HTML_IDS.SIDE_MENU.FINISHED:
+      let finishedIdeas = filterIdeas([{ status: IDEA.STATUS.FINISHED }]);
+      addIdeasToFoldOut(finishedIdeas);
+      break;
+    case HTML_IDS.SIDE_MENU.IDEAS:
+      let newIdeas = filterIdeas([{ status: IDEA.STATUS.IDEA }]);
+      addIdeasToFoldOut(newIdeas);
+      break;
+    case HTML_IDS.SIDE_MENU.VIEW:
+      break;
+  }
+}
+
+/**
+ * @param {Object} categorieValuePairs [{categorie: value}]
+ */
+function filterIdeas(categorieValuePairs) {
+  let results = [];
+  ideas.forEach((idea) => {
+    let isPossible = true;
+    categorieValuePairs.forEach((categorieValue) => {
+      let key = Object.keys(categorieValue)[0];
+      if (idea[key] != categorieValue[key]) {
+        isPossible = false;
+      }
+    });
+    if (isPossible) results.push(idea);
+  });
+  return results;
+}
+
+function addIdeasToFoldOut(ideaArray) {
+  let foldOut = $("#" + HTML_IDS.FOLD_OUT.IDEA_CONTAINER);
+  foldOut.empty();
+  for (let i = 0; i < ideaArray.length; i++) {
+    foldOut.append(ideaArray[i].html);
+  }
+}
 
 function addIdea(idea) {
   let newIdea = new Idea();
@@ -44,8 +139,8 @@ function addIdea(idea) {
     newIdea.status,
     newIdea.popUp
   );
-  $("#ideaContainer").append(newIdea.html);
   ideas.set(newIdea.id, newIdea);
+  updateFoldOutToMenuId(currentFoldOut);
 }
 
 socket.on(EVENTS.SERVER.SEND_IDEAS, (ideas) => {

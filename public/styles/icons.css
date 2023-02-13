@@ -16,6 +16,9 @@
 .icon-arrow-right {
   content: url(/images/icons/arrow_right.svg);
 }
+.icon-arrow-left {
+  content: url(/images/icons/arrow_left.svg);
+}
 .icon-burger-diagonal {
   content: url(/images/icons/burger_diagonal.svg);
 }

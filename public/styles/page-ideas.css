@@ -294,6 +294,10 @@
   max-height: 80vh;
 }
 
+#ideaSpace .icon-cross {
+  cursor: pointer;
+}
+
 #ideaSpace h4 {
   font-family: Inter-Semi-Bold;
   font-size: 16;

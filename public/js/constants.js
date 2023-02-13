@@ -18,6 +18,10 @@ const HTML_IDS = {
     IDEA_CONTAINER: "ideaContainer",
     BUTTON: "sideMenuFoldOutButton",
   },
+  IDEA_OPEN: {
+    ID: "ideaOpen",
+    IDEA_SPACE: "ideaSpace",
+  },
 };
 
 const IDEA = {

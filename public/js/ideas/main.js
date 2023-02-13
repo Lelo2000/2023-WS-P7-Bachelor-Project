@@ -5,6 +5,7 @@ import RealWorldMap from "./realWorldMap.js";
 const socket = io();
 
 const proposalMap = new RealWorldMap("map", [49.8727994, 8.6471883]);
+/**@type {Map<Number, Idea} */
 const ideas = new Map();
 let currentFoldOut = false;
 $(document).ready(function () {
@@ -67,13 +68,30 @@ $(document).ready(function () {
   $("#" + HTML_IDS.FOLD_OUT.IDEA_CONTAINER).on("click", ".idea", function (e) {
     const ideaId = $(e.currentTarget).attr("class").split(" ")[1];
     if (!ideaId) return;
-    console.log(ideaId);
+    openIdea(ideaId);
   });
 });
 
 socket.on(EVENTS.SERVER.NEW_IDEA, (idea) => {
   addIdea(idea.data);
 });
+
+function openIdea(ideaId) {
+  let ideaOpen = $("#" + HTML_IDS.IDEA_OPEN.ID);
+  let ideaSpace = $("#" + HTML_IDS.IDEA_OPEN.IDEA_SPACE);
+  ideaSpace.empty();
+  let idea = ideas.get(Number(ideaId));
+  idea.createHtmlOpen();
+  ideaSpace.append(idea.htmlOpen);
+  ideaOpen.css("visibility", "visible");
+}
+
+window.closeIdeaOpen = closeIdeaOpen;
+function closeIdeaOpen() {
+  console.log("CLOSE IDEA OPEN");
+  let ideaOpen = $("#" + HTML_IDS.IDEA_OPEN.ID);
+  ideaOpen.css("visibility", "hidden");
+}
 
 function foldOut(menuId) {
   let foldOut = $("#" + HTML_IDS.FOLD_OUT.ID);

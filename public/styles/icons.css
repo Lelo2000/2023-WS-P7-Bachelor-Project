@@ -19,6 +19,9 @@
 .icon-arrow-left {
   content: url(/images/icons/arrow_left.svg);
 }
+.icon-arrow-down {
+  content: url(/images/icons/arrow_down.svg);
+}
 .icon-burger-diagonal {
   content: url(/images/icons/burger_diagonal.svg);
 }
@@ -31,7 +34,12 @@
 .icon-like {
   content: url(/images/icons/like.svg);
 }
-
 .icon-dislike {
   content: url(/images/icons/dislike.svg);
+}
+.icon-cross {
+  content: url(/images/icons/cross.svg);
+}
+.icon-profile {
+  content: url(/images/icons/profile.svg);
 }

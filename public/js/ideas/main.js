@@ -64,6 +64,11 @@ $(document).ready(function () {
       proposalMap.map.setView(idea.markerPoint, 15, { duration: 2 });
     }
   );
+  $("#" + HTML_IDS.FOLD_OUT.IDEA_CONTAINER).on("click", ".idea", function (e) {
+    const ideaId = $(e.currentTarget).attr("class").split(" ")[1];
+    if (!ideaId) return;
+    console.log(ideaId);
+  });
 });
 
 socket.on(EVENTS.SERVER.NEW_IDEA, (idea) => {
@@ -71,7 +76,6 @@ socket.on(EVENTS.SERVER.NEW_IDEA, (idea) => {
 });
 
 function foldOut(menuId) {
-  console.log(menuId);
   let foldOut = $("#" + HTML_IDS.FOLD_OUT.ID);
   let sideMenu = $("#" + HTML_IDS.SIDE_MENU.ID);
   let sideMenuFoldOutButton = $("#" + HTML_IDS.FOLD_OUT.BUTTON);

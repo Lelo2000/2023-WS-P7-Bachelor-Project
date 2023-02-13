@@ -74,6 +74,7 @@
   flex-direction: column;
   border-left: 1px solid #858585;
   padding: 27px 25px;
+  overflow-y: scroll;
 }
 
 #sideMenuFoldOut h1 {
@@ -242,7 +243,7 @@
   cursor: pointer;
 }
 
-#markerPopUpNewIdea .sendButton {
+.blackButtonStyle {
   background-color: black;
   color: white;
   width: 95px;
@@ -258,4 +259,155 @@
 
 #markerPopUpNewIdea span {
   user-select: none;
+}
+
+#ideaOpen {
+  width: 100vw;
+  height: 100vw;
+  visibility: hidden;
+  overflow-y: scroll;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 1500;
+}
+.grayLayer {
+  background-color: #00000071;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#ideaSpace {
+  background-color: white;
+  border-radius: 10px;
+  width: 900px;
+  padding-top: 28px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 80vh;
+}
+
+#ideaSpace h4 {
+  font-family: Inter-Semi-Bold;
+  font-size: 16;
+  margin: 0px;
+}
+
+#ideaSpace .top {
+  height: 24px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  justify-content: space-between;
+}
+
+#ideaSpace .date {
+  color: #757575;
+  margin: 0px;
+  font-size: 12px;
+}
+
+#ideaSpace .icons-cross {
+  width: 13px;
+  height: 13px;
+}
+
+#ideaSpace .text p {
+  font-size: 16px;
+}
+
+#ideaSpace .bottom {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  gap: 16px;
+  height: 40px;
+}
+
+#ideaSpace .evaluation {
+  width: 50px;
+}
+
+#ideaSpace .shareButton {
+  font-size: 0.75em;
+}
+
+.commentSectionLong {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.writeComment {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.writeComment input {
+  height: 26px;
+  border-width: 0px 0px 1px 0px;
+  width: 75%;
+  padding-left: 6px;
+}
+
+.commentContainer {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  padding-right: 25%;
+}
+
+.comment {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 8px;
+  width: 100%;
+}
+
+.comment .mainPart {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.comment .author {
+  font-family: Inter-Semi-Bold;
+  font-size: 12px;
+  margin: 0px;
+}
+.comment .topPart {
+  display: flex;
+  gap: 8px;
+  justify-content: start;
+  align-items: end;
+}
+.comment .text {
+  font-size: 12px;
+  margin: 0px;
+}
+.comment .evaluationAndAnswer {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.comment .answerButton {
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.comment .answers {
+  font-size: 12px;
+  padding: 12px 0px;
 }

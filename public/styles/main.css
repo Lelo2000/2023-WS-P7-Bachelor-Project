@@ -15,3 +15,9 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
+.fullLine {
+  background-color: black;
+  height: 1px;
+  width: 100%;
+}

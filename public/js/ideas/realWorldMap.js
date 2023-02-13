@@ -4,8 +4,8 @@ import markerSmall from "./markerSmall.js";
 
 export default class RealWorldMap {
   constructor(mapContainerId, startPoint) {
-    this.mapContainerId = "map";
-    this.mapStartPoint = [49.8727994, 8.6471883];
+    this.mapContainerId = mapContainerId;
+    this.mapStartPoint = startPoint;
     this.mapStartZoom = 15;
     this.map = L.map(this.mapContainerId, { zoomControl: false }).setView(
       this.mapStartPoint,
@@ -89,7 +89,7 @@ export default class RealWorldMap {
       <input class="tags" placeholder="Tags"></input>
       <div class="buttonContainer">
       <div class="abortButton ${newMarker._leaflet_id}"> <span>Abbrechen</span> </div>
-      <div class="sendButton ${newMarker._leaflet_id}"> <span>Einreichen</span> </div>
+      <div class="sendButton ${newMarker._leaflet_id} blackButtonStyle"> <span>Einreichen</span> </div>
       <div>
       </div>
       `,

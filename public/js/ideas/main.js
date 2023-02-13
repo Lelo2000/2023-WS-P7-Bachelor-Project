@@ -11,20 +11,38 @@ $(document).ready(function () {
   socket.emit(EVENTS.CLIENT.REQUEST_IDEAS);
 
   $("#map").on("click", ".sendButton", function (e) {
-    const parent = $(e.target).parent();
-    const children = parent.children();
-    const textAreaValue = $(children[0]).val();
-    const classes = $(e.target).attr("class").split(" ");
+    const parent = $(e.currentTarget).parent().parent();
+    const classes = $(e.currentTarget).attr("class").split(" ");
+
+    const titleElement = parent.find(".title");
+    const textAreaElement = parent.find(".text");
+    const tagsElement = parent.find(".tags");
+
+    const titleValue = titleElement.val();
+    const textAreaValue = textAreaElement.val();
+    const tagsValue = tagsElement.val();
+
     const markerId = classes[1];
     const marker = proposalMap.markers.get(Number(markerId));
+
     const newIdea = new Idea();
     newIdea.markerPoint = marker._latlng;
     newIdea.text = textAreaValue;
+    newIdea.title = titleValue;
     newIdea.author = TEMPORARY.AUTHOR.NAME;
     newIdea.status = IDEA.STATUS.IDEA;
+    newIdea.addTags(tagsValue);
     socket.emit(EVENTS.CLIENT.SEND_IDEA, { data: newIdea });
     marker.remove();
   });
+
+  $("#map").on("click", ".abortButton", function (e) {
+    const classes = $(e.currentTarget).attr("class").split(" ");
+    const markerId = classes[1];
+    const marker = proposalMap.markers.get(Number(markerId));
+    marker.remove();
+  });
+
   $("#" + HTML_IDS.SIDE_MENU.ID).on("click", ".sideMenuItem", (e) => {
     let menuItem = e.currentTarget;
     foldOut(menuItem.id);

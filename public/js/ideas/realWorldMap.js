@@ -7,7 +7,7 @@ export default class RealWorldMap {
     this.mapContainerId = "map";
     this.mapStartPoint = [49.8727994, 8.6471883];
     this.mapStartZoom = 15;
-    this.map = L.map(this.mapContainerId).setView(
+    this.map = L.map(this.mapContainerId, { zoomControl: false }).setView(
       this.mapStartPoint,
       this.mapStartZoom
     );
@@ -15,6 +15,8 @@ export default class RealWorldMap {
     this.initMarker();
     this.bindEvents();
     this.markers = new Map();
+    let zoom = L.control.zoom({ position: "bottomright" });
+    zoom.addTo(this.map);
   }
 
   initMap() {
@@ -61,7 +63,7 @@ export default class RealWorldMap {
 
   setPopUp(marker, popUp, destroyIfClosed = false) {
     if (popUp) {
-      marker.bindPopup(popUp);
+      marker.bindPopup(popUp, { maxWidth: 500, closeButton: false });
       marker.on("popupclose", () => {
         if (destroyIfClosed) marker.remove();
       });
@@ -80,8 +82,17 @@ export default class RealWorldMap {
     let newMarker = this.createMarker(e.latlng, IDEA.STATUS.IDEA);
     this.setPopUp(
       newMarker,
-      `<textarea name="text" cols="35" rows="4"></textarea> 	
-    <button class="sendButton ${newMarker._leaflet_id}"> Senden </button>`,
+      `<div id="markerPopUpNewIdea">
+      <h3>Idee Einreichen</h3>
+      <input class="title" placeholder="Titel der Idee"></input>
+      <textarea class="text" name="text" cols="35" rows="4" placeholder="Beschreibung der Idee"></textarea>
+      <input class="tags" placeholder="Tags"></input>
+      <div class="buttonContainer">
+      <div class="abortButton ${newMarker._leaflet_id}"> <span>Abbrechen</span> </div>
+      <div class="sendButton ${newMarker._leaflet_id}"> <span>Einreichen</span> </div>
+      <div>
+      </div>
+      `,
       true
     );
     newMarker.openPopup();

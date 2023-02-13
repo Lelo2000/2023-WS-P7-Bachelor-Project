@@ -123,7 +123,7 @@
   transition: transform 0.2s ease-in-out;
 }
 
-.idea:hover {
+#ideaContainer .idea:hover {
   transform: translateX(10px);
 }
 
@@ -176,4 +176,86 @@
 }
 .idea .evaluation {
   width: 56px;
+}
+
+.ideaPopUp {
+  width: 250px;
+  border-radius: 5px;
+}
+
+#markerPopUpNewIdea {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 24px;
+  gap: 16px;
+  min-width: 300px;
+}
+
+#markerPopUpNewIdea h3 {
+  font-family: Inter-Regular;
+  font-size: 16px;
+  margin: 0px;
+}
+
+#markerPopUpNewIdea input {
+  width: calc(100% - 2px);
+  border-radius: 5px;
+  border: 1px solid #858585;
+  height: 34px;
+  padding-left: 8px;
+}
+
+#markerPopUpNewIdea textarea {
+  width: calc(100% - 2px);
+  border-radius: 5px;
+  border: 1px solid #858585;
+  padding-left: 8px;
+  padding-top: 9px;
+}
+
+.leaflet-popup-content {
+  margin: 0px;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 5px;
+}
+
+#markerPopUpNewIdea .buttonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  gap: 10px;
+}
+
+#markerPopUpNewIdea .abortButton {
+  width: 95px;
+  height: 40px;
+  font-size: 12;
+  border-radius: 9999999999px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+#markerPopUpNewIdea .sendButton {
+  background-color: black;
+  color: white;
+  width: 95px;
+  height: 40px;
+  font-size: 12;
+  border-radius: 9999999999px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+#markerPopUpNewIdea span {
+  user-select: none;
 }

@@ -1,6 +1,7 @@
 export default class MessageBaseObject {
   constructor() {
     this.text = "";
+    this.title = "";
     this.author = "";
     this.time = 0;
     this.votes = { likes: 0, dislikes: 0 };
@@ -37,5 +38,12 @@ export default class MessageBaseObject {
 
   addDislike() {
     this.votes.dislikes += 1;
+  }
+
+  /**@param {String} string */
+  addTags(string) {
+    if (!string) return;
+    let tagsFromString = string.split(" ");
+    this.tags = this.tags.concat(tagsFromString);
   }
 }

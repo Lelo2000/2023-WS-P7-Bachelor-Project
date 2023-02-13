@@ -33,7 +33,7 @@ export default class Idea extends MessageBaseObject {
     <div class="idea ${this.id} ${stroke}">
     <div class="top"><p class="date">${this.getDate()}</p></div>
     <div class="text">
-      <h2>Umgestaltung des Mathildenplatzes</h2>
+      <h2>${this.title}</h2>
       <p>
         ${this.text}
       </p>
@@ -52,6 +52,21 @@ export default class Idea extends MessageBaseObject {
     });
   }
   createPopUp() {
-    this.popUp = `<b>Autor: ${this.author}</b> <br><br> ${this.text} `;
+    this.popUp = ` <div class="idea ${this.id} ideaPopUp">
+    <div class="top"><p class="date">${this.getDate()}</p></div>
+    <div class="text">
+      <h2>${this.title}</h2>
+      <p>
+        ${this.text}
+      </p>
+    </div>
+    <div class="bottom flex-spacebetween">
+      <p class="comments">${this.getCommentCount()} Kommentare</p>
+      <div class="evaluation">
+        <img class="icon-like" />
+        <img class="icon-dislike" />
+      </div>
+    </div>
+  </div> `;
   }
 }

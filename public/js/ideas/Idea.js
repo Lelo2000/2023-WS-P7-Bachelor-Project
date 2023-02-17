@@ -1,5 +1,5 @@
 import MessageBaseObject from "../baseClasses/messageBaseObject.js";
-import { IDEA } from "../constants.js";
+import { EVENTS, IDEA } from "../constants.js";
 
 export default class Idea extends MessageBaseObject {
   constructor(map) {
@@ -8,6 +8,7 @@ export default class Idea extends MessageBaseObject {
     this.markerObject;
     this.map = map;
     this.status;
+    this.projectId;
     this.html;
     this.popUp;
     this.htmlOpen;
@@ -165,6 +166,7 @@ export default class Idea extends MessageBaseObject {
         stroke = "idea-invisibleStroke";
         break;
     }
+
     this.html = $(`
     <div class="idea ${this.id} ${stroke}">
     <div class="top"><p class="date">${this.getDate()}</p></div>
@@ -174,19 +176,37 @@ export default class Idea extends MessageBaseObject {
         ${this.getTextPreview(10)}
       </p>
     </div>
-    <div class="bottom flex-spacebetween">
-      <p class="comments">${this.getCommentCount()} Kommentare</p>
-      <div class="evaluation">
-        <img class="icon-like" />
-        <img class="icon-dislike" />
-      </div>
-    </div>
+    ${this.getBottomBar()}
   </div>
     `);
     $(".icon-like", this.html).on("click", () => {
       this.addLike();
     });
   }
+
+  getBottomBar() {
+    let bottomSpaceAfterComments = "";
+    if (this.status === IDEA.STATUS.IDEA) {
+      bottomSpaceAfterComments = `<div class="evaluation">
+    <img class="icon-like" />
+    <img class="icon-dislike" />
+  </div>`;
+    } else {
+      console.log(this.projectId);
+      if (!this.projectId) {
+        return;
+      }
+      bottomSpaceAfterComments = `<a href="/proposal?proposalId=${this.projectId}"><div class="blackButtonStyle">Zur Simulation</div></a>`;
+    }
+
+    return `
+    <div class="bottom flex-spacebetween">
+    <p class="comments">${this.getCommentCount()} Kommentare</p>
+    ${bottomSpaceAfterComments}
+  </div>
+    `;
+  }
+
   createPopUp() {
     this.popUp = ` <div class="idea ${this.id} ideaPopUp">
     <div class="top"><p class="date">${this.getDate()}</p></div>
@@ -196,13 +216,7 @@ export default class Idea extends MessageBaseObject {
         ${this.text}
       </p>
     </div>
-    <div class="bottom flex-spacebetween">
-      <p class="comments">${this.getCommentCount()} Kommentare</p>
-      <div class="evaluation">
-        <img class="icon-like" />
-        <img class="icon-dislike" />
-      </div>
-    </div>
+    ${this.getBottomBar()}
   </div> `;
   }
 }

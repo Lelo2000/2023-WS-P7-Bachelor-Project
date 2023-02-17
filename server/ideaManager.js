@@ -16,6 +16,7 @@ export default class IdeaManager {
       comments: [],
       markerPoint: { lat: 49.8759698310847, lng: 8.649415969848635 },
       status: "active",
+      projectId: 1,
     });
     this.ideas.set(0.283775612578277, {
       title: "Luisenplatz",
@@ -28,6 +29,7 @@ export default class IdeaManager {
       comments: [],
       markerPoint: { lat: 49.8769798310847, lng: 8.659515969848635 },
       status: "finished",
+      projectId: 3,
     });
   }
 

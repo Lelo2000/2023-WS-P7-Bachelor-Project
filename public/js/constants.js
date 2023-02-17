@@ -24,6 +24,13 @@ const HTML_IDS = {
   },
 };
 
+const PROJECT = {
+  PHASE: {
+    COLLECT_ATTRIBUTES: "collectAttributes",
+    CO_CREATION: "coCreation",
+  },
+};
+
 const IDEA = {
   STATUS: {
     FINISHED: "finished",
@@ -74,4 +81,13 @@ const MESSSAGES = {
   },
 };
 
-export { TRAFFIC_SIM, EVENTS, CHANGES, MESSSAGES, TEMPORARY, IDEA, HTML_IDS };
+export {
+  TRAFFIC_SIM,
+  EVENTS,
+  CHANGES,
+  MESSSAGES,
+  TEMPORARY,
+  IDEA,
+  HTML_IDS,
+  PROJECT,
+};

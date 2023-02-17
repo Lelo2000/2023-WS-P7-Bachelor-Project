@@ -21,3 +21,26 @@ body {
   height: 1px;
   width: 100%;
 }
+
+.blackButtonStyle {
+  background-color: black;
+  color: white;
+  width: 95px;
+  height: 40px;
+  font-size: 12px;
+  border-radius: 9999999999px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.blackButtonStyle :link {
+  text-decoration: none;
+}
+a:link,
+a:visited {
+  text-decoration: none;
+}

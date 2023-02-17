@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="/js/src/fabric.min.js" type="application/javascript"></script>
+    <script
+      src="/js/src/jquery-3.6.3.min.js"
+      type="application/javascript"
+    ></script>
+    <link href="/styles/main.css" rel="stylesheet" />
+    <link href="/styles/fonts.css" rel="stylesheet" />
+    <link href="/styles/icons.css" rel="stylesheet" />
+    <link href="/styles/buttons.css" rel="stylesheet" />
+    <link href="/styles/areas.css" rel="stylesheet" />
+    <link href="/styles/messages.css" rel="stylesheet" />
+    <link href="/styles/sideMenu.css" rel="stylesheet" />
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <div id="sideMenu" class="shadow">
+      <div class="sideMenuItem" id="all">
+        <img class="icon-burger" />
+        <p>Wiederherstellen</p>
+      </div>
+      <div class="sideMenuItem" id="ideas">
+        <img class="icon-lightbulb" />
+        <p>Rückgängig</p>
+      </div>
+      <div class="sideMenuItem" id="finished">
+        <img class="icon-arrow_circle_checked" />
+        <p>Fertig</p>
+      </div>
+      <div class="sideMenuItem" id="active">
+        <img class="icon-arrow_circle" />
+        <p>Laufend</p>
+      </div>
+      <div class="sideMenuLine"></div>
+      <div class="sideMenuItem" id="view">
+        <img class="icon-map-gear" />
+        <p>Ansicht</p>
+      </div>
+    </div>
+    <!-- <canvas id="simulationCanvas"></canvas>
+    <div class="button-container">
+      <img class="create-button" id="button-blue" src="/images/blue.png"></img>
+      <img class="create-button" id="button-red" src="/images/red.png"></img>
+      <img class="create-button" id="button-green" src="/images/green.png"></img>
+      <img class="create-button" id="button-yellow" src="/images/yellow.png"></img>
+    </div>
+    <div class="area" id="message-container">
+      <div id="messages-area">
+      </div>
+      <div class="message-actions">
+        <input type="text" id="message-input">
+        <button class="ui-button" id="message-send">Senden</button>
+      </div>
+    </div>
+    <img class="ui-button" id="toggleHeatmap" src="/images/yellow.png"></img> -->
+    <script type="module" src="/js/simulation/main.js"></script>
+  </body>
+</html>

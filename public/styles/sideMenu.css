@@ -1,0 +1,42 @@
+#sideMenu {
+  font-family: Inter-Regular;
+  width: 80px;
+  height: 100vh;
+  background-color: white;
+  display: flex;
+  float: left;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 17px;
+  z-index: 999;
+  position: relative;
+  gap: 12px;
+}
+
+.sideMenuItem {
+  font-size: 12px;
+  width: 80px;
+  height: 56px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+}
+.sideMenuItem:hover {
+  background-color: #d9d9d9;
+}
+.sideMenuItem p {
+  margin: 0px;
+}
+
+.sideMenuLine {
+  width: 80%;
+  height: 1px;
+  background-color: black;
+}
+
+#sideMenu img {
+  width: 24px;
+  height: 24px;
+}

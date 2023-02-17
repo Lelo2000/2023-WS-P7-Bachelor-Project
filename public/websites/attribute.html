@@ -16,29 +16,50 @@
   <body>
     <div id="sideMenu" class="shadow">
       <div class="sideMenuItem" id="all">
-        <img class="icon-burger" />
-        <p>Übersicht</p>
+        <img class="icon-house" />
+        <p>Home</p>
       </div>
+      <div class="sideMenuLine"></div>
       <div class="sideMenuItem" id="ideas">
-        <img class="icon-lightbulb" />
-        <p>Ideen</p>
+        <img class="icon-arrow-curved-right" />
+        <p>Wieder-<br />herstellen</p>
       </div>
       <div class="sideMenuItem" id="finished">
-        <img class="icon-arrow_circle_checked" />
-        <p>Fertig</p>
+        <img class="icon-arrow-curved-left" />
+        <p>Rückgängig</p>
       </div>
+      <div class="sideMenuLine"></div>
       <div class="sideMenuItem" id="active">
-        <img class="icon-arrow_circle" />
-        <p>Laufend</p>
+        <img class="icon-price-tag" />
+        <p>Attribute</p>
       </div>
       <div class="sideMenuLine"></div>
       <div class="sideMenuItem" id="view">
-        <img class="icon-map-gear" />
-        <p>Ansicht</p>
+        <img class="icon-speechbubble" />
+        <p>Kommentar</p>
+      </div>
+      <div class="sideMenuLine"></div>
+      <div class="sideMenuItem" id="view">
+        <img class="icon-box-questionmark" />
+        <p>FAQ</p>
       </div>
     </div>
     <div id="simulationBox" class="shadow">
-      <div id="attributeSpecificBox"></div>
+      <div id="attributeSpecificBox">
+        <div class="flex-spacebetween">
+          <div class="inputAttributeSpace">
+            <input
+              class="inputAttribute"
+              type="text"
+              placeholder="Nachricht verfassen"
+            />
+            <img class="icon-paper-plane" />
+          </div>
+          <div class="blackButtonStyle">
+            <img class="icon-envelope" />Einreichen
+          </div>
+        </div>
+      </div>
       <div class="fullLine"></div>
       <div id="simulationOptions">
         <div id="optionObjects" class="simulationOption">
@@ -205,10 +226,40 @@
           <div class="lineVertical"></div>
           <div id="optionWeather" class="simulationParameter">
             <h1>Wetter</h1>
+            <div class="radioButtonList">
+              <div>
+                <input type="radio" name="weather" /><label>Durchschnitt</label>
+              </div>
+              <div>
+                <input type="radio" name="weather" /><label>Sturm</label>
+              </div>
+              <div>
+                <input type="radio" name="weather" /><label>Hitzewelle</label>
+              </div>
+              <div>
+                <input type="radio" name="weather" /><label>Regen</label>
+              </div>
+            </div>
           </div>
           <div class="lineVertical"></div>
           <div id="optionDisplay" class="simulationParameter">
             <h1>Anzeige</h1>
+            <div class="radioButtonList">
+              <div>
+                <input type="radio" name="weather" /><label>Lärm</label>
+              </div>
+              <div>
+                <input type="radio" name="weather" /><label>Feinstaub</label>
+              </div>
+              <div>
+                <input type="radio" name="weather" /><label>Brandgefahr</label>
+              </div>
+              <div>
+                <input type="radio" name="weather" /><label
+                  >Barrierefreiheit</label
+                >
+              </div>
+            </div>
           </div>
         </div>
         <div class="spacer"></div>

@@ -64,3 +64,27 @@
 .icon-play-forward {
   content: url(/images/icons/play_forward.svg);
 }
+.icon-paper-plane {
+  content: url(/images/icons/paper_plane.svg);
+}
+.icon-envelope {
+  content: url(/images/icons/envelope.svg);
+}
+.icon-house {
+  content: url(/images/icons/house.svg);
+}
+.icon-arrow-curved-left {
+  content: url(/images/icons/arrow_curved_left.svg);
+}
+.icon-arrow-curved-right {
+  content: url(/images/icons/arrow_curved_right.svg);
+}
+.icon-price-tag {
+  content: url(/images/icons/price_tag.svg);
+}
+.icon-speechbubble {
+  content: url(/images/icons/speechbubble.svg);
+}
+.icon-box-questionmark {
+  content: url(/images/icons/box_questionmark.svg);
+}

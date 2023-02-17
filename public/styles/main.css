@@ -22,6 +22,12 @@ body {
   width: 100%;
 }
 
+.lineVertical {
+  width: 1px;
+  height: 100%;
+  background-color: black;
+}
+
 .blackButtonStyle {
   background-color: black;
   color: white;

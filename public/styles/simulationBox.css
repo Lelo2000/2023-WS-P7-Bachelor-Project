@@ -1,0 +1,356 @@
+#simulationBox {
+  position: absolute;
+  bottom: 25px;
+  left: calc(100vw / 2 - 95vw / 2 + 80px);
+  width: calc(95vw - 80px);
+  height: calc(300px);
+  background-color: #d2d2d2;
+  border-radius: 10px;
+  z-index: 100;
+  padding: 14px 24px 9px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+#attributeSpecificBox {
+  height: 30px;
+}
+
+#simulationOptions {
+  height: 205px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+#simulationOptions .spacer {
+  width: 16px;
+  height: 100%;
+}
+
+#simulationOptions .grabLine {
+  width: 16px;
+  height: 100%;
+  cursor: col-resize;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.simulationOption {
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid #000000;
+  position: relative;
+  padding: 16px;
+  padding-bottom: 0px;
+  box-sizing: border-box;
+}
+
+.simulationOption .optionName {
+  background-color: white;
+  position: absolute;
+  left: 16px;
+  top: -8px;
+  font-size: 12px;
+}
+
+#optionObjects {
+  width: calc(20%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#optionObjects .searchElements {
+  height: 34px;
+  width: 100%;
+}
+
+#optionObjects .objectsContainer {
+  height: calc(100% - 34px - 16px);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  gap: 16px;
+}
+
+#optionObjects .objectsContainer .object {
+  width: 80px;
+  height: 100px;
+  font-size: 12px;
+}
+
+#optionObjects .objectsContainer span {
+  float: left;
+}
+
+.objectImage {
+  width: 80px;
+  height: 80px;
+  background-color: gray;
+  border-radius: 10px;
+}
+
+#optionSimulation {
+  width: 65%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#optionSimulation .simulationParameter {
+  width: 50px;
+}
+
+#optionSimulation .simulationParameter h1 {
+  margin: 0px;
+  font-size: 16px;
+  font-family: Inter-Semi-Bold;
+}
+
+#optionSimulation select {
+  height: 35px;
+  border-radius: 5px;
+  font-size: 12px;
+  color: #000000;
+  border: 1px solid #858585;
+  box-sizing: border-box;
+  padding-left: 8px;
+}
+
+#optionSimulation input[type="time"] {
+  height: 35px;
+  border-radius: 5px;
+  font-size: 12px;
+  color: #000000;
+  border: 1px solid #858585;
+  box-sizing: border-box;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+#optionSimulation #optionGeneral {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#optionGeneral .simulationPreset {
+  width: 100%;
+}
+
+#optionGeneral .simulationDay {
+  box-sizing: border-box;
+  width: 48%;
+}
+
+#optionGeneral .simulationTime {
+  box-sizing: border-box;
+  width: 48%;
+}
+
+#optionGeneral .simulationControlls {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#optionGeneral img {
+  cursor: pointer;
+  user-select: none;
+}
+
+#optionGeneral .icon-play-backward {
+  padding-right: 6px;
+}
+
+#optionSimulation #optionTraffic {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+#optionSimulation .trafficParameterOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#optionTraffic .param {
+  min-height: 68px;
+}
+
+#optionTraffic h2 {
+  font-size: 16px;
+  font-family: Inter-Regular;
+  font-weight: normal;
+  margin: 0px;
+}
+
+#optionTraffic .displayValue {
+  color: #777777;
+  font-size: 12px;
+}
+
+#optionTraffic .inputRange {
+  width: 100%;
+  height: 20px;
+  position: relative;
+}
+
+#optionTraffic .track {
+  position: absolute;
+  top: 53%;
+  left: 9px;
+  width: calc(100% - 16px);
+  height: 5px;
+  cursor: pointer;
+  background-color: #d2d2d2;
+}
+
+#optionTraffic input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  position: absolute;
+  top: 9px;
+  left: 0px;
+  z-index: 3;
+}
+
+#optionTraffic input[type="range"] :focus {
+  outline: none;
+}
+
+#optionTraffic input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 0px;
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 5px;
+}
+
+#optionTraffic input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 0px;
+  cursor: pointer;
+  background-color: #d9d9d900;
+  border-radius: 5px;
+}
+
+#optionTraffic input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 8px solid #d9d9d9;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  margin-top: -5px;
+  cursor: pointer;
+}
+
+#optionTraffic input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none;
+  border: 8px solid #d9d9d9;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  margin-top: -5px;
+  cursor: pointer;
+}
+
+#optionTraffic .rangeMarker {
+  position: absolute;
+  top: 6.5px;
+  width: 2px;
+  height: 14px;
+  background-color: #9c9c9c;
+  font-size: 12px;
+  z-index: 2;
+}
+#optionTraffic .rangeMarker div {
+  height: 26px;
+}
+
+#optionTraffic .rangeMarker.zero {
+  left: 9px;
+  z-index: 2;
+}
+#optionTraffic .rangeMarker.low span {
+  margin-left: -18px;
+}
+
+#optionTraffic .rangeMarker.low {
+  left: 20%;
+}
+#optionTraffic .rangeMarker.low span {
+  margin-left: -18px;
+}
+
+#optionTraffic .rangeMarker.medium {
+  left: 50%;
+}
+#optionTraffic .rangeMarker.medium span {
+  margin-left: -16px;
+}
+
+#optionTraffic .rangeMarker.rushHour {
+  right: 7px;
+}
+#optionTraffic .rangeMarker.rushHour span {
+  margin-left: -76px;
+}
+
+#optionSimulation #optionWeather {
+  width: 12.5%;
+}
+
+#optionSimulation #optionDisplay {
+  width: 12.5%;
+}
+
+#optionViews {
+  width: calc(150px - 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#optionViews .viewOption {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  font-size: 16px;
+  gap: 7px;
+}
+
+#optionObjectSearch {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #858585;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding-left: 9px;
+}
+.searchElements .searchSpace {
+  width: 80%;
+  height: 100%;
+  position: relative;
+}
+.searchElements .searchSpace img {
+  position: absolute;
+  right: 8px;
+  top: 4px;
+}

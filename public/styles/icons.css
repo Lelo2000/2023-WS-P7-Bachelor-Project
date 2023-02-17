@@ -43,3 +43,24 @@
 .icon-profile {
   content: url(/images/icons/profile.svg);
 }
+.icon-vertical-lines {
+  content: url(/images/icons/vertical_lines.svg);
+}
+.icon-information {
+  content: url(/images/icons/information.svg);
+}
+.icon-arrow-circle-3d {
+  content: url(/images/icons/arrow_circle_3d.svg);
+}
+.icon-box-in-box {
+  content: url(/images/icons/box_in_box.svg);
+}
+.icon-play {
+  content: url(/images/icons/play.svg);
+}
+.icon-play-backward {
+  content: url(/images/icons/play_backward.svg);
+}
+.icon-play-forward {
+  content: url(/images/icons/play_forward.svg);
+}

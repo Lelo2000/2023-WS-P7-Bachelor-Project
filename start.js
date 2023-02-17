@@ -47,13 +47,17 @@ app.get("/ideas", (req, res) => {
   res.sendFile(__dirname + "/public/websites/ideas.html");
 });
 
+app.get("/attribute", (req, res) => {
+  res.sendFile(__dirname + "/public/websites/attribute.html");
+});
+
 app.get("/proposal/", async (req, res) => {
   let proposalId = req.query.proposalId;
   let project = getProjectWithId(proposalId);
   console.log(project.phase);
   switch (project.phase) {
     case PROJECT.PHASE.COLLECT_ATTRIBUTES:
-      res.sendFile(__dirname + "/public/websites/attribute.html");
+      res.redirect("/attribute");
       break;
   }
   console.log(

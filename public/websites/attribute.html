@@ -12,37 +12,42 @@
     <link href="/styles/icons.css" rel="stylesheet" />
     <link href="/styles/sideMenu.css" rel="stylesheet" />
     <link href="/styles/simulationBox.css" rel="stylesheet" />
+    <link href="/styles/page-attribute.css" rel="stylesheet" />
   </head>
   <body>
     <div id="sideMenu" class="shadow">
-      <div class="sideMenuItem" id="all">
+      <div class="sideMenuItem" id="home">
         <img class="icon-house" />
         <p>Home</p>
       </div>
       <div class="sideMenuLine"></div>
-      <div class="sideMenuItem" id="ideas">
+      <div class="sideMenuItem" id="redo">
         <img class="icon-arrow-curved-right" />
         <p>Wieder-<br />herstellen</p>
       </div>
-      <div class="sideMenuItem" id="finished">
+      <div class="sideMenuItem" id="undo">
         <img class="icon-arrow-curved-left" />
         <p>Rückgängig</p>
       </div>
       <div class="sideMenuLine"></div>
-      <div class="sideMenuItem" id="active">
+      <div class="sideMenuItem" id="attributes">
         <img class="icon-price-tag" />
         <p>Attribute</p>
       </div>
       <div class="sideMenuLine"></div>
-      <div class="sideMenuItem" id="view">
+      <div class="sideMenuItem" id="comments">
         <img class="icon-speechbubble" />
         <p>Kommentar</p>
       </div>
       <div class="sideMenuLine"></div>
-      <div class="sideMenuItem" id="view">
+      <div class="sideMenuItem" id="faq">
         <img class="icon-box-questionmark" />
         <p>FAQ</p>
       </div>
+    </div>
+    <div id="sideMenuFoldOut"></div>
+    <div id="sideMenuFoldOutButton" class="shadow">
+      <img class="icon-arrow-right" />
     </div>
     <div id="simulationBox" class="shadow">
       <div id="attributeSpecificBox">
@@ -53,7 +58,7 @@
               type="text"
               placeholder="Nachricht verfassen"
             />
-            <img class="icon-paper-plane" />
+            <img class="icon-paper-plane addAttribute" />
           </div>
           <div class="blackButtonStyle">
             <img class="icon-envelope" />Einreichen
@@ -245,17 +250,15 @@
           <div id="optionDisplay" class="simulationParameter">
             <h1>Anzeige</h1>
             <div class="radioButtonList">
+              <div><input type="radio" name="view" /><label>Lärm</label></div>
               <div>
-                <input type="radio" name="weather" /><label>Lärm</label>
+                <input type="radio" name="view" /><label>Feinstaub</label>
               </div>
               <div>
-                <input type="radio" name="weather" /><label>Feinstaub</label>
+                <input type="radio" name="view" /><label>Brandgefahr</label>
               </div>
               <div>
-                <input type="radio" name="weather" /><label>Brandgefahr</label>
-              </div>
-              <div>
-                <input type="radio" name="weather" /><label
+                <input type="radio" name="view" /><label
                   >Barrierefreiheit</label
                 >
               </div>
@@ -275,6 +278,7 @@
       </div>
     </div>
     <canvas id="simulationCanvas"></canvas>
+    <script type="module" src="/js/attribute/main.js"></script>
     <script type="module" src="/js/simulation/main.js"></script>
   </body>
 </html>

@@ -88,3 +88,9 @@
 .icon-box-questionmark {
   content: url(/images/icons/box_questionmark.svg);
 }
+.icon-star-outline {
+  content: url(/images/icons/star_outline.svg);
+}
+.icon-star-filled {
+  content: url(/images/icons/star_filled.svg);
+}

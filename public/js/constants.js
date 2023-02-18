@@ -12,6 +12,12 @@ const HTML_IDS = {
     FINISHED: "finished",
     IDEAS: "ideas",
     VIEW: "view",
+    HOME: "home",
+    REDO: "redo",
+    UNDO: "undo",
+    ATTRIBUTES: "attributes",
+    COMMENTS: "comments",
+    FAQ: "faq",
   },
   FOLD_OUT: {
     ID: "sideMenuFoldOut",
@@ -57,12 +63,14 @@ const EVENTS = {
     SEND_IDEAS: "send ideas",
     NEW_MESSAGE: "newMessage",
     NEW_IDEA: "newidea",
+    NEW_ATTRIBUTE: "newAttribute",
   },
   CLIENT: {
     REQUEST_PROPOSAL_OBJECTS: "getProposalObjects",
     REQUEST_IDEAS: "reqeust Ideas",
     SEND_MESSAGE: "sendMessage",
     SEND_IDEA: "sendIdea",
+    SEND_ATTRIBUTE: "sendAttribute",
   },
 };
 

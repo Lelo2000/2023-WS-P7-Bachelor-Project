@@ -1,0 +1,22 @@
+.attributeList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 18px;
+}
+.attribute {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.attribute .starRow {
+  display: flex;
+  flex-direction: row;
+  width: 130px;
+  justify-content: space-between;
+}
+.attribute .starRow img {
+  cursor: pointer;
+}

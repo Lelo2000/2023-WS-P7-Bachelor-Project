@@ -2,8 +2,8 @@ import { EVENTS } from "../constants.js";
 import MessageManager from "./messageManager.js";
 import World from "./world.js";
 
-const socket = io();
-console.log(socket);
+const socket = window.socket;
+
 const world = new World("simulationCanvas", socket);
 const messageManager = new MessageManager(
   socket,

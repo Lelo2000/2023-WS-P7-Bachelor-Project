@@ -81,6 +81,7 @@
   padding: 16px;
   padding-bottom: 0px;
   box-sizing: border-box;
+  /* transition: width 0.2s ease-in-out; */
 }
 
 .simulationOption .optionName {
@@ -92,7 +93,7 @@
 }
 
 #optionObjects {
-  width: calc(20%);
+  width: 20%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -396,6 +397,8 @@
 .searchElements .searchSpace {
   width: 80%;
   height: 100%;
+  max-width: 250px;
+
   position: relative;
 }
 .searchElements .searchSpace img {

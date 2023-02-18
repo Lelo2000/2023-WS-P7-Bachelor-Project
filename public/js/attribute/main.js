@@ -1,3 +1,4 @@
+import BottomMenuController from "../baseClasses/bottomMenuController.js";
 import FoldOutController from "../baseClasses/FoldOutController.js";
 import InformationBubble from "../baseClasses/informationBubble.js";
 import { HTML_IDS } from "../constants.js";
@@ -21,6 +22,9 @@ const informationBubble = new InformationBubble(
   informationBubbleContainer,
   informationBubbleContent
 );
+const bottomMenu = $("#" + HTML_IDS.BOTTOM_MENU.ID);
+const bottomMenuController = new BottomMenuController(bottomMenu);
+
 let currentFoldOut = false;
 let attributeList = [];
 
@@ -43,6 +47,7 @@ $(document).ready(function () {
     }
     onSideMenuClick(currentFoldOut);
   });
+  bottomMenuController.init();
 });
 
 function onSideMenuClick(menuItemId) {

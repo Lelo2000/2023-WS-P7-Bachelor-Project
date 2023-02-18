@@ -32,6 +32,14 @@ const HTML_IDS = {
     ID: "informtaionBubble",
     CONTENT: "informationBubbleContent",
   },
+  BOTTOM_MENU: {
+    ID: "simulationBox",
+    OPTIONS: {
+      OBJECTS: "optionObjects",
+      SIMULATION: "optionSimulation",
+      VIEWS: "optionViews",
+    },
+  },
 };
 
 const PROJECT = {

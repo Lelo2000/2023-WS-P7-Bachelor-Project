@@ -1,4 +1,5 @@
 import FoldOutController from "../baseClasses/FoldOutController.js";
+import InformationBubble from "../baseClasses/informationBubble.js";
 import { HTML_IDS } from "../constants.js";
 import Attribute from "./attribute.js";
 
@@ -14,7 +15,12 @@ const sideMenuFoldOutController = new FoldOutController(
   sideMenu,
   sideMenuFoldOutButton
 );
-
+const informationBubbleContainer = $("#" + HTML_IDS.INFORMATION_BUBBLE.ID);
+const informationBubbleContent = $("#" + HTML_IDS.INFORMATION_BUBBLE.CONTENT);
+const informationBubble = new InformationBubble(
+  informationBubbleContainer,
+  informationBubbleContent
+);
 let currentFoldOut = false;
 let attributeList = [];
 
@@ -24,6 +30,7 @@ $(document).ready(function () {
     let attribute = new Attribute(valueFromInput);
     attributeInput[0].value = "";
     attributeList.push(attribute);
+    informationBubble.show(1000, `"${attribute.name}" wurde hinzugefügt`);
   });
   $("#" + HTML_IDS.SIDE_MENU.ID).on("click", ".sideMenuItem", (e) => {
     let menuItem = e.currentTarget;

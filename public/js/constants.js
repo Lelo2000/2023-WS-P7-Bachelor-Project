@@ -28,6 +28,10 @@ const HTML_IDS = {
     ID: "ideaOpen",
     IDEA_SPACE: "ideaSpace",
   },
+  INFORMATION_BUBBLE: {
+    ID: "informtaionBubble",
+    CONTENT: "informationBubbleContent",
+  },
 };
 
 const PROJECT = {

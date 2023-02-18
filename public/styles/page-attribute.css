@@ -16,7 +16,28 @@
   flex-direction: row;
   width: 130px;
   justify-content: space-between;
+  user-select: none;
 }
 .attribute .starRow img {
   cursor: pointer;
+}
+#informtaionBubble {
+  width: 100vw;
+  height: 30px;
+  position: absolute;
+  left: 0px;
+  bottom: 335px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+#informationBubbleContent {
+  padding: 8px;
+  border-radius: 10px;
+  background-color: #efefef;
+  font-size: 12px;
 }

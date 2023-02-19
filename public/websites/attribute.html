@@ -13,6 +13,7 @@
     <link href="/styles/sideMenu.css" rel="stylesheet" />
     <link href="/styles/simulationBox.css" rel="stylesheet" />
     <link href="/styles/page-attribute.css" rel="stylesheet" />
+    <link href="/styles/openInformation.css" rel="stylesheet" />
   </head>
   <body>
     <div id="sideMenu" class="shadow">
@@ -60,7 +61,10 @@
             />
             <img class="icon-paper-plane addAttribute" />
           </div>
-          <div class="blackButtonStyle">
+          <div
+            class="blackButtonStyle submitAttributesButton"
+            id="openSubmitAttribute"
+          >
             <img class="icon-envelope" />Einreichen
           </div>
         </div>
@@ -70,15 +74,13 @@
         <div id="optionObjects" class="simulationOption">
           <span class="optionName">Objekte</span>
           <div class="searchElements flex-spacebetween">
-            <div class="searchSpace">
-              <!-- <input list="ice-cream-flavors" id="ice-cream-choice" />
-              <datalist id="ice-cream-flavors">
-                <option value="Chocolate"></option>
-                <option value="Coconut"></option>
-                <option value="Mint"></option>
-                <option value="Strawberry"></option>
-                <option value="Vanilla"></option>
-              </datalist> -->
+            <div class="searchSpace" id="objectSearchSpace">
+              <input
+                list="tags"
+                class="tag-filter"
+                id="filterObjectTags"
+                placeholder="Tags auswählen"
+              />
               <input
                 type="text"
                 id="optionObjectSearch"
@@ -288,7 +290,29 @@
     <div id="informtaionBubble">
       <div id="informationBubbleContent"></div>
     </div>
+    <div id="openInformation">
+      <div class="grayLayer">
+        <div id="openInformationBox">
+          <div class="top">
+            <img id="closeOpenInformation" class="icon-cross" />
+          </div>
+          <div id="openInformationContent"></div>
+          <div class="fullLine"></div>
+          <div class="commentSectionLong">
+            <div class="writeComment">
+              <img class="icon-profile" />
+              <input placeholder="Füge einen Kommentar hinzu" />
+            </div>
+          </div>
+          <div class="bottom"></div>
+        </div>
+      </div>
+    </div>
     <canvas id="simulationCanvas"></canvas>
+    <datalist id="tags">
+      <option value="Umwelt"></option>
+      <option value="Sitzmöglichkeiten"></option>
+    </datalist>
     <script type="module" src="/js/attribute/main.js"></script>
     <script type="module" src="/js/simulation/main.js"></script>
   </body>

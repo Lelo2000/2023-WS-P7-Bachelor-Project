@@ -41,3 +41,43 @@
   background-color: #efefef;
   font-size: 12px;
 }
+
+#attributeSpecificBox {
+  height: 30px;
+}
+
+.submitAttributesButton {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 19px;
+  padding-right: 19px;
+  box-sizing: border-box;
+  width: 130px;
+  cursor: pointer;
+}
+
+#attributeSpecificBox .inputAttribute {
+  background-color: transparent;
+  border-radius: 5px;
+  border: 1px solid #000000;
+  padding-left: 8px;
+  height: 30px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.inputAttributeSpace {
+  position: relative;
+  width: 30%;
+  max-width: 250px;
+  min-width: 100px;
+}
+
+.inputAttributeSpace img {
+  position: absolute;
+  right: 8px;
+  top: 7px;
+  cursor: pointer;
+}

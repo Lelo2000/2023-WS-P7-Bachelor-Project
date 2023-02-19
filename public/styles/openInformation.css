@@ -1,0 +1,168 @@
+#openInformation {
+  width: 100vw;
+  height: 100vw;
+  visibility: hidden;
+  overflow-y: scroll;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 1500;
+}
+.grayLayer {
+  background-color: #00000071;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#openInformationBox {
+  background-color: white;
+  border-radius: 10px;
+  width: 900px;
+  padding-top: 28px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 80vh;
+}
+
+#openInformationBox .icon-cross {
+  cursor: pointer;
+}
+
+#openInformationBox h1 {
+  font-family: Inter-Semi-Bold;
+  font-size: 24;
+  margin-bottom: 22px;
+}
+
+#openInformationBox h4 {
+  font-family: Inter-Semi-Bold;
+  font-size: 16;
+  margin: 0px;
+}
+
+#openInformationBox .top {
+  height: 24px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  justify-content: end;
+}
+
+#openInformationBox .attributeList {
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 80%;
+  row-gap: 10px;
+  column-gap: 20%;
+}
+#openInformationBox .attribute {
+  width: 40%;
+}
+#openInformationBox .date {
+  color: #757575;
+  margin: 0px;
+  font-size: 12px;
+}
+
+#openInformationBox .icons-cross {
+  width: 13px;
+  height: 13px;
+}
+
+#openInformationBox .text p {
+  font-size: 16px;
+}
+
+#openInformationBox .bottom {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  justify-content: end;
+}
+
+#openInformationBox .evaluation {
+  width: 50px;
+}
+
+#openInformationBox .shareButton {
+  font-size: 0.75em;
+}
+
+.commentSectionLong {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.writeComment {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.writeComment input {
+  height: 26px;
+  border-width: 0px 0px 1px 0px;
+  width: 75%;
+  padding-left: 6px;
+}
+
+.commentContainer {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  padding-right: 25%;
+}
+
+.comment {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 8px;
+  width: 100%;
+}
+
+.comment .mainPart {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.comment .author {
+  font-family: Inter-Semi-Bold;
+  font-size: 12px;
+  margin: 0px;
+}
+.comment .topPart {
+  display: flex;
+  gap: 8px;
+  justify-content: start;
+  align-items: end;
+}
+.comment .text {
+  font-size: 12px;
+  margin: 0px;
+}
+.comment .evaluationAndAnswer {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.comment .answerButton {
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.comment .answers {
+  font-size: 12px;
+  padding: 12px 0px;
+}

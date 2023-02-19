@@ -14,6 +14,15 @@ export default class BottomMenuController {
     this.optionViews = bottomMenu.find(
       "#" + HTML_IDS.BOTTOM_MENU.OPTIONS.VIEWS
     );
+    this.filterObjectTags = bottomMenu.find(
+      "#" + HTML_IDS.BOTTOM_MENU.OPTIONS.FILTER_OBJECT_TAGS
+    );
+    this.objectSearch = bottomMenu.find(
+      "#" + HTML_IDS.BOTTOM_MENU.OPTIONS.OBJECT_SEARCH
+    );
+    this.objectSearchSpace = bottomMenu.find(
+      "#" + HTML_IDS.BOTTOM_MENU.OPTIONS.OBJECT_SEARCH_SPACE
+    );
     this.expandOption(this.expandedOption);
   }
 
@@ -32,11 +41,16 @@ export default class BottomMenuController {
       case HTML_IDS.BOTTOM_MENU.OPTIONS.SIMULATION:
         this.optionObjects.css("width", "20%");
         this.expandSimulationOptions(true);
-
+        this.filterObjectTags.css("display", "none");
+        this.objectSearch.css("width", "100%");
+        this.objectSearchSpace.css("width", "80%");
         break;
       case HTML_IDS.BOTTOM_MENU.OPTIONS.OBJECTS:
         this.optionObjects.css("width", "65%");
         this.expandSimulationOptions(false);
+        this.filterObjectTags.css("display", "block");
+        this.objectSearch.css("width", "48%");
+        this.objectSearchSpace.css("width", "55%");
         break;
       case HTML_IDS.BOTTOM_MENU.OPTIONS.VIEWS:
         break;

@@ -38,7 +38,15 @@ const HTML_IDS = {
       OBJECTS: "optionObjects",
       SIMULATION: "optionSimulation",
       VIEWS: "optionViews",
+      FILTER_OBJECT_TAGS: "filterObjectTags",
+      OBJECT_SEARCH: "optionObjectSearch",
+      OBJECT_SEARCH_SPACE: "objectSearchSpace",
     },
+  },
+  OPEN_INFORMATION: {
+    ID: "openInformation",
+    CONTENT: "openInformationContent",
+    CLOSE: "closeOpenInformation",
   },
 };
 

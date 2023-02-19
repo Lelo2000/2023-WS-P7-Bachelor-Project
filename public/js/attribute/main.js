@@ -1,6 +1,7 @@
 import BottomMenuController from "../baseClasses/bottomMenuController.js";
 import FoldOutController from "../baseClasses/FoldOutController.js";
 import InformationBubble from "../baseClasses/informationBubble.js";
+import OpenInformationController from "../baseClasses/openInformationController.js";
 import { HTML_IDS } from "../constants.js";
 import Attribute from "./attribute.js";
 
@@ -25,6 +26,7 @@ const informationBubble = new InformationBubble(
 const bottomMenu = $("#" + HTML_IDS.BOTTOM_MENU.ID);
 const bottomMenuController = new BottomMenuController(bottomMenu);
 
+const openInformation = new OpenInformationController();
 let currentFoldOut = false;
 let attributeList = [];
 
@@ -39,6 +41,10 @@ $(document).ready(function () {
   $("#" + HTML_IDS.SIDE_MENU.ID).on("click", ".sideMenuItem", (e) => {
     let menuItem = e.currentTarget;
     onSideMenuClick(menuItem.id);
+  });
+  $("#openSubmitAttribute").on("click", (e) => {
+    loadSubmitAttributeOpenInformation();
+    openInformation.show();
   });
   $("#" + HTML_IDS.FOLD_OUT.BUTTON).on("click", (e) => {
     if (currentFoldOut === false) {
@@ -83,4 +89,21 @@ function loadAttributeFoldOut() {
   sideMenuFoldOutController.setContent(title.add(attributes));
 
   sideMenuFoldOutController.show();
+}
+
+function loadSubmitAttributeOpenInformation() {
+  sideMenuFoldOutController.hide();
+  let title = $(`<h1>Reiche deine Anmerkungen ein</h1>`);
+  let ownAttributes = $(
+    `<div class="attributeList" id="ownAttributeList"></div>`
+  );
+  attributeList.forEach((attribute) => {
+    ownAttributes.append(attribute.getHtml());
+  });
+
+  openInformation.setContent(title.add(ownAttributes));
+  openInformation.setBottom(`
+  <div><div class="blackButtonStyle submitAttributesButton" id="submitAttributes">
+  <img class="icon-envelope" />Einreichen
+  </div></div>`);
 }

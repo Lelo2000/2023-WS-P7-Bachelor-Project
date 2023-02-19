@@ -14,44 +14,6 @@
   box-sizing: border-box;
 }
 
-#attributeSpecificBox {
-  height: 30px;
-}
-#attributeSpecificBox .blackButtonStyle {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-left: 19px;
-  padding-right: 19px;
-  box-sizing: border-box;
-  width: 130px;
-}
-
-#attributeSpecificBox .inputAttribute {
-  background-color: transparent;
-  border-radius: 5px;
-  border: 1px solid #000000;
-  padding-left: 8px;
-  height: 30px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.inputAttributeSpace {
-  position: relative;
-  width: 30%;
-  max-width: 250px;
-  min-width: 100px;
-}
-
-.inputAttributeSpace img {
-  position: absolute;
-  right: 8px;
-  top: 7px;
-  cursor: pointer;
-}
-
 #simulationOptions {
   height: 205px;
   width: 100%;
@@ -387,20 +349,28 @@
 }
 
 #optionObjectSearch {
-  width: 100%;
+}
+
+.searchElements .searchSpace input {
+  width: 48%;
   height: 100%;
   border: 1px solid #858585;
   border-radius: 5px;
   box-sizing: border-box;
   padding-left: 8px;
-}
-.searchElements .searchSpace {
-  width: 80%;
-  height: 100%;
   max-width: 250px;
+  color: #000000;
+}
 
+.searchElements .searchSpace {
+  width: 55%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   position: relative;
 }
+
 .searchElements .searchSpace img {
   position: absolute;
   right: 8px;

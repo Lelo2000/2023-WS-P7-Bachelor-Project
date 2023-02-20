@@ -33,7 +33,7 @@ export default class World {
     this.deltaTime = 0;
     this.interval = 1000 / 30;
     this.render();
-    this.bounderies = 1000;
+    this.bounderies = 2000;
   }
 
   render() {
@@ -148,23 +148,27 @@ export default class World {
       zoom *= 0.999 ** delta;
       if (zoom > 20) zoom = 20;
       if (zoom < 0.01) zoom = 0.01;
-      this.canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
+      if (zoom > this.canvas.getWidth() / this.bounderies) {
+        this.canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
+      } else {
+        zoom = this.canvas.getWidth() / this.bounderies;
+      }
       opt.e.preventDefault();
       opt.e.stopPropagation();
       var vpt = this.canvas.viewportTransform;
       if (zoom < this.canvas.getWidth() / this.bounderies) {
-        vpt[4] = this.canvas.getWidth() / 2 - (1000 * zoom) / 2;
-        vpt[5] = this.canvas.getWidth() / 2 - (1000 * zoom) / 2;
+        vpt[4] = this.canvas.getWidth() / 2 - (this.bounderies * zoom) / 2;
+        vpt[5] = this.canvas.getWidth() / 2 - (this.bounderies * zoom) / 2;
       } else {
         if (vpt[4] >= 0) {
           vpt[4] = 0;
-        } else if (vpt[4] < this.canvas.getWidth() - 1000 * zoom) {
-          vpt[4] = this.canvas.getWidth() - 1000 * zoom;
+        } else if (vpt[4] < this.canvas.getWidth() - this.bounderies * zoom) {
+          vpt[4] = this.canvas.getWidth() - this.bounderies * zoom;
         }
         if (vpt[5] >= 0) {
           vpt[5] = 0;
-        } else if (vpt[5] < this.canvas.getHeight() - 1000 * zoom) {
-          vpt[5] = this.canvas.getHeight() - 1000 * zoom;
+        } else if (vpt[5] < this.canvas.getHeight() - this.bounderies * zoom) {
+          vpt[5] = this.canvas.getHeight() - this.bounderies * zoom;
         }
       }
     });
@@ -183,20 +187,23 @@ export default class World {
         var zoom = this.canvas.getZoom();
         var vpt = this.canvas.viewportTransform;
         if (zoom < this.canvas.getWidth() / this.bounderies) {
-          vpt[4] = this.canvas.getWidth() / 2 - (1000 * zoom) / 2;
-          vpt[5] = this.canvas.getWidth() / 2 - (1000 * zoom) / 2;
+          vpt[4] = this.canvas.getWidth() / 2 - (this.bounderies * zoom) / 2;
+          vpt[5] = this.canvas.getWidth() / 2 - (this.bounderies * zoom) / 2;
         } else {
           vpt[4] += e.clientX - this.lastPosX;
           vpt[5] += e.clientY - this.lastPosY;
           if (vpt[4] >= 0) {
             vpt[4] = 0;
-          } else if (vpt[4] < this.canvas.getWidth() - 1000 * zoom) {
-            vpt[4] = this.canvas.getWidth() - 1000 * zoom;
+          } else if (vpt[4] < this.canvas.getWidth() - this.bounderies * zoom) {
+            vpt[4] = this.canvas.getWidth() - this.bounderies * zoom;
           }
           if (vpt[5] >= 0) {
             vpt[5] = 0;
-          } else if (vpt[5] < this.canvas.getHeight() - 1000 * zoom) {
-            vpt[5] = this.canvas.getHeight() - 1000 * zoom;
+          } else if (
+            vpt[5] <
+            this.canvas.getHeight() - this.bounderies * zoom
+          ) {
+            vpt[5] = this.canvas.getHeight() - this.bounderies * zoom;
           }
         }
         this.canvas.requestRenderAll();

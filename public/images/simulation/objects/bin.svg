@@ -1,3 +1,20 @@
 <svg width="22" height="43" viewBox="0 0 22 43" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="0.366333" y="0.424561" width="20.8994" height="41.7988" rx="6.26983" fill="#CD8632"/>
+<path d="M1.41125 6.69434C1.41125 3.80873 3.7505 1.46948 6.63611 1.46948H14.9959C17.8815 1.46948 20.2207 3.80873 20.2207 6.69434V35.9535C20.2207 38.8391 17.8815 41.1784 14.9959 41.1784H6.63611C3.75051 41.1784 1.41125 38.8391 1.41125 35.9535V6.69434Z" fill="#838383" fill-opacity="0.47"/>
+<rect x="2.45618" y="2.5144" width="16.7195" height="37.619" rx="4.17988" fill="#595959"/>
+<rect x="2.45618" y="2.5144" width="16.7195" height="37.619" rx="4.17988" fill="url(#paint0_radial_107_175)" fill-opacity="0.45"/>
+<g opacity="0.6">
+<rect x="4.54614" y="8.49365" width="4.17988" height="4.17988" transform="rotate(-25.495 4.54614 8.49365)" fill="#5F2F2F"/>
+<rect x="12.1273" y="21.3239" width="4.17988" height="4.17988" transform="rotate(18.2887 12.1273 21.3239)" fill="#5F2F2F"/>
+<rect x="5.85767" y="21.3239" width="2.13971" height="4.17988" transform="rotate(18.2887 5.85767 21.3239)" fill="#78823A"/>
+<rect x="13.0303" y="32.3276" width="2.13971" height="4.17988" transform="rotate(-14.107 13.0303 32.3276)" fill="#78823A"/>
+<rect x="5.85767" y="31.7737" width="4.17988" height="4.17988" transform="rotate(18.2887 5.85767 31.7737)" fill="#31401F"/>
+<rect x="10.8158" y="12.4595" width="4.17988" height="4.17988" transform="rotate(-22.2875 10.8158 12.4595)" fill="#31401F"/>
+</g>
+<defs>
+<radialGradient id="paint0_radial_107_175" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(10.8159 21.3239) rotate(90) scale(18.8095 8.35977)">
+<stop/>
+<stop offset="1" stop-opacity="0"/>
+</radialGradient>
+</defs>
 </svg>

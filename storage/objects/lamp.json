@@ -1,0 +1,6 @@
+{
+  "name": "Lampe",
+  "imageUrl": "/images/simulation/objects/lamp.svg",
+  "tags": ["Beleuchtung"],
+  "explanation": "Macht hell"
+}

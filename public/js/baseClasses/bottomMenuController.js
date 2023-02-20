@@ -101,6 +101,7 @@ export default class BottomMenuController {
     </div>
   </div>`);
       newObject.on("click", () => {
+        this.onObjectAdded(obj);
         window.dispatchEvent(
           new CustomEvent(EVENTS.SIMULATION.ADD_OBJECT, {
             detail: obj,
@@ -110,4 +111,5 @@ export default class BottomMenuController {
       this.objectsContainer.append(newObject);
     });
   }
+  onObjectAdded(objectData) {}
 }

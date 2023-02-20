@@ -34,10 +34,8 @@ let attributeListServer = [];
 $(document).ready(function () {
   $("#attributeSpecificBox").on("click", ".addAttribute", function (e) {
     let valueFromInput = attributeInput[0].value;
-    let attribute = new Attribute(valueFromInput);
     attributeInput[0].value = "";
-    attributeList.push(attribute);
-    informationBubble.show(1000, `"${attribute.name}" wurde hinzugefügt`);
+    addAttribute(valueFromInput);
   });
   $("#" + HTML_IDS.SIDE_MENU.ID).on("click", ".sideMenuItem", (e) => {
     let menuItem = e.currentTarget;
@@ -59,6 +57,11 @@ $(document).ready(function () {
     onSideMenuClick(currentFoldOut);
   });
   bottomMenuController.init();
+  bottomMenuController.onObjectAdded = (objectData) => {
+    objectData.tags.forEach((tag) => {
+      addAttribute(tag);
+    });
+  };
 
   socket.on(EVENTS.SERVER.SEND_ATTRIBUTES, (serverMsg) => {
     loadAttributesToOpenInformation(serverMsg.data);
@@ -69,6 +72,21 @@ $(document).ready(function () {
   });
   socket.emit(EVENTS.CLIENT.REQUEST_OBJECTS_DATA);
 });
+
+function addAttribute(name) {
+  let indexOfAttribute = getIndexOfAttribute(name);
+  console.log(indexOfAttribute);
+  if (indexOfAttribute < 0) {
+    let attribute = new Attribute(name);
+    attributeList.push(attribute);
+    informationBubble.show(1000, `"${attribute.name}" wurde hinzugefügt`);
+  } else {
+    let attribute = attributeList[indexOfAttribute];
+    if (attribute.voting < 5) {
+      attribute.voting++;
+    }
+  }
+}
 
 function onSideMenuClick(menuItemId) {
   if (menuItemId === currentFoldOut) {
@@ -142,7 +160,7 @@ function loadAttributesToOpenInformation(serverAttributeList) {
     );
     attributeListServer = [];
     serverAttributeList.forEach((attribute) => {
-      if (hasAttribute(attribute.name)) {
+      if (getIndexOfAttribute(attribute.name) >= 0) {
         return;
       }
       let attributeNew = new Attribute(attribute.name);
@@ -156,11 +174,11 @@ function loadAttributesToOpenInformation(serverAttributeList) {
   }
 }
 
-function hasAttribute(name) {
+function getIndexOfAttribute(name) {
   for (let i = 0; i < attributeList.length; i++) {
     if (attributeList[i].name == name) {
-      return true;
+      return i;
     }
   }
-  return false;
+  return -1;
 }

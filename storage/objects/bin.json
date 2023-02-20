@@ -1,0 +1,6 @@
+{
+  "name": "Mülleimer",
+  "imageUrl": "/images/simulation/objects/bin.svg",
+  "tags": ["Sauberkeit"],
+  "explanation": "Kann man Sachen reinstecken"
+}

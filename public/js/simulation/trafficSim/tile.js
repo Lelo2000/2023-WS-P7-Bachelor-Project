@@ -27,6 +27,22 @@ export default class Tile {
       fill: this.color,
       selectable: false,
     });
+    // this.displayObject;
+  }
+
+  initDisplayObject() {
+    return new Promise((resolve) => {
+      fabric.Image.fromURL(TRAFFIC_SIM.IMAGES.STREET, (oImg) => {
+        oImg.top = this.realCoords.y;
+        oImg.left = this.realCoords.x;
+        oImg.scaleToWidth(this.map.resolution);
+        oImg.scaleToHeight(this.map.resolution);
+        oImg.selectable = false;
+        oImg.id = this.id;
+        this.displayObject = oImg;
+        resolve();
+      });
+    });
   }
 
   isFreeOf(id, tag) {
@@ -67,7 +83,10 @@ export default class Tile {
     return this.nextTile[index];
   }
 
-  show() {
+  async show() {
+    if (!this.displayObject) {
+      await this.initDisplayObject();
+    }
     if (this.displayObject) {
       this.hide();
     }

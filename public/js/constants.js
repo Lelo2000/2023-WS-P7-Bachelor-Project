@@ -69,11 +69,15 @@ const IDEA = {
 };
 
 const TRAFFIC_SIM = {
-  GRID: { RESOLUTION: 20 },
+  GRID: { RESOLUTION: 40 },
   TILES: {
     EMPTY: "empty",
     ROAD: "road",
     CROSSING: "crossing",
+  },
+  IMAGES: {
+    STREET: "/images/simulation/tiles/street.svg",
+    CAR: "/images/simulation/vehicles/car.svg",
   },
   VEHICLES: {
     CAR: "car",

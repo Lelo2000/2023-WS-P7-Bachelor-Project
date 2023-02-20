@@ -11,16 +11,26 @@ export default class Car {
     this.speed = 0.2;
     this.id = Math.random();
     this.tag = TRAFFIC_SIM.VEHICLES.CAR;
-    this.displayObject = new fabric.Circle({
-      left: tile.realCoords.x,
-      top: tile.realCoords.y,
-      radius: 5,
-      fill: "#77ff77",
-      selectable: false,
-    });
-    tile.map.canvas.add(this.displayObject);
+    this.displayObject;
+    this.initDisplayObject();
+    this.size = { x: 30, y: 35 };
     this.progressToNextTile = 0;
     this.updateDistnaceToCover();
+  }
+
+  initDisplayObject() {
+    fabric.Image.fromURL(TRAFFIC_SIM.IMAGES.CAR, (oImg) => {
+      oImg.top = this.tile.realCoords.y + this.size.y / 2;
+      oImg.left = this.tile.realCoords.x + this.size.x / 2;
+      oImg.scaleToWidth(this.size.x);
+      oImg.scaleToHeight(this.size.y);
+      oImg.set("originX", "center");
+      oImg.set("originY", "center");
+      oImg.selectable = false;
+      oImg.id = this.id;
+      this.displayObject = oImg;
+      this.tile.map.canvas.add(oImg);
+    });
   }
 
   decideNextTile() {
@@ -53,12 +63,27 @@ export default class Car {
   updateDistnaceToCover() {
     this.distanceToCoverX = this.nextTile.realCoords.x - this.tile.realCoords.x;
     this.distanceToCoverY = this.nextTile.realCoords.y - this.tile.realCoords.y;
+    if (!this.displayObject) return;
+    if (this.distanceToCoverX > 0) {
+      this.displayObject.set("angle", 90);
+    } else if (this.distanceToCoverX < 0) {
+      this.displayObject.set("angle", 270);
+    }
+    if (this.distanceToCoverY > 0) {
+      this.displayObject.set("angle", 180);
+    } else if (this.distanceToCoverY < 0) {
+      this.displayObject.set("angle", 0);
+    }
   }
 
   drive(deltaTime) {
+    if (!this.displayObject) {
+      return;
+    }
     if (!this.nextTile) {
       this.decideNextTile();
     }
+
     if (this.progressToNextTile >= 1) {
       this.decideNextTile();
     }
@@ -66,13 +91,18 @@ export default class Car {
     this.progressToNextTile += this.speed;
     // console.log("deltaTime: ", deltaTime);
     // console.log("Progress: ", this.progressToNextTile);
+
     this.displayObject.set(
       "left",
-      this.tile.realCoords.x + this.distanceToCoverX * this.progressToNextTile
+      this.tile.realCoords.x +
+        this.distanceToCoverX * this.progressToNextTile +
+        this.size.x / 2
     );
     this.displayObject.set(
       "top",
-      this.tile.realCoords.y + this.distanceToCoverY * this.progressToNextTile
+      this.tile.realCoords.y +
+        this.distanceToCoverY * this.progressToNextTile +
+        this.size.y / 2
     );
   }
 

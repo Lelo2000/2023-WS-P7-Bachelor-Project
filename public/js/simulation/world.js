@@ -37,6 +37,7 @@ export default class World {
   }
 
   render() {
+    console.log("RENDER");
     this.currentTime = new Date().getTime();
     this.deltaTime = this.currentTime - this.lastTime;
     if (this.deltaTime > this.interval) {
@@ -214,7 +215,7 @@ export default class World {
     this.canvas.on("mouse:up", (opt) => {
       this.canvas.setViewportTransform(this.canvas.viewportTransform);
       this.isDragging = false;
-      this.selection = true;
+      this.canvas.selection = true;
     });
     //Dokument Eventlistener
     document.addEventListener("keydown", (event) => {

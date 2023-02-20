@@ -228,6 +228,38 @@ export default class World {
         });
       }
     });
+    window.rotationIcon = new Image();
+    window.rotationIcon.onload = () => {
+      console.log(window.rotationIcon);
+      fabric.Object.prototype.controls.mtr = new fabric.Control({
+        x: 0.5,
+        y: -0.5,
+        offsetX: 20,
+        offsetY: -20,
+        cursorStyle: "crosshair",
+        actionHandler: fabric.controlsUtils.rotationWithSnapping,
+        actionName: "rotate",
+        render: renderRotateIcon,
+        cornerSize: 20,
+        withConnection: false,
+      });
+    };
+    window.rotationIcon.src = "/images/icons/arrow_circle.svg";
+
+    window.deleteIcon = new Image();
+    fabric.Object.prototype.controls.deleteControl = new fabric.Control({
+      x: 0.5,
+      y: -0.5,
+      offsetX: -10,
+      offsetY: -20,
+      cursorStyle: "pointer",
+      mouseUpHandler: (eventData, transform) => {
+        this.deleteObject(transform.target.id);
+      },
+      render: renderDeleteIcon,
+      cornerSize: 20,
+    });
+    window.deleteIcon.src = "/images/icons/trash_bin.svg";
 
     //Standard Elemente
     this.errorText = new fabric.Text("", {
@@ -388,4 +420,29 @@ export default class World {
     }
     this.heatMap.show();
   }
+
+  deleteObject(id) {
+    console.log(id);
+    this.canvas.remove(this.objectList.get(id).displayObject);
+    this.objectList.delete(id);
+  }
+}
+
+// Defining how the rendering action will be
+function renderRotateIcon(ctx, left, top, styleOverride, fabricObject) {
+  var size = this.cornerSize;
+  ctx.save();
+  ctx.translate(left, top);
+  ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+  ctx.drawImage(window.rotationIcon, -size / 2, -size / 2, size, size);
+  ctx.restore();
+}
+
+function renderDeleteIcon(ctx, left, top, styleOverride, fabricObject) {
+  var size = this.cornerSize;
+  ctx.save();
+  ctx.translate(left, top);
+  ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+  ctx.drawImage(window.deleteIcon, -size / 2, -size / 2, size, size);
+  ctx.restore();
 }

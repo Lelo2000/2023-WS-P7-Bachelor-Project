@@ -22,6 +22,8 @@
   cursor: pointer;
 }
 #informtaionBubble {
+  user-select: none;
+  pointer-events: none;
   width: 100vw;
   height: 30px;
   position: absolute;

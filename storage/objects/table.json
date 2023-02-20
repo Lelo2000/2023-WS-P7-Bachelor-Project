@@ -1,0 +1,6 @@
+{
+  "name": "Tisch",
+  "imageUrl": "/images/simulation/objects/table.svg",
+  "tags": ["Abstellmöglichkeit"],
+  "explanation": "Ist eine Tisch. Kann man Sachen Draufstellen."
+}

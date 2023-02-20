@@ -63,6 +63,11 @@ $(document).ready(function () {
   socket.on(EVENTS.SERVER.SEND_ATTRIBUTES, (serverMsg) => {
     loadAttributesToOpenInformation(serverMsg.data);
   });
+  socket.on(EVENTS.SERVER.SEND_OBJECTS_DATA, (serverMsg) => {
+    console.log(serverMsg);
+    bottomMenuController.loadObjectsForAdding(serverMsg.data);
+  });
+  socket.emit(EVENTS.CLIENT.REQUEST_OBJECTS_DATA);
 });
 
 function onSideMenuClick(menuItemId) {

@@ -27,12 +27,13 @@ export default class World {
     /**@type {TrafficMap} */
     this.map = new TrafficMap(this.canvas);
     this.carManager = new CarManager(this.map);
-    this.viewManager = new ViewManager(this);
+    // this.viewManager = new ViewManager(this);
     this.lastTime = new Date().getTime();
     this.currentTime = 0;
     this.deltaTime = 0;
     this.interval = 1000 / 30;
     this.render();
+    this.bounderies = 1000;
   }
 
   render() {
@@ -45,6 +46,39 @@ export default class World {
     }
     window.requestAnimationFrame(() => {
       this.render();
+    });
+  }
+  /**
+   * Fügt ein Bild direkt zum Canvas hinzu
+   * @param {string} imgURL URL des Images
+   * @param {object} position Position bei der das Bild hinzugefügt werden soll. Standard: {x: 0, y: 0}
+   */
+  addObjectFromObjectData(objectData, position) {
+    fabric.Image.fromURL(objectData.imageUrl, (oImg) => {
+      oImg.top = position.y;
+      oImg.left = position.x;
+
+      this.canvas.add(oImg);
+      oImg.lockScalingX = true;
+      oImg.lockScalingY = true;
+      oImg.setControlsVisibility({
+        mt: false,
+        mb: false,
+        ml: false,
+        mr: false,
+        bl: false,
+        br: false,
+        tl: false,
+        tr: false,
+        mtr: true,
+      });
+      this.canvas.setActiveObject(oImg);
+      let newObject = new Object(oImg);
+      oImg.id = newObject.id;
+      newObject.name = objectData.name;
+      newObject.explanation = objectData.explanation;
+      newObject.tags = objectData.tags;
+      this.objectList.set(newObject.id, newObject);
     });
   }
 
@@ -89,6 +123,7 @@ export default class World {
     this.canvas.setWidth(window.innerWidth);
     this.canvas.setHeight(window.innerHeight);
 
+    //Canvas Events
     this.canvas.on({
       "object:moving": (options) => {
         this.onChange(options);
@@ -103,6 +138,78 @@ export default class World {
         this.handleMouseClick(options);
       },
     });
+    /**
+    Code nach dem Tutorial der Fabric JS Dokumentation zu zooming und panning
+    http://fabricjs.com/fabric-intro-part-5
+    */
+    this.canvas.on("mouse:wheel", (opt) => {
+      var delta = opt.e.deltaY;
+      var zoom = this.canvas.getZoom();
+      zoom *= 0.999 ** delta;
+      if (zoom > 20) zoom = 20;
+      if (zoom < 0.01) zoom = 0.01;
+      this.canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
+      opt.e.preventDefault();
+      opt.e.stopPropagation();
+      var vpt = this.canvas.viewportTransform;
+      if (zoom < this.canvas.getWidth() / this.bounderies) {
+        vpt[4] = this.canvas.getWidth() / 2 - (1000 * zoom) / 2;
+        vpt[5] = this.canvas.getWidth() / 2 - (1000 * zoom) / 2;
+      } else {
+        if (vpt[4] >= 0) {
+          vpt[4] = 0;
+        } else if (vpt[4] < this.canvas.getWidth() - 1000 * zoom) {
+          vpt[4] = this.canvas.getWidth() - 1000 * zoom;
+        }
+        if (vpt[5] >= 0) {
+          vpt[5] = 0;
+        } else if (vpt[5] < this.canvas.getHeight() - 1000 * zoom) {
+          vpt[5] = this.canvas.getHeight() - 1000 * zoom;
+        }
+      }
+    });
+    this.canvas.on("mouse:down", (opt) => {
+      var evt = opt.e;
+      if (evt.altKey === true) {
+        this.isDragging = true;
+        this.canvas.selection = false;
+        this.lastPosX = evt.clientX;
+        this.lastPosY = evt.clientY;
+      }
+    });
+    this.canvas.on("mouse:move", (opt) => {
+      if (this.isDragging) {
+        var e = opt.e;
+        var zoom = this.canvas.getZoom();
+        var vpt = this.canvas.viewportTransform;
+        if (zoom < this.canvas.getWidth() / this.bounderies) {
+          vpt[4] = this.canvas.getWidth() / 2 - (1000 * zoom) / 2;
+          vpt[5] = this.canvas.getWidth() / 2 - (1000 * zoom) / 2;
+        } else {
+          vpt[4] += e.clientX - this.lastPosX;
+          vpt[5] += e.clientY - this.lastPosY;
+          if (vpt[4] >= 0) {
+            vpt[4] = 0;
+          } else if (vpt[4] < this.canvas.getWidth() - 1000 * zoom) {
+            vpt[4] = this.canvas.getWidth() - 1000 * zoom;
+          }
+          if (vpt[5] >= 0) {
+            vpt[5] = 0;
+          } else if (vpt[5] < this.canvas.getHeight() - 1000 * zoom) {
+            vpt[5] = this.canvas.getHeight() - 1000 * zoom;
+          }
+        }
+        this.canvas.requestRenderAll();
+        this.lastPosX = e.clientX;
+        this.lastPosY = e.clientY;
+      }
+    });
+    this.canvas.on("mouse:up", (opt) => {
+      this.canvas.setViewportTransform(this.canvas.viewportTransform);
+      this.isDragging = false;
+      this.selection = true;
+    });
+    //Dokument Eventlistener
     document.addEventListener("keydown", (event) => {
       let keyCode = event.code;
       if (keyCode === "Space") {
@@ -115,6 +222,7 @@ export default class World {
       }
     });
 
+    //Standard Elemente
     this.errorText = new fabric.Text("", {
       fill: "red",
       top: 0,
@@ -124,6 +232,8 @@ export default class World {
       selectable: false,
     });
     this.canvas.add(this.errorText);
+
+    //Server Absprache
     this.socket.emit(EVENTS.CLIENT.REQUEST_PROPOSAL_OBJECTS);
     this.socket.on(EVENTS.SERVER.RECIEVE_PROPOSAL_OBJECTS, async (payload) => {
       let proposalJSON = payload.data;
@@ -144,7 +254,7 @@ export default class World {
   }
 
   onProposalObjectLoadFinished() {
-    this.viewManager.updateSavedView();
+    // this.viewManager.updateSavedView();
   }
 
   /**

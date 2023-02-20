@@ -1,4 +1,4 @@
-import { HTML_IDS } from "../constants.js";
+import { HTML_IDS, EVENTS } from "../constants.js";
 
 export default class BottomMenuController {
   constructor(bottomMenu) {
@@ -23,6 +23,9 @@ export default class BottomMenuController {
     this.objectSearchSpace = bottomMenu.find(
       "#" + HTML_IDS.BOTTOM_MENU.OPTIONS.OBJECT_SEARCH_SPACE
     );
+    this.objectsContainer = bottomMenu.find(
+      "#" + HTML_IDS.BOTTOM_MENU.CONTAINER.OBJECTS
+    );
     this.expandOption(this.expandedOption);
   }
 
@@ -36,6 +39,7 @@ export default class BottomMenuController {
       }
     });
   }
+
   expandOption(optionId) {
     switch (optionId) {
       case HTML_IDS.BOTTOM_MENU.OPTIONS.SIMULATION:
@@ -82,7 +86,28 @@ export default class BottomMenuController {
   hideElement(element) {
     element.css({ visibility: "hidden", width: "0%" });
   }
+
   showElement(element, width) {
     element.css({ visibility: "visible", width: width });
+  }
+
+  loadObjectsForAdding(objectList) {
+    objectList.forEach((obj) => {
+      let newObject = $(`
+    <div class="object">
+    <img class="objectImage" src="${obj.imageUrl}" />
+    <div class="flex-spacebetween">
+      <span>${obj.name}</span><img class="icon-information" />
+    </div>
+  </div>`);
+      newObject.on("click", () => {
+        window.dispatchEvent(
+          new CustomEvent(EVENTS.SIMULATION.ADD_OBJECT, {
+            detail: obj,
+          })
+        );
+      });
+      this.objectsContainer.append(newObject);
+    });
   }
 }

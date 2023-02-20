@@ -87,6 +87,7 @@ const EVENTS = {
     NEW_MESSAGE: "newMessage",
     NEW_IDEA: "newidea",
     SEND_ATTRIBUTES: "sendAttributes",
+    SEND_OBJECTS_DATA: "sendObjectsData",
   },
   CLIENT: {
     REQUEST_PROPOSAL_OBJECTS: "getProposalObjects",
@@ -95,6 +96,10 @@ const EVENTS = {
     SEND_IDEA: "sendIdea",
     SEND_ATTRIBUTES: "sendAttributes",
     REQUEST_ATTRIBUTES: "requestAttributes",
+    REQUEST_OBJECTS_DATA: "requestObjectsData",
+  },
+  SIMULATION: {
+    ADD_OBJECT: "addObject",
   },
 };
 

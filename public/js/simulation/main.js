@@ -5,32 +5,39 @@ import World from "./world.js";
 const socket = window.socket;
 
 const world = new World("simulationCanvas", socket);
-const messageManager = new MessageManager(
-  socket,
-  world,
-  "#message-input",
-  "#message-send",
-  "#messages-area"
-);
 
-$(document).ready(function () {
-  $(".create-button").on("mousedown", function (event) {
-    const htmlObj = event.target;
-    const objId = htmlObj.id;
-    let imgName = objId.split("-")[1];
-    world.addImage(`./images/${imgName}.png`, { x: 300, y: 300 }, true);
-  });
-
-  $("#toggleHeatmap").click(function (e) {
-    e.preventDefault();
-    world.toggleHeatmap();
-  });
-
-  $("#messages-area").on("click", ".message", function (e) {
-    messageManager.messageClicked(e.currentTarget.id);
-  });
+window.addEventListener(EVENTS.SIMULATION.ADD_OBJECT, (eventData) => {
+  console.log(eventData);
+  let objectData = eventData.detail;
+  console.log(objectData);
+  world.addObjectFromObjectData(objectData, { x: 300, y: 300 });
 });
+// const messageManager = new MessageManager(
+//   socket,
+//   world,
+//   "#message-input",
+//   "#message-send",
+//   "#messages-area"
+// );
 
-function showChanges(id) {
-  console.log("Zeige Changes der Nachricht: ", id);
-}
+// $(document).ready(function () {
+//   $(".create-button").on("mousedown", function (event) {
+//     const htmlObj = event.target;
+//     const objId = htmlObj.id;
+//     let imgName = objId.split("-")[1];
+//     world.addImage(`./images/${imgName}.png`, { x: 300, y: 300 }, true);
+//   });
+
+//   $("#toggleHeatmap").click(function (e) {
+//     e.preventDefault();
+//     world.toggleHeatmap();
+//   });
+
+//   $("#messages-area").on("click", ".message", function (e) {
+//     messageManager.messageClicked(e.currentTarget.id);
+//   });
+// });
+
+// function showChanges(id) {
+//   console.log("Zeige Changes der Nachricht: ", id);
+// }

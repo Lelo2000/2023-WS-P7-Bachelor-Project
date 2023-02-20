@@ -1,4 +1,4 @@
-import { dirname, join } from "path";
+import path, { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import express from "express";
 import http from "http";
@@ -7,7 +7,7 @@ import { EVENTS, PROJECT } from "./public/js/constants.js";
 import { readFile } from "fs/promises";
 import MessageManager from "./server/messageManager.js";
 import IdeaManager from "./server/ideaManager.js";
-import { readFileSync } from "fs";
+import fs, { readFileSync } from "fs";
 import AttributeManager from "./server/attributeManager.js";
 
 const app = express();
@@ -19,6 +19,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const messageManager = new MessageManager(io);
 const ideaManager = new IdeaManager(io);
 const attributeManager = new AttributeManager(io);
+
+const objectsData = loadObjectsData();
 
 const port = 8090;
 
@@ -89,6 +91,10 @@ io.on("connection", (socket) => {
     // }
   });
 
+  socket.on(EVENTS.CLIENT.REQUEST_OBJECTS_DATA, () => {
+    socket.emit(EVENTS.SERVER.SEND_OBJECTS_DATA, { data: objectsData });
+  });
+
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
@@ -105,4 +111,20 @@ function getProjectWithId(searchedId) {
     }
   }
   return false;
+}
+
+function loadObjectsData() {
+  //Die Funktion wurde mit Hilfe von Chat GPT erstellt.
+  const files = fs.readdirSync("./storage/objects");
+  const jsonFiles = files.filter((file) => path.extname(file) === ".json");
+
+  const results = [];
+
+  jsonFiles.forEach((jsonFile) => {
+    const filePath = path.join("./storage/objects", jsonFile);
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    const json = JSON.parse(fileContents);
+    results.push(json);
+  });
+  return results;
 }

@@ -42,6 +42,9 @@ const HTML_IDS = {
       OBJECT_SEARCH: "optionObjectSearch",
       OBJECT_SEARCH_SPACE: "objectSearchSpace",
     },
+    CONTAINER: {
+      OBJECTS: "objectsContainer",
+    },
   },
   OPEN_INFORMATION: {
     ID: "openInformation",
@@ -83,14 +86,15 @@ const EVENTS = {
     SEND_IDEAS: "send ideas",
     NEW_MESSAGE: "newMessage",
     NEW_IDEA: "newidea",
-    NEW_ATTRIBUTE: "newAttribute",
+    SEND_ATTRIBUTES: "sendAttributes",
   },
   CLIENT: {
     REQUEST_PROPOSAL_OBJECTS: "getProposalObjects",
     REQUEST_IDEAS: "reqeust Ideas",
     SEND_MESSAGE: "sendMessage",
     SEND_IDEA: "sendIdea",
-    SEND_ATTRIBUTE: "sendAttribute",
+    SEND_ATTRIBUTES: "sendAttributes",
+    REQUEST_ATTRIBUTES: "requestAttributes",
   },
 };
 

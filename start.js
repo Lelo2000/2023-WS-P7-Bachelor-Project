@@ -8,6 +8,7 @@ import { readFile } from "fs/promises";
 import MessageManager from "./server/messageManager.js";
 import IdeaManager from "./server/ideaManager.js";
 import { readFileSync } from "fs";
+import AttributeManager from "./server/attributeManager.js";
 
 const app = express();
 let server = http.Server(app);
@@ -17,6 +18,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const messageManager = new MessageManager(io);
 const ideaManager = new IdeaManager(io);
+const attributeManager = new AttributeManager(io);
 
 const port = 8090;
 
@@ -72,7 +74,7 @@ app.get("/proposal/", async (req, res) => {
 io.on("connection", (socket) => {
   messageManager.newConnection(socket);
   ideaManager.newConnection(socket);
-
+  attributeManager.newConnection(socket);
   socket.on(EVENTS.CLIENT.REQUEST_PROPOSAL_OBJECTS, async () => {
     // try {
     //   let proposalsJSON = await readFile("./storage/project.json");

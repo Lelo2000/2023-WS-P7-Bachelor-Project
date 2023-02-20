@@ -2,7 +2,7 @@ import BottomMenuController from "../baseClasses/bottomMenuController.js";
 import FoldOutController from "../baseClasses/FoldOutController.js";
 import InformationBubble from "../baseClasses/informationBubble.js";
 import OpenInformationController from "../baseClasses/openInformationController.js";
-import { HTML_IDS } from "../constants.js";
+import { EVENTS, HTML_IDS } from "../constants.js";
 import Attribute from "./attribute.js";
 
 const socket = io();
@@ -29,6 +29,7 @@ const bottomMenuController = new BottomMenuController(bottomMenu);
 const openInformation = new OpenInformationController();
 let currentFoldOut = false;
 let attributeList = [];
+let attributeListServer = [];
 
 $(document).ready(function () {
   $("#attributeSpecificBox").on("click", ".addAttribute", function (e) {
@@ -46,6 +47,10 @@ $(document).ready(function () {
     loadSubmitAttributeOpenInformation();
     openInformation.show();
   });
+  $("#openInformation").on("click", "#submitAttributes", (e) => {
+    sendAttributesToServer();
+    window.location = "/ideas";
+  });
   $("#" + HTML_IDS.FOLD_OUT.BUTTON).on("click", (e) => {
     if (currentFoldOut === false) {
       onSideMenuClick(HTML_IDS.SIDE_MENU.ATTRIBUTES);
@@ -54,6 +59,10 @@ $(document).ready(function () {
     onSideMenuClick(currentFoldOut);
   });
   bottomMenuController.init();
+
+  socket.on(EVENTS.SERVER.SEND_ATTRIBUTES, (serverMsg) => {
+    loadAttributesToOpenInformation(serverMsg.data);
+  });
 });
 
 function onSideMenuClick(menuItemId) {
@@ -101,9 +110,52 @@ function loadSubmitAttributeOpenInformation() {
     ownAttributes.append(attribute.getHtml());
   });
 
+  socket.emit(EVENTS.CLIENT.REQUEST_ATTRIBUTES);
+
   openInformation.setContent(title.add(ownAttributes));
   openInformation.setBottom(`
   <div><div class="blackButtonStyle submitAttributesButton" id="submitAttributes">
   <img class="icon-envelope" />Einreichen
   </div></div>`);
+}
+
+function sendAttributesToServer() {
+  socket.emit(EVENTS.CLIENT.SEND_ATTRIBUTES, { data: attributeList });
+  console.log(attributeListServer);
+  if (attributeListServer.length > 0) {
+    console.log("ATTRIBUTES TO SERVER");
+    socket.emit(EVENTS.CLIENT.SEND_ATTRIBUTES, { data: attributeListServer });
+  }
+}
+
+function loadAttributesToOpenInformation(serverAttributeList) {
+  if (openInformation.isOpen) {
+    console.log(serverAttributeList);
+    let title = $(`<h1>Weitere Anmerkungen von anderen</h1>`);
+    let ownAttributes = $(
+      `<div class="attributeList" id="ownAttributeList"></div>`
+    );
+    attributeListServer = [];
+    serverAttributeList.forEach((attribute) => {
+      if (hasAttribute(attribute.name)) {
+        return;
+      }
+      let attributeNew = new Attribute(attribute.name);
+      attributeNew.voting = 0;
+      attributeListServer.push(attributeNew);
+      ownAttributes.append(attributeNew.getHtml());
+    });
+    console.log(ownAttributes);
+    console.log("Jeii set Content");
+    openInformation.setContent(title.add(ownAttributes), false);
+  }
+}
+
+function hasAttribute(name) {
+  for (let i = 0; i < attributeList.length; i++) {
+    if (attributeList[i].name == name) {
+      return true;
+    }
+  }
+  return false;
 }

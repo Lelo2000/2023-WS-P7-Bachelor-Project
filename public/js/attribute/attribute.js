@@ -1,13 +1,14 @@
 export default class Attribute {
   constructor(name) {
     this.name = name;
-    this.voting = 0;
+    this.voting = 1;
+    this.votings = [];
     this.stars = [];
   }
 
-  getHtml() {
+  getHtml(starsLocked = false) {
     if (this.stars.length != 5) {
-      this.generateStars();
+      this.generateStars(starsLocked);
     }
     this.showStarsWithUpdate();
     let html = $(`
@@ -24,12 +25,13 @@ export default class Attribute {
     return html;
   }
 
-  generateStars() {
+  generateStars(locked = false) {
     for (let i = 1; i < 6; i++) {
       let star = $(`<img class="icon-star-outline" value="${i}" />`);
-      star.on("click", (e) => {
-        this.setVoting(i);
-      });
+      if (!locked)
+        star.on("click", (e) => {
+          this.setVoting(i);
+        });
       this.stars.push(star);
     }
   }

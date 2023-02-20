@@ -11,14 +11,17 @@ export default class OpenInformationController {
     $("#" + HTML_IDS.OPEN_INFORMATION.CLOSE).on("click", () => {
       this.hide();
     });
+    this.isOpen = false;
   }
 
   show() {
     this.openInformation.css("visibility", "visible");
+    this.isOpen = true;
   }
 
   hide() {
     this.openInformation.css("visibility", "hidden");
+    this.isOpen = false;
   }
 
   /**

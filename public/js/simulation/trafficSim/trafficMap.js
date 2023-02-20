@@ -8,6 +8,8 @@ export default class TrafficMap {
     this.resolution = TRAFFIC_SIM.GRID.RESOLUTION;
     this.x = -TRAFFIC_SIM.GRID.RESOLUTION;
     this.y = -TRAFFIC_SIM.GRID.RESOLUTION;
+    this.width = this.canvas.width * 2;
+    this.height = this.canvas.height * 2;
     this.iWidth = 0;
     this.iHeight = 0;
     this.grid = [];
@@ -20,8 +22,8 @@ export default class TrafficMap {
   }
 
   createGrid() {
-    this.iWidth = Math.floor(this.canvas.width / this.resolution + 2);
-    this.iHeight = Math.floor(this.canvas.height / this.resolution + 2);
+    this.iWidth = Math.floor(this.width / this.resolution + 2);
+    this.iHeight = Math.floor(this.height / this.resolution + 2);
     for (let ix = 0; ix < this.iWidth + 1; ix++) {
       this.grid.push([]);
       for (let iy = 0; iy < this.iHeight + 1; iy++) {

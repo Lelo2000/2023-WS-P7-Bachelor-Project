@@ -55,6 +55,10 @@ app.get("/attribute", (req, res) => {
   res.sendFile(__dirname + "/public/websites/attribute.html");
 });
 
+app.get("/co-creation", (req, res) => {
+  res.sendFile(__dirname + "/public/websites/co-creation.html");
+});
+
 app.get("/proposal/", async (req, res) => {
   let proposalId = req.query.proposalId;
   let project = getProjectWithId(proposalId);
@@ -62,6 +66,9 @@ app.get("/proposal/", async (req, res) => {
   switch (project.phase) {
     case PROJECT.PHASE.COLLECT_ATTRIBUTES:
       res.redirect("/attribute");
+      break;
+    case PROJECT.PHASE.CO_CREATION:
+      res.redirect("/co-creation");
       break;
   }
   console.log(

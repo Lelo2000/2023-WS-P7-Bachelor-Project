@@ -37,12 +37,14 @@ export default class World {
   }
 
   render() {
-    console.log("RENDER");
     this.currentTime = new Date().getTime();
     this.deltaTime = this.currentTime - this.lastTime;
     if (this.deltaTime > this.interval) {
       this.carManager.moveCars(this.deltaTime);
+      this.canvas.setViewportTransform(this.canvas.viewportTransform);
       this.canvas.renderAll();
+
+      console.log("render All");
       this.lastTime = this.currentTime - (this.deltaTime % this.interval);
     }
     window.requestAnimationFrame(() => {

@@ -3,5 +3,6 @@
   "imageUrl": "/images/simulation/objects/sign_30.svg",
   "tags": ["Verkehrs beruhigung"],
   "categories": ["Straßenschild", "Geschwindigkeitsbegrenzung"],
-  "explanation": "Ist ein Schild. Man muss langsamer fahren :("
+  "explanation": "Ist ein Schild. Man muss langsamer fahren :(",
+  "rules": [{ "type": "speed", "value": 0.1 }]
 }

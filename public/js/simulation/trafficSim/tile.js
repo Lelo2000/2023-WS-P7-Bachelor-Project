@@ -134,6 +134,12 @@ export default class Tile {
   }
 
   applyRule(object, rule) {
+    if (Array.isArray(rule)) {
+      rule.forEach((rule) => {
+        this.rules.set(object.id, rule);
+      });
+      return;
+    }
     this.rules.set(object.id, rule);
   }
 
@@ -146,10 +152,7 @@ export default class Tile {
         tilesAround.forEach((tile) => {
           if (tile.type != TRAFFIC_SIM.TILES.ROAD) return;
           this.affects.push(tile);
-          tile.applyRule(object, {
-            type: TRAFFIC_SIM.STREET_RULES.SPEED,
-            value: 0.1,
-          });
+          tile.applyRule(object, object.rules);
         });
       }
       return true;

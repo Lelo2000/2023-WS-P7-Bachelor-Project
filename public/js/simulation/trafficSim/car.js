@@ -66,6 +66,11 @@ export default class Car {
         this.nextTile = nextTile;
         this.nextTile.addVehicle(this.id, this);
         this.progressToNextTile = 0;
+      } else {
+        // let otherTileVehicles = Array.from(nextTile.vehicles.values());
+        // otherTileVehicles.forEach((vehicle) => {
+        //   this.speed = vehicle.speed;
+        // });
       }
       this.updateDistnaceToCover();
     }

@@ -111,7 +111,20 @@ export default class World {
       newObject.explanation = objectData.explanation;
       newObject.tags = objectData.tags;
       newObject.categories = objectData.categories;
+      this.applySpecialObjectAttributes(newObject, objectData);
       this.objectList.set(newObject.id, newObject);
+    });
+  }
+
+  /**
+   * @param {Object}
+   */
+  applySpecialObjectAttributes(object, objectData) {
+    object.categories.forEach((categorie) => {
+      switch (categorie) {
+        case TRAFFIC_SIM.CATEGORIES.STREET_SIGNS:
+          object.rules = objectData.rules;
+      }
     });
   }
 

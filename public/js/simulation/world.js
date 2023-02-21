@@ -44,7 +44,6 @@ export default class World {
       this.canvas.setViewportTransform(this.canvas.viewportTransform);
       this.canvas.renderAll();
 
-      console.log("render All");
       this.lastTime = this.currentTime - (this.deltaTime % this.interval);
     }
     window.requestAnimationFrame(() => {
@@ -58,10 +57,21 @@ export default class World {
    */
   addObjectFromObjectData(objectData, position) {
     fabric.Image.fromURL(objectData.imageUrl, (oImg) => {
-      oImg.top = position.y;
-      oImg.left = position.x;
+      let positionTransformed = fabric.util.transformPoint(
+        position,
+        this.canvas.viewportTransform
+      );
+      let vx = position.x - positionTransformed.x;
+      let vy = position.y - positionTransformed.y;
+      console.log(positionTransformed);
 
-      this.canvas.add(oImg);
+      oImg.top = position.y + vy * (1 / this.canvas.getZoom());
+      oImg.left = position.x + vx * (1 / this.canvas.getZoom());
+      console.log(this.canvas.getZoom());
+      console.log(oImg.top, oImg.left);
+      oImg.originX = "center";
+      oImg.originY = "center";
+
       oImg.lockScalingX = true;
       oImg.lockScalingY = true;
       oImg.setControlsVisibility({
@@ -75,6 +85,8 @@ export default class World {
         tr: false,
         mtr: true,
       });
+      console.log(this.canvas.viewportTransform);
+      this.canvas.add(oImg);
       this.canvas.setActiveObject(oImg);
       let newObject = new Object(oImg);
       oImg.id = newObject.id;

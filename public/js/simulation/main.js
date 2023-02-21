@@ -7,10 +7,11 @@ const socket = window.socket;
 const world = new World("simulationCanvas", socket);
 
 window.addEventListener(EVENTS.SIMULATION.ADD_OBJECT, (eventData) => {
-  console.log(eventData);
   let objectData = eventData.detail;
-  console.log(objectData);
-  world.addObjectFromObjectData(objectData, { x: 300, y: 300 });
+  world.addObjectFromObjectData(objectData, {
+    x: world.canvas.getWidth() / 2,
+    y: world.canvas.getHeight() / 2,
+  });
 });
 // const messageManager = new MessageManager(
 //   socket,

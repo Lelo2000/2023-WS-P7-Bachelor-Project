@@ -2,5 +2,6 @@
   "name": "Mülleimer",
   "imageUrl": "/images/simulation/objects/bin.svg",
   "tags": ["Sauberkeit"],
+  "categories": ["Ordnung"],
   "explanation": "Kann man Sachen reinstecken"
 }

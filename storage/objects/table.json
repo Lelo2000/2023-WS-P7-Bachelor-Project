@@ -2,5 +2,6 @@
   "name": "Tisch",
   "imageUrl": "/images/simulation/objects/table.svg",
   "tags": ["Abstellmöglichkeit"],
+  "categories": ["Sitzen"],
   "explanation": "Ist eine Tisch. Kann man Sachen Draufstellen."
 }

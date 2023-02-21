@@ -2,5 +2,6 @@
   "name": "Busch",
   "imageUrl": "/images/simulation/objects/bush.svg",
   "tags": ["Umwelt"],
+  "categories": ["Grün"],
   "explanation": "Ist grün. Macht O2"
 }

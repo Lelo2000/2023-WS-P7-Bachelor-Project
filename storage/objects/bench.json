@@ -2,5 +2,6 @@
   "name": "Bank",
   "imageUrl": "/images/simulation/objects/bench.svg",
   "tags": ["Sitzmöglichkeiten"],
+  "categories": ["Sitzen"],
   "explanation": "Ist eine Bank. Kann man sich draufsetzen."
 }

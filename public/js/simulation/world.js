@@ -1,7 +1,8 @@
-import { EVENTS } from "../constants.js";
+import { EVENTS, TRAFFIC_SIM } from "../constants.js";
 import Heatmap from "./heatmap.js";
 import { Object } from "./object.js";
 import CarManager from "./trafficSim/carManager.js";
+import SimulationManager from "./trafficSim/simulationManager.js";
 import TrafficMap from "./trafficSim/trafficMap.js";
 import ViewManager from "./viewManager.js";
 export default class World {
@@ -23,24 +24,33 @@ export default class World {
     this.name;
     this.currentProposal;
     this.heatMap = new Heatmap(this.canvas, this.objectList);
-    this.heatMap.createHeatmap();
     /**@type {TrafficMap} */
     this.map = new TrafficMap(this.canvas);
-    this.carManager = new CarManager(this.map);
+    this.simulationManager = new SimulationManager(this);
     // this.viewManager = new ViewManager(this);
     this.lastTime = new Date().getTime();
     this.currentTime = 0;
     this.deltaTime = 0;
     this.interval = 1000 / 30;
-    this.render();
     this.bounderies = 2000;
+    this.initializeWorld();
+  }
+
+  initializeWorld() {
+    this.registerSocketEvents();
+    this.initializeStandardElements();
+    this.registerDomEventListener();
+    this.heatMap.createHeatmap();
+    this.simulationManager.init();
+    this.map.registerEvents();
+    this.render();
   }
 
   render() {
     this.currentTime = new Date().getTime();
     this.deltaTime = this.currentTime - this.lastTime;
     if (this.deltaTime > this.interval) {
-      this.carManager.moveCars(this.deltaTime);
+      this.simulationManager.onRender();
       this.canvas.setViewportTransform(this.canvas.viewportTransform);
       this.canvas.renderAll();
 
@@ -72,6 +82,13 @@ export default class World {
       oImg.originX = "center";
       oImg.originY = "center";
 
+      if (
+        objectData.categories.indexOf(TRAFFIC_SIM.CATEGORIES.STREET_SIGNS) >= 0
+      ) {
+        oImg.scaleToWidth(this.map.resolution);
+        oImg.scaleToHeight(this.map.resolution);
+      }
+
       oImg.lockScalingX = true;
       oImg.lockScalingY = true;
       oImg.setControlsVisibility({
@@ -93,6 +110,7 @@ export default class World {
       newObject.name = objectData.name;
       newObject.explanation = objectData.explanation;
       newObject.tags = objectData.tags;
+      newObject.categories = objectData.categories;
       this.objectList.set(newObject.id, newObject);
     });
   }
@@ -231,18 +249,7 @@ export default class World {
       this.isDragging = false;
       this.canvas.selection = true;
     });
-    //Dokument Eventlistener
-    document.addEventListener("keydown", (event) => {
-      let keyCode = event.code;
-      if (keyCode === "Space") {
-        this.carManager.togglePause();
-      }
-      if (keyCode === "KeyP") {
-        this.saveCanvas().then((results) => {
-          console.log(results);
-        });
-      }
-    });
+
     window.rotationIcon = new Image();
     window.rotationIcon.onload = () => {
       console.log(window.rotationIcon);
@@ -275,7 +282,9 @@ export default class World {
       cornerSize: 20,
     });
     window.deleteIcon.src = "/images/icons/trash_bin.svg";
+  }
 
+  initializeStandardElements() {
     //Standard Elemente
     this.errorText = new fabric.Text("", {
       fill: "red",
@@ -286,7 +295,21 @@ export default class World {
       selectable: false,
     });
     this.canvas.add(this.errorText);
+  }
 
+  registerDomEventListener() {
+    //Dokument Eventlistener
+    document.addEventListener("keydown", (event) => {
+      let keyCode = event.code;
+      if (keyCode === "KeyP") {
+        this.saveCanvas().then((results) => {
+          console.log(results);
+        });
+      }
+    });
+  }
+
+  registerSocketEvents() {
     //Server Absprache
     this.socket.emit(EVENTS.CLIENT.REQUEST_PROPOSAL_OBJECTS);
     this.socket.on(EVENTS.SERVER.RECIEVE_PROPOSAL_OBJECTS, async (payload) => {
@@ -380,6 +403,55 @@ export default class World {
     if (!options.target.id) {
       return;
     }
+    this.moveStreetSign(options);
+    this.checkForCollisions(options);
+    this.checkForErrors();
+    if (this.heatMap.isVisible) {
+      this.heatMap.colorHeatmap();
+    }
+  }
+
+  moveStreetSign(options) {
+    let movedObjectId = options.target.id;
+    let movedObject = this.objectList.get(movedObjectId);
+    if (
+      movedObject.categories.indexOf(TRAFFIC_SIM.CATEGORIES.STREET_SIGNS) < 0
+    ) {
+      return;
+    }
+    let mouseICoordinates = this.map.getIndexCoordinates(
+      options.pointer.x,
+      options.pointer.y
+    );
+    let mapTile = this.map.getTile(mouseICoordinates.x, mouseICoordinates.y);
+    if (mapTile.type != TRAFFIC_SIM.TILES.BESIDE_STREET) {
+      return;
+    }
+    if (movedObject.lastTile != undefined) {
+      movedObject.lastTile.removeContent(movedObject);
+    }
+    if (!mapTile.place(movedObject)) {
+      return;
+    } else {
+      movedObject.lastTile = mapTile;
+    }
+    let objectICoordinates = this.map.getRealCoordinates(
+      mouseICoordinates.x,
+      mouseICoordinates.y
+    );
+    let movedDisplayObject = movedObject.displayObject;
+    let movedDisplayObjectWidth =
+      movedDisplayObject.width * movedDisplayObject.scaleX;
+    let movedDisplayObjectHeight =
+      movedDisplayObject.height * movedDisplayObject.scaleX;
+
+    movedDisplayObject.left =
+      objectICoordinates.x + movedDisplayObjectWidth / 2;
+    movedDisplayObject.top =
+      objectICoordinates.y + movedDisplayObjectHeight / 2;
+  }
+
+  checkForCollisions(options) {
     options.target.setCoords();
     let movedObjectId = options.target.id;
     let movedObject = this.objectList.get(movedObjectId);
@@ -407,10 +479,6 @@ export default class World {
       object.endCollision(movedObjectId);
       movedObject.endCollision(object.id);
     });
-    this.checkForErrors();
-    if (this.heatMap.isVisible) {
-      this.heatMap.colorHeatmap();
-    }
   }
 
   checkForErrors() {

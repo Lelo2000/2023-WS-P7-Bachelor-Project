@@ -38,6 +38,16 @@ export default class Car {
       this.tile.removeVehicle(this.id);
       this.tile = this.nextTile;
       this.tile.addVehicle(this.id, this);
+      let tileRules = Array.from(this.tile.rules.values());
+      if (tileRules.length != 0) {
+        tileRules.forEach((tileRule) => {
+          switch (tileRule.type) {
+            case TRAFFIC_SIM.STREET_RULES.SPEED: {
+              this.speed = tileRule.value;
+            }
+          }
+        });
+      }
     }
     /**@type {Tile} */
     let nextTile;

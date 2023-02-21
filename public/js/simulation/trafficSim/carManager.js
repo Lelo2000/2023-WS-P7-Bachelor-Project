@@ -6,14 +6,27 @@ export default class CarManager {
     /**@type {Map<String, Car>} */
     this.cars = new Map();
     this.pause = false;
-    setInterval(() => {
-      let rnd = Math.random();
-      if (rnd < 0.5) {
-        this.spawnCar(15, 1);
-      } else {
-        this.spawnCar(1, 15);
-      }
-    }, 200);
+    this.flow = 0;
+    this.spawnInterval;
+    this.startIntveral();
+  }
+
+  startIntveral() {
+    if (this.spawnInterval) clearInterval(this.spawnInterval);
+    if (this.flow <= 0) return;
+    this.spawnInterval = setInterval(() => {
+      this.spawnCars();
+    }, this.flow);
+  }
+
+  spawnCars() {
+    if (this.pause) return;
+    let rnd = Math.random();
+    if (rnd < 0.5) {
+      this.spawnCar(15, 1);
+    } else {
+      this.spawnCar(1, 15);
+    }
   }
 
   togglePause() {
@@ -40,5 +53,11 @@ export default class CarManager {
     tile.addVehicle(newCar.id, newCar);
     this.cars.set(newCar.id, newCar);
     return newCar;
+  }
+  changeOptions(options) {
+    if (options.hasOwnProperty("flow")) {
+      this.flow = 60000 / options.flow;
+      this.startIntveral();
+    }
   }
 }

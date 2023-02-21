@@ -1,4 +1,4 @@
-import { HTML_IDS, EVENTS } from "../constants.js";
+import { HTML_IDS, EVENTS, TRAFFIC_SIM } from "../constants.js";
 
 export default class BottomMenuController {
   constructor(bottomMenu) {
@@ -30,6 +30,35 @@ export default class BottomMenuController {
   }
 
   init() {
+    let playButton = this.optionSimulation
+      .find(".simulationControlls")
+      .find(".play");
+    playButton.on("click", () => {
+      window.dispatchEvent(new CustomEvent(EVENTS.SIMULATION.TOGGLE_PAUSE));
+      if (playButton.hasClass("icon-play")) {
+        playButton.removeClass("icon-play");
+        playButton.addClass("icon-pause");
+      } else {
+        playButton.removeClass("icon-pause");
+        playButton.addClass("icon-play");
+      }
+    });
+    let inpuCarTraffic = this.bottomMenu
+      .find("#" + HTML_IDS.BOTTOM_MENU.OPTIONS.INPUT_CAR_TRAFFIC)
+      .on("change", () => {
+        let value = inpuCarTraffic.val();
+        window.dispatchEvent(
+          new CustomEvent(EVENTS.SIMULATION.SET_TRAFFIC, {
+            detail: {
+              vehicle: TRAFFIC_SIM.VEHICLES.CAR,
+              options: { flow: value },
+            },
+          })
+        );
+        this.bottomMenu
+          .find("#" + HTML_IDS.BOTTOM_MENU.OPTIONS.VALUE_CAR_TRAFFIC)
+          .html(`${value} Autos/min`);
+      });
     this.grabLine.on("click", (e) => {
       console.log("Clicked");
       if (this.expandedOption === HTML_IDS.BOTTOM_MENU.OPTIONS.OBJECTS) {

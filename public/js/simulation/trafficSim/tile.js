@@ -15,6 +15,9 @@ export default class Tile {
     this.nextTile = [];
     /**@type {Map} */
     this.vehicles = new Map();
+    this.content = new Map();
+    this.rules = new Map();
+    this.affects = [];
     this.color = "blue";
     this.convertTo(type, params);
     this.realCoords = this.map.getRealCoordinates(ix, iy);
@@ -87,6 +90,9 @@ export default class Tile {
     if (!this.displayObject) {
       await this.initDisplayObject();
     }
+    if (this.type === TRAFFIC_SIM.TILES.EMPTY) {
+      return;
+    }
     if (this.displayObject) {
       this.hide();
     }
@@ -109,6 +115,9 @@ export default class Tile {
       case TRAFFIC_SIM.TILES.EMPTY:
         this.color = "#bbbbbb";
         break;
+      case TRAFFIC_SIM.TILES.BESIDE_STREET:
+        this.color = "#bbbbff";
+        break;
       case TRAFFIC_SIM.TILES.ROAD:
         this.color = "#777777";
         if (!params) return;
@@ -122,5 +131,39 @@ export default class Tile {
         this.direction = TRAFFIC_SIM.TILES.CROSSING;
         break;
     }
+  }
+
+  applyRule(object, rule) {
+    this.rules.set(object.id, rule);
+  }
+
+  place(object) {
+    if (this.content.size < 1) {
+      this.content.set(object.id, object);
+      if (object.hasCategorie(TRAFFIC_SIM.CATEGORIES.SPEED_SIGN)) {
+        TRAFFIC_SIM.CATEGORIES.STREET_SIGNS;
+        let tilesAround = this.map.getAllTilesAroundField(this.ix, this.iy);
+        tilesAround.forEach((tile) => {
+          if (tile.type != TRAFFIC_SIM.TILES.ROAD) return;
+          this.affects.push(tile);
+          tile.applyRule(object, {
+            type: TRAFFIC_SIM.STREET_RULES.SPEED,
+            value: 0.1,
+          });
+        });
+      }
+      return true;
+    }
+    if (this.content.has(object.id)) {
+      return true;
+    }
+    return false;
+  }
+  removeContent(object) {
+    this.affects.forEach((tile) => {
+      if (tile.rules.has(object.id)) tile.rules.delete(object.id);
+    });
+    this.affects = [];
+    if (this.content.has(object.id)) this.content.delete(object.id);
   }
 }

@@ -41,6 +41,8 @@ const HTML_IDS = {
       FILTER_OBJECT_TAGS: "filterObjectTags",
       OBJECT_SEARCH: "optionObjectSearch",
       OBJECT_SEARCH_SPACE: "objectSearchSpace",
+      INPUT_CAR_TRAFFIC: "inputCarTraffic",
+      VALUE_CAR_TRAFFIC: "valueCarTraffic",
     },
     CONTAINER: {
       OBJECTS: "objectsContainer",
@@ -74,6 +76,7 @@ const TRAFFIC_SIM = {
     EMPTY: "empty",
     ROAD: "road",
     CROSSING: "crossing",
+    BESIDE_STREET: "beside_street",
   },
   IMAGES: {
     STREET: "/images/simulation/tiles/street.svg",
@@ -81,6 +84,13 @@ const TRAFFIC_SIM = {
   },
   VEHICLES: {
     CAR: "car",
+  },
+  STREET_RULES: {
+    SPEED: "speed",
+  },
+  CATEGORIES: {
+    STREET_SIGNS: "Straßenschild",
+    SPEED_SIGN: "Geschwindigkeitsbegrenzung",
   },
 };
 
@@ -104,6 +114,8 @@ const EVENTS = {
   },
   SIMULATION: {
     ADD_OBJECT: "addObject",
+    TOGGLE_PAUSE: "togglePause",
+    SET_TRAFFIC: "setTraffic",
   },
 };
 

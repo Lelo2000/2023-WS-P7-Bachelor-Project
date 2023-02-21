@@ -6,8 +6,8 @@ export default class TrafficMap {
   constructor(canvas) {
     this.canvas = canvas;
     this.resolution = TRAFFIC_SIM.GRID.RESOLUTION;
-    this.x = -TRAFFIC_SIM.GRID.RESOLUTION;
-    this.y = -TRAFFIC_SIM.GRID.RESOLUTION;
+    this.x = -TRAFFIC_SIM.GRID.RESOLUTION * 3;
+    this.y = -TRAFFIC_SIM.GRID.RESOLUTION * 3;
     this.width = this.canvas.width * 2;
     this.height = this.canvas.height * 2;
     this.iWidth = 0;
@@ -18,7 +18,16 @@ export default class TrafficMap {
     this.createRoad({ ix: this.iWidth, iy: 14 }, { ix: 0, iy: 14 });
     this.createRoad({ ix: 15, iy: 0 }, { ix: 15, iy: this.iHeight });
     this.createRoad({ ix: 16, iy: this.iHeight }, { ix: 16, iy: 0 });
+    this.createRoad({ ix: 16, iy: 6 }, { ix: this.iWidth, iy: 6 });
+    this.createRoad({ ix: 32, iy: 6 }, { ix: 32, iy: 14 });
     console.log(this);
+  }
+
+  registerEvents() {
+    this.canvas.on("mouse:move", (opt) => {
+      let pointer = opt.pointer;
+      let iCoordinates = this.getIndexCoordinates(pointer.x, pointer.y);
+    });
   }
 
   createGrid() {
@@ -47,6 +56,12 @@ export default class TrafficMap {
       x: this.x + this.resolution * ix,
       y: this.y + this.resolution * iy,
     };
+  }
+
+  getIndexCoordinates(realX, realY) {
+    let ixReal = Math.floor((realX - this.x) / this.resolution);
+    let iyReal = Math.floor((realY - this.y) / this.resolution);
+    return { x: ixReal, y: iyReal };
   }
 
   /**
@@ -78,6 +93,12 @@ export default class TrafficMap {
         )
           nextTile = this.grid[ix + directionX][iy + directionY];
         switch (this.grid[ix][iy].type) {
+          case TRAFFIC_SIM.TILES.BESIDE_STREET:
+            this.grid[ix][iy].convertTo(TRAFFIC_SIM.TILES.ROAD, {
+              nextTile,
+              direction: { x: directionX, y: directionY },
+            });
+            break;
           case TRAFFIC_SIM.TILES.EMPTY:
             this.grid[ix][iy].convertTo(TRAFFIC_SIM.TILES.ROAD, {
               nextTile,
@@ -91,15 +112,55 @@ export default class TrafficMap {
             });
             break;
         }
-        this.grid[ix][iy].show();
+        this.markTilesAsBesideStreet(ix, iy);
       }
     }
+    this.updateMapTiles();
+  }
+  updateMapTiles() {
+    this.grid.forEach((ixArray) => {
+      ixArray.forEach((tile) => {
+        tile.show();
+      });
+    });
+  }
+
+  getAllTilesAroundField(ix, iy) {
+    let result = [];
+    if (iy > 0) {
+      result.push(this.grid[ix][iy - 1]);
+    }
+    if (iy < this.iHeight) {
+      result.push(this.grid[ix][iy + 1]);
+    }
+    if (ix > 0) {
+      result.push(this.grid[ix - 1][iy]);
+    }
+    if (ix < this.iWidth) {
+      result.push(this.grid[ix + 1][iy]);
+    }
+    return result;
+  }
+
+  markTilesAsBesideStreet(ix, iy) {
+    let tilesToCheck = this.getAllTilesAroundField(ix, iy);
+
+    console.log(tilesToCheck);
+    tilesToCheck.forEach((tile) => {
+      console.log(tile.type);
+      if (tile.type != TRAFFIC_SIM.TILES.EMPTY) {
+        return;
+      }
+      tile.convertTo(TRAFFIC_SIM.TILES.BESIDE_STREET);
+    });
+  }
+  getTile(ix, iy) {
+    return this.grid[ix][iy];
   }
 
   logTile(pointer) {
     console.log(pointer);
-    let ixPointer = Math.ceil(pointer.x / TRAFFIC_SIM.GRID.RESOLUTION);
-    let iyPointer = Math.ceil(pointer.y / TRAFFIC_SIM.GRID.RESOLUTION);
-    console.log("Pointer Debug:", this.grid[ixPointer][iyPointer]);
+    let iCoordinates = this.getIndexCoordinates(pointer.x, pointer.y);
+    console.log("Pointer Debug:", this.grid[iCoordinates.x][iCoordinates.y]);
   }
 }

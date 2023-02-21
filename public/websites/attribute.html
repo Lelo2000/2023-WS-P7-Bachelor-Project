@@ -119,7 +119,7 @@
             </div>
             <div class="simulationControlls">
               <img class="icon-play-backward" />
-              <img class="icon-play" />
+              <img class="icon-play play" />
               <img class="icon-play-forward" />
             </div>
           </div>
@@ -130,10 +130,19 @@
               <div class="param">
                 <div class="flex-spacebetween">
                   <h2>Autos</h2>
-                  <span class="displayValue">200 Autos/min</span>
+                  <span class="displayValue" id="valueCarTraffic"
+                    >0 Autos/min</span
+                  >
                 </div>
                 <div class="inputRange">
-                  <input type="range" min="0" max="200" step="1.0" value="0" />
+                  <input
+                    type="range"
+                    min="0"
+                    max="200"
+                    step="1.0"
+                    value="0"
+                    id="inputCarTraffic"
+                  />
                   <div class="track"></div>
                   <div class="rangeMarker zero">
                     <div></div>

@@ -4,6 +4,7 @@ export class Object {
   constructor(displayObject) {
     this.id = Math.random();
     this.tags = ["object"];
+    this.categories = [];
     this.displayObject = displayObject;
     this.isCollided = false;
     /**@type {Array} Array an Objekt Ids von den Objekten mit denen es kollidiert ist. */
@@ -16,6 +17,10 @@ export class Object {
     this.isVisible = true;
     this.name = "";
     this.explanation = "";
+  }
+
+  hasCategorie(categorie) {
+    return this.categories.indexOf(categorie) >= 0;
   }
 
   showChangeType(type) {

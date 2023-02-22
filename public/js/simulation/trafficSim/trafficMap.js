@@ -145,9 +145,7 @@ export default class TrafficMap {
   markTilesAsBesideStreet(ix, iy) {
     let tilesToCheck = this.getAllTilesAroundField(ix, iy);
 
-    console.log(tilesToCheck);
     tilesToCheck.forEach((tile) => {
-      console.log(tile.type);
       if (tile.type != TRAFFIC_SIM.TILES.EMPTY) {
         return;
       }
@@ -159,7 +157,6 @@ export default class TrafficMap {
   }
 
   logTile(pointer) {
-    console.log(pointer);
     let iCoordinates = this.getIndexCoordinates(pointer.x, pointer.y);
     console.log("Pointer Debug:", this.grid[iCoordinates.x][iCoordinates.y]);
   }

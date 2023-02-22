@@ -95,8 +95,7 @@ export default class BottomMenuController {
     if (expand) {
       this.optionSimulation.css("width", "65%");
       this.showElement(this.optionSimulation.find("#optionGeneral"), "25%");
-      this.showElement(this.optionSimulation.find("#optionTraffic"), "30%");
-      this.showElement(this.optionSimulation.find("#optionWeather"), "12.5%");
+      this.showElement(this.optionSimulation.find("#optionTraffic"), "42.5%");
       this.showElement(
         this.optionSimulation.find("#optionDisplay"),
         "calc(150px - 16px)"
@@ -107,7 +106,6 @@ export default class BottomMenuController {
     this.optionSimulation.css("width", "20%");
     this.showElement(this.optionSimulation.find("#optionGeneral"), "100%");
     this.hideElement(this.optionSimulation.find("#optionTraffic"));
-    this.hideElement(this.optionSimulation.find("#optionWeather"));
     this.hideElement(this.optionSimulation.find("#optionDisplay"));
     this.hideElement(this.optionSimulation.find(".lineVertical"));
   }

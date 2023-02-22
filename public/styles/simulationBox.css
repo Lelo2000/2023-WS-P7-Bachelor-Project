@@ -169,7 +169,7 @@
 }
 
 #optionSimulation #optionTraffic {
-  width: 30%;
+  width: 42.5%;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -307,18 +307,7 @@
   right: 7px;
 }
 #optionTraffic .rangeMarker.rushHour span {
-  margin-left: -76px;
-}
-
-#optionSimulation #optionWeather {
-  width: 12.5%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-#optionSimulation #optionWeather .radioButtonList {
-  width: 100%;
-  height: 70%;
+  margin-left: -27px;
 }
 
 #optionSimulation #optionDisplay {

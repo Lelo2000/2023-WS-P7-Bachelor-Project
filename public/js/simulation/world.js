@@ -73,12 +73,9 @@ export default class World {
       );
       let vx = position.x - positionTransformed.x;
       let vy = position.y - positionTransformed.y;
-      console.log(positionTransformed);
 
       oImg.top = position.y + vy * (1 / this.canvas.getZoom());
       oImg.left = position.x + vx * (1 / this.canvas.getZoom());
-      console.log(this.canvas.getZoom());
-      console.log(oImg.top, oImg.left);
       oImg.originX = "center";
       oImg.originY = "center";
 
@@ -102,7 +99,6 @@ export default class World {
         tr: false,
         mtr: true,
       });
-      console.log(this.canvas.viewportTransform);
       this.canvas.add(oImg);
       this.canvas.setActiveObject(oImg);
       let newObject = new Object(oImg);

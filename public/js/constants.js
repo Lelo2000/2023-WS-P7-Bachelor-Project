@@ -17,6 +17,9 @@ const HTML_IDS = {
     UNDO: "undo",
     ATTRIBUTES: "attributes",
     COMMENTS: "comments",
+    DISCUSSION: "discussion",
+    EXPERT: "askExpert",
+    PROPOSAL_SWITCH: "proposalSwitch",
     FAQ: "faq",
   },
   FOLD_OUT: {

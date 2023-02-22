@@ -13,7 +13,7 @@ export default class Car {
     this.tag = TRAFFIC_SIM.VEHICLES.CAR;
     this.displayObject;
     this.initDisplayObject();
-    this.size = { x: 30, y: 35 };
+    this.size = { x: 50, y: 55 };
     this.progressToNextTile = 0;
     this.updateDistnaceToCover();
   }

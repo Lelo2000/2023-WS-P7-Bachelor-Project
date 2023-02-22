@@ -32,7 +32,7 @@ export default class World {
     this.currentTime = 0;
     this.deltaTime = 0;
     this.interval = 1000 / 30;
-    this.bounderies = 2000;
+    this.bounderies = 2400;
     this.initializeWorld();
   }
 

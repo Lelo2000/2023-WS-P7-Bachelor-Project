@@ -71,7 +71,7 @@ const IDEA = {
 };
 
 const TRAFFIC_SIM = {
-  GRID: { RESOLUTION: 40 },
+  GRID: { RESOLUTION: 60 },
   TILES: {
     EMPTY: "empty",
     ROAD: "road",

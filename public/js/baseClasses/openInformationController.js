@@ -7,11 +7,19 @@ export default class OpenInformationController {
       "#" + HTML_IDS.OPEN_INFORMATION.CONTENT
     );
     this.bottom = this.openInformation.find(".bottom");
-
+    this.box = this.openInformation.find("#" + HTML_IDS.OPEN_INFORMATION.BOX);
     $("#" + HTML_IDS.OPEN_INFORMATION.CLOSE).on("click", () => {
       this.hide();
     });
     this.isOpen = false;
+  }
+
+  getContent() {
+    return this.content;
+  }
+
+  setWidth(width) {
+    this.box.css("width", width);
   }
 
   show() {

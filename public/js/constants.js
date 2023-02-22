@@ -54,6 +54,7 @@ const HTML_IDS = {
   OPEN_INFORMATION: {
     ID: "openInformation",
     CONTENT: "openInformationContent",
+    BOX: "openInformationBox",
     CLOSE: "closeOpenInformation",
   },
 };

@@ -1,6 +1,6 @@
-import { EVENTS, MESSSAGES } from "../constants.js";
-import Message from "./message.js";
-import World from "./world.js";
+import { EVENTS, MESSSAGES } from "../../constants.js";
+import Message from "../message.js";
+import World from "../../simulation/world.js";
 
 export default class MessageManager {
   /**
@@ -27,10 +27,10 @@ export default class MessageManager {
       this.sendMessage($(this.messageFieldId).val());
     });
 
-    this.socket.on(EVENTS.SERVER.NEW_MESSAGE, (serverMsg) => {
-      let msg = serverMsg.data;
-      this.recieveMessage(msg);
-    });
+    // this.socket.on(EVENTS.SERVER.NEW_MESSAGE, (serverMsg) => {
+    //   let msg = serverMsg.data;
+    //   this.recieveMessage(msg);
+    // });
   }
 
   async messageClicked(messageId) {

@@ -31,10 +31,6 @@ export default class SimulationManager {
     });
     document.addEventListener("keydown", (event) => {
       let keyCode = event.code;
-      console.log(keyCode);
-      if (keyCode === "Space") {
-        this.togglePause();
-      }
     });
   }
 

@@ -1,5 +1,4 @@
 import { EVENTS } from "../constants.js";
-import MessageManager from "./messageManager.js";
 import World from "./world.js";
 
 const socket = window.socket;

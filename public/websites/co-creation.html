@@ -12,7 +12,7 @@
     <link href="/styles/icons.css" rel="stylesheet" />
     <link href="/styles/sideMenu.css" rel="stylesheet" />
     <link href="/styles/simulationBox.css" rel="stylesheet" />
-    <link href="/styles/page-attribute.css" rel="stylesheet" />
+    <link href="/styles/page-co-creation.css" rel="stylesheet" />
     <link href="/styles/openInformation.css" rel="stylesheet" />
   </head>
   <body>
@@ -55,22 +55,9 @@
       <img class="icon-arrow-right" />
     </div>
     <div id="simulationBox" class="shadow">
-      <div id="attributeSpecificBox">
-        <div class="flex-spacebetween">
-          <div class="inputAttributeSpace">
-            <input
-              class="inputAttribute"
-              type="text"
-              placeholder="Nachricht verfassen"
-            />
-            <img class="icon-paper-plane addAttribute" />
-          </div>
-          <div
-            class="blackButtonStyle submitAttributesButton"
-            id="openSubmitAttribute"
-          >
-            <img class="icon-envelope" />Einreichen
-          </div>
+      <div id="coCreationSpecificBox">
+        <div class="blackButtonStyle newContribution" id="newContributionOpen">
+          <img class="icon-plus" />Neuen Beitrag erstellen
         </div>
       </div>
       <div class="fullLine"></div>
@@ -261,13 +248,6 @@
             <img id="closeOpenInformation" class="icon-cross" />
           </div>
           <div id="openInformationContent"></div>
-          <div class="fullLine"></div>
-          <div class="commentSectionLong">
-            <div class="writeComment">
-              <img class="icon-profile" />
-              <input placeholder="Füge einen Kommentar hinzu" />
-            </div>
-          </div>
           <div class="bottom"></div>
         </div>
       </div>

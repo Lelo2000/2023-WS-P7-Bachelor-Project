@@ -1,0 +1,217 @@
+#coCreationSpecificBox {
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  align-items: center;
+}
+.blackButtonStyle.newContribution {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 19px;
+  padding-right: 19px;
+  box-sizing: border-box;
+  width: 193px;
+  cursor: pointer;
+}
+.tabMenu {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 16px;
+}
+.tabMenu .tabMenuPoint {
+  cursor: pointer;
+  user-select: none;
+  height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  width: 25%;
+  box-sizing: border-box;
+}
+
+.tabMenu .active {
+  border-bottom: 1px solid black;
+}
+
+.newContributionForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.newContributionForm h3 {
+  font-family: Inter-Regular;
+  font-size: 16px;
+  margin: 0px;
+  font-weight: normal;
+}
+
+.newContributionForm input {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #858585;
+  height: 34px;
+  padding-left: 8px;
+}
+
+.newContributionForm textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #858585;
+  padding-left: 8px;
+  padding-top: 9px;
+}
+
+.newContributionForm .information {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #efefef;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 12px;
+  border-radius: 10px;
+}
+.newContributionForm .bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.newContributionForm .information img {
+  width: 20px;
+  height: 20px;
+}
+
+.newContributionForm .information span {
+  width: 260px;
+}
+
+.newContributionForm .information .edit {
+  border-radius: 10000000000px;
+  border: 1px solid black;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 6.5px 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+#discussionMessagesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 16px;
+  box-sizing: border-box;
+}
+
+.message {
+  background-color: white;
+  padding: 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.2));
+  transition: transform 0.2s ease-in-out;
+}
+
+.message .top {
+  height: 34px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.message .top .profile {
+  height: 100%;
+}
+
+.message .top .profileContainer {
+  display: flex;
+  height: 100%;
+  gap: 8px;
+}
+
+.message .authorDate {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.message .authorDate p {
+  margin: 0px;
+}
+
+.message .authorDate {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+}
+.message .tagIcon {
+  background-color: #9c9c9c;
+  height: 24px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.message .tagIcon img {
+  width: 16px;
+  height: 16px;
+}
+
+.message .date {
+  color: #757575;
+  margin: 0px;
+}
+.message h2 {
+  font-family: Inter-Semi-Bold;
+  font-size: 13px;
+  margin: 0px;
+}
+.message .text p {
+  font-size: 12px;
+  margin: 0px;
+  margin-top: 4px;
+}
+.message .text {
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+.message .bottom {
+  margin: 0px;
+}
+
+.message .bottom .comments {
+  cursor: pointer;
+}
+
+.message .bottom img {
+  cursor: pointer;
+}
+.message .evaluation {
+  width: 56px;
+}

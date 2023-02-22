@@ -4,7 +4,7 @@ import { Object } from "./object.js";
 import CarManager from "./trafficSim/carManager.js";
 import SimulationManager from "./trafficSim/simulationManager.js";
 import TrafficMap from "./trafficSim/trafficMap.js";
-import ViewManager from "./viewManager.js";
+import ViewManager from "../co-creation/viewManager.js";
 export default class World {
   /**
    * @constructor

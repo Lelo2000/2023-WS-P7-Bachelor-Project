@@ -1,7 +1,7 @@
-import Change from "./change.js";
+import Change from "../simulation/change.js";
 import { CHANGES } from "../constants.js";
 import Message from "./message.js";
-import World from "./world.js";
+import World from "../simulation/world.js";
 
 export default class ViewManager {
   /**

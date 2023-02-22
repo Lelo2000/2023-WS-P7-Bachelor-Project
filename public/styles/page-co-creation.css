@@ -203,10 +203,11 @@
 }
 .message .bottom {
   margin: 0px;
-}
-
-.message .bottom .comments {
-  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
 }
 
 .message .bottom img {

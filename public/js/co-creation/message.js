@@ -46,10 +46,14 @@ export default class Message extends MessageBaseObject {
 
   getBottomBar() {
     let bottomSpaceAfterComments = "";
-    bottomSpaceAfterComments = `<div class="evaluation">
-    <img class="icon-like" />
-    <img class="icon-dislike" />
-  </div>`;
+    bottomSpaceAfterComments = `
+    <div class="bottom">
+      <span> 3 Antworten</span>
+      <div class="evaluation">
+        <img class="icon-like" />
+        <img class="icon-dislike" />
+      </div>
+    </div>`;
     return bottomSpaceAfterComments;
   }
 

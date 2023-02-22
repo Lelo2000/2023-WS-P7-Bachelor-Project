@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="/js/src/fabric.min.js" type="application/javascript"></script>
+    <script
+      src="/js/src/jquery-3.6.3.min.js"
+      type="application/javascript"
+    ></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link href="/styles/main.css" rel="stylesheet" />
+    <link href="/styles/fonts.css" rel="stylesheet" />
+    <link href="/styles/icons.css" rel="stylesheet" />
+    <link href="/styles/sideMenu.css" rel="stylesheet" />
+    <link href="/styles/simulationBox.css" rel="stylesheet" />
+    <link href="/styles/page-attribute.css" rel="stylesheet" />
+    <link href="/styles/openInformation.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="sideMenu" class="shadow">
+      <div class="sideMenuItem" id="home">
+        <img class="icon-house" />
+        <p>Home</p>
+      </div>
+      <div class="sideMenuLine"></div>
+      <div class="sideMenuItem" id="redo">
+        <img class="icon-arrow-curved-right" />
+        <p>Wieder-<br />herstellen</p>
+      </div>
+      <div class="sideMenuItem" id="undo">
+        <img class="icon-arrow-curved-left" />
+        <p>Rückgängig</p>
+      </div>
+      <div class="sideMenuLine"></div>
+      <div class="sideMenuItem" id="discussion">
+        <img class="icon-speech-bubbles" />
+        <p>Diskussion</p>
+      </div>
+      <div class="sideMenuLine"></div>
+      <div class="sideMenuItem" id="askExpert">
+        <img class="icon-expert" />
+        <p>Experten<br />befragen</p>
+      </div>
+      <div class="sideMenuLine"></div>
+      <div class="sideMenuItem" id="proposalSwitch">
+        <img class="icon-arrow-left-right" />
+        <p>Vorschlag wechseln</p>
+      </div>
+      <div class="sideMenuItem" id="faq">
+        <img class="icon-box-questionmark" />
+        <p>FAQ</p>
+      </div>
+    </div>
+    <div id="sideMenuFoldOut"></div>
+    <div id="sideMenuFoldOutButton" class="shadow">
+      <img class="icon-arrow-right" />
+    </div>
+    <div id="simulationBox" class="shadow">
+      <div id="attributeSpecificBox">
+        <div class="flex-spacebetween">
+          <div class="inputAttributeSpace">
+            <input
+              class="inputAttribute"
+              type="text"
+              placeholder="Nachricht verfassen"
+            />
+            <img class="icon-paper-plane addAttribute" />
+          </div>
+          <div
+            class="blackButtonStyle submitAttributesButton"
+            id="openSubmitAttribute"
+          >
+            <img class="icon-envelope" />Einreichen
+          </div>
+        </div>
+      </div>
+      <div class="fullLine"></div>
+      <div id="simulationOptions">
+        <div id="optionObjects" class="simulationOption">
+          <span class="optionName">Objekte</span>
+          <div class="searchElements flex-spacebetween">
+            <div class="searchSpace" id="objectSearchSpace">
+              <input
+                list="tags"
+                class="tag-filter"
+                id="filterObjectTags"
+                placeholder="Tags auswählen"
+              />
+              <input
+                type="text"
+                id="optionObjectSearch"
+                placeholder="Durchsuchen"
+              />
+              <img class="icon-search" />
+            </div>
+            <img class="icon-burger-diagonal" />
+          </div>
+          <div class="objectsContainer" id="objectsContainer"></div>
+        </div>
+        <div class="grabLine">
+          <img class="icon-vertical-lines" />
+        </div>
+        <div id="optionSimulation" class="simulationOption">
+          <span class="optionName">Simulation</span>
+          <div id="optionGeneral" class="simulationParameter">
+            <h1>Allgemein</h1>
+            <select class="simulationPreset">
+              <option value="rushHour">Berufsverkehr</option>
+              <option value="trafficThirtyYears">
+                Verkehrsaufkommen in 30 Jahren
+              </option>
+            </select>
+            <div class="flex-spacebetween">
+              <input class="simulationTime" type="time" />
+              <select class="simulationDay">
+                <option value="monday">Montag</option>
+                <option value="tuesday">Dienstag</option>
+                <option value="wednesday">Mittwoch</option>
+                <option value="thursday">Donnerstag</option>
+                <option value="friday">Freitag</option>
+                <option value="saturday">Samstag</option>
+                <option value="sunday">Sonntag</option>
+              </select>
+            </div>
+            <div class="simulationControlls">
+              <img class="icon-play-backward" />
+              <img class="icon-play play" />
+              <img class="icon-play-forward" />
+            </div>
+          </div>
+          <div class="lineVertical"></div>
+          <div id="optionTraffic" class="simulationParameter">
+            <h1>Verkehr</h1>
+            <div class="trafficParameterOptions">
+              <div class="param">
+                <div class="flex-spacebetween">
+                  <h2>Autos</h2>
+                  <span class="displayValue" id="valueCarTraffic"
+                    >0 Autos/min</span
+                  >
+                </div>
+                <div class="inputRange">
+                  <input
+                    type="range"
+                    min="0"
+                    max="200"
+                    step="1.0"
+                    value="0"
+                    id="inputCarTraffic"
+                  />
+                  <div class="track"></div>
+                  <div class="rangeMarker zero">
+                    <div></div>
+                    <span>Aus</span>
+                  </div>
+                  <div class="rangeMarker low">
+                    <div></div>
+                    <span>Gering</span>
+                  </div>
+                  <div class="rangeMarker medium">
+                    <div></div>
+                    <span>Mäßig</span>
+                  </div>
+                  <div class="rangeMarker rushHour">
+                    <div></div>
+                    <span>Hoch</span>
+                  </div>
+                </div>
+              </div>
+              <div class="param">
+                <div class="flex-spacebetween">
+                  <h2>Fahrräder</h2>
+                  <span class="displayValue">200 Autos/min</span>
+                </div>
+                <div class="inputRange">
+                  <input type="range" min="0" max="200" step="1.0" value="0" />
+                  <div class="track"></div>
+                  <div class="rangeMarker zero">
+                    <div></div>
+                    <span>Aus</span>
+                  </div>
+                  <div class="rangeMarker low">
+                    <div></div>
+                    <span>Gering</span>
+                  </div>
+                  <div class="rangeMarker medium">
+                    <div></div>
+                    <span>Mäßig</span>
+                  </div>
+                  <div class="rangeMarker rushHour">
+                    <div></div>
+                    <span>Hoch</span>
+                  </div>
+                </div>
+              </div>
+              <div class="param">
+                <div class="flex-spacebetween">
+                  <h2>Passanten</h2>
+                  <span class="displayValue">200 Autos/min</span>
+                </div>
+                <div class="inputRange">
+                  <input type="range" min="0" max="200" step="1.0" value="0" />
+                  <div class="track"></div>
+                  <div class="rangeMarker zero">
+                    <div></div>
+                    <span>Aus</span>
+                  </div>
+                  <div class="rangeMarker low">
+                    <div></div>
+                    <span>Gering</span>
+                  </div>
+                  <div class="rangeMarker medium">
+                    <div></div>
+                    <span>Mäßig</span>
+                  </div>
+                  <div class="rangeMarker rushHour">
+                    <div></div>
+                    <span>Hoch</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="lineVertical"></div>
+          <div id="optionDisplay" class="simulationParameter">
+            <h1>Anzeige</h1>
+            <div class="radioButtonList">
+              <div><input type="radio" name="view" /><label>Lärm</label></div>
+              <div>
+                <input type="radio" name="view" /><label>Feinstaub</label>
+              </div>
+              <div>
+                <input type="radio" name="view" /><label>Brandgefahr</label>
+              </div>
+              <div>
+                <input type="radio" name="view" /><label
+                  >Barrierefreiheit</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="spacer"></div>
+        <div id="optionViews" class="simulationOption">
+          <span class="optionName">Ansichten</span>
+          <div class="viewOption">
+            <img class="icon-arrow-circle-3d" /><span>3D Mode</span>
+          </div>
+          <div class="viewOption">
+            <img class="icon-box-in-box" /><span>AR Mode</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="informtaionBubble">
+      <div id="informationBubbleContent"></div>
+    </div>
+    <div id="openInformation">
+      <div class="grayLayer">
+        <div id="openInformationBox">
+          <div class="top">
+            <img id="closeOpenInformation" class="icon-cross" />
+          </div>
+          <div id="openInformationContent"></div>
+          <div class="fullLine"></div>
+          <div class="commentSectionLong">
+            <div class="writeComment">
+              <img class="icon-profile" />
+              <input placeholder="Füge einen Kommentar hinzu" />
+            </div>
+          </div>
+          <div class="bottom"></div>
+        </div>
+      </div>
+    </div>
+    <canvas id="simulationCanvas"></canvas>
+    <datalist id="tags">
+      <option value="Umwelt"></option>
+      <option value="Sitzmöglichkeiten"></option>
+    </datalist>
+    <script type="module" src="/js/attribute/main.js"></script>
+    <script type="module" src="/js/simulation/main.js"></script>
+  </body>
+</html>

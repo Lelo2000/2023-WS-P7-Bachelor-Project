@@ -97,3 +97,12 @@
 .icon-pause {
   content: url(/images/icons/pause.svg);
 }
+.icon-expert {
+  content: url(/images/icons/expert.svg);
+}
+.icon-arrow-left-right {
+  content: url(/images/icons/arrow_left_right.svg);
+}
+.icon-speech-bubbles {
+  content: url(/images/icons/speech_bubbles.svg);
+}

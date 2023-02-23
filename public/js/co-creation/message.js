@@ -6,6 +6,7 @@ export default class Message extends MessageBaseObject {
     this.categorie = "testCategorie";
     this.changes = [];
     this.dependencies = [];
+    this.answers = [];
     this.html = "";
     this.author = "Test autor";
   }
@@ -48,7 +49,7 @@ export default class Message extends MessageBaseObject {
     let bottomSpaceAfterComments = "";
     bottomSpaceAfterComments = `
     <div class="bottom">
-      <span> 3 Antworten</span>
+      <span> ${this.answers.length} Antworten</span>
       <div class="evaluation">
         <img class="icon-like" />
         <img class="icon-dislike" />

@@ -22,16 +22,20 @@ const attributeManager = new AttributeManager(io);
 
 const objectsData = loadObjectsData();
 
+const projectList = new Map();
 const port = 8090;
 
 console.log("Lade Projektliste...");
-let projectList;
+
 try {
-  let proposalsJSON = await readFileSync("./storage/project.json");
-  projectList = JSON.parse(proposalsJSON).projects;
+  let proposalsJSON = readFileSync("./storage/project.json");
+  JSON.parse(proposalsJSON).projects.forEach((project) => {
+    projectList.set(project.id, project);
+  });
 } catch (err) {
   console.error(err);
 }
+
 console.log("Projektliste erfolgreich geladen");
 
 app.use(express.static(__dirname + "/public"));
@@ -84,18 +88,13 @@ io.on("connection", (socket) => {
   messageManager.newConnection(socket);
   ideaManager.newConnection(socket);
   attributeManager.newConnection(socket);
-  socket.on(EVENTS.CLIENT.REQUEST_PROPOSAL_OBJECTS, async () => {
-    // try {
-    //   let proposalsJSON = await readFile("./storage/project.json");
-    //   let projectList = JSON.parse(proposalsJSON);
-    //   let chosenProposal = projectList[0].proposals.proposals[0];
-    //   let chosenProposalJSON = JSON.stringify(chosenProposal);
-    //   socket.emit(EVENTS.SERVER.RECIEVE_PROPOSAL_OBJECTS, {
-    //     data: chosenProposalJSON,
-    //   });
-    // } catch (err) {
-    //   console.error(err);
-    // }
+  socket.on(EVENTS.CLIENT.REQUEST_PROPOSALS, async () => {
+    if (socket.handshake.headers.referer.indexOf("co-creation") >= 0) {
+      socket.emit(EVENTS.SERVER.SEND_PROPOSALS, {
+        data: projectList.get(2).proposals,
+      });
+      return;
+    }
   });
 
   socket.on(EVENTS.CLIENT.REQUEST_OBJECTS_DATA, () => {
@@ -112,12 +111,7 @@ server.listen(port, function () {
 });
 
 function getProjectWithId(searchedId) {
-  for (let i = 0; i < projectList.length; i++) {
-    if (projectList[i].id == searchedId) {
-      return projectList[i];
-    }
-  }
-  return false;
+  projectList.get(Number(searchedId));
 }
 
 function loadObjectsData() {

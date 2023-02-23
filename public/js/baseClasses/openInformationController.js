@@ -6,6 +6,7 @@ export default class OpenInformationController {
     this.content = this.openInformation.find(
       "#" + HTML_IDS.OPEN_INFORMATION.CONTENT
     );
+    this.top = this.openInformation.find(".top");
     this.bottom = this.openInformation.find(".bottom");
     this.box = this.openInformation.find("#" + HTML_IDS.OPEN_INFORMATION.BOX);
     $("#" + HTML_IDS.OPEN_INFORMATION.CLOSE).on("click", () => {
@@ -22,12 +23,18 @@ export default class OpenInformationController {
     this.box.css("width", width);
   }
 
-  show() {
+  show(withTopSection = true) {
+    if (withTopSection) {
+      this.top.css("visibility", "visible");
+    } else {
+      this.top.css("visibility", "hidden");
+    }
     this.openInformation.css("visibility", "visible");
     this.isOpen = true;
   }
 
   hide() {
+    this.top.css("visibility", "hidden");
     this.openInformation.css("visibility", "hidden");
     this.isOpen = false;
   }

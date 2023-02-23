@@ -5,6 +5,7 @@ import OpenInformationController from "../baseClasses/openInformationController.
 import { EVENTS, HTML_IDS } from "../constants.js";
 import Message from "./message.js";
 import MessageManager from "./messageManager.js";
+import Proposal from "./proposal.js";
 
 const socket = io();
 window.socket = socket;
@@ -31,6 +32,8 @@ const openInformation = new OpenInformationController();
 let currentFoldOut = false;
 
 const messageManager = new MessageManager(socket);
+
+const proposals = new Map();
 
 $(document).ready(function () {
   $("#attributeSpecificBox").on("click", ".addAttribute", function (e) {
@@ -61,6 +64,18 @@ $(document).ready(function () {
     bottomMenuController.loadObjectsForAdding(serverMsg.data);
   });
   socket.emit(EVENTS.CLIENT.REQUEST_OBJECTS_DATA);
+
+  //Server Absprache
+  socket.emit(EVENTS.CLIENT.REQUEST_PROPOSALS);
+  socket.on(EVENTS.SERVER.SEND_PROPOSALS, async (payload) => {
+    payload.data.forEach((proposal) => {
+      let newProposal = new Proposal();
+      newProposal.fromServerData(proposal);
+      proposals.set(newProposal.id, newProposal);
+    });
+    loadProposalSelection(true);
+  });
+  console.log(proposals);
 });
 
 function onSideMenuClick(menuItemId) {
@@ -158,4 +173,27 @@ function openNewContribution() {
   `;
   openInformation.setContent(content);
   openInformation.show();
+}
+
+function loadProposalSelection(isRequired = false) {
+  let html = $(
+    `
+    <div class="proposalSelection">
+      <h1>
+        Wähle einen Vorschlag der Stadt aus, welchen du betrachten
+        möchtest
+      </h1>
+      <h2>
+        Die Stadt hat basierend auf den gesammelten Attributen mehrere
+        Vorschläge erstellt:
+      </h2>
+      <div class="proposalsContainer"></div>
+    </div>
+    `
+  );
+  proposals.forEach((proposal) => {
+    html.find(".proposalsContainer").append(proposal.html);
+  });
+  openInformation.setContent(html);
+  openInformation.show(!isRequired);
 }

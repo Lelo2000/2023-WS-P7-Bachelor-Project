@@ -37,7 +37,6 @@ export default class World {
   }
 
   initializeWorld() {
-    this.registerSocketEvents();
     this.initializeStandardElements();
     this.registerDomEventListener();
     this.heatMap.createHeatmap();
@@ -315,20 +314,6 @@ export default class World {
           console.log(results);
         });
       }
-    });
-  }
-
-  registerSocketEvents() {
-    //Server Absprache
-    this.socket.emit(EVENTS.CLIENT.REQUEST_PROPOSAL_OBJECTS);
-    this.socket.on(EVENTS.SERVER.RECIEVE_PROPOSAL_OBJECTS, async (payload) => {
-      let proposalJSON = payload.data;
-      this.currentProposal = JSON.parse(proposalJSON);
-      this.currentProposal.objects = new Map(
-        window.Object.entries(this.currentProposal.objects)
-      );
-      await this.loadObjectsToCanvas(this.currentProposal.objects);
-      this.onProposalObjectLoadFinished();
     });
   }
 

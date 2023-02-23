@@ -216,3 +216,33 @@
 .message .evaluation {
   width: 56px;
 }
+
+.proposalSelection h1 {
+  font-size: 24px;
+  font-family: "Inter-Semi-Bold";
+}
+.proposalSelection h2 {
+  font-size: 16px;
+  font-family: "Inter-Regular";
+  font-weight: normal;
+}
+.proposalSelection .proposalsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* overflow-x: scroll; */
+  gap: 60px;
+  box-sizing: border-box;
+  /* padding-bottom: 20px; */
+}
+
+.proposalsContainer .proposal {
+  width: calc(33% - 60px);
+}
+.proposal img {
+  width: 100%;
+}
+.proposal .blackButtonStyle {
+  width: 100%;
+}

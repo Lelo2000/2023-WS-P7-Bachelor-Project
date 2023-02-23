@@ -17,15 +17,15 @@ export default class Proposal {
   }
 
   createHtml() {
-    this.html = `
+    this.html = $(`
     <div class="proposal">
       <h1>${this.name}</h1>
       <img class="icon-arrow-circle-3d" />
       <p>
         ${this.description}
       </p>
-      <div class="blackButtonStyle">Vorschlag einsehen</div>
+      <div class="blackButtonStyle" id="${this.id}">Vorschlag einsehen</div>
     </div>
-    `;
+    `);
   }
 }

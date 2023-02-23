@@ -34,6 +34,7 @@ let currentFoldOut = false;
 const messageManager = new MessageManager(socket);
 
 const proposals = new Map();
+let currentProposalId;
 
 $(document).ready(function () {
   $("#attributeSpecificBox").on("click", ".addAttribute", function (e) {
@@ -46,6 +47,13 @@ $(document).ready(function () {
   $("#" + HTML_IDS.OPEN_INFORMATION.ID).on("click", ".addContribution", (e) => {
     sendContribution();
   });
+  $("#" + HTML_IDS.OPEN_INFORMATION.ID).on(
+    "click",
+    ".proposal .blackButtonStyle",
+    (e) => {
+      switchProposal(e.currentTarget.id);
+    }
+  );
   $("#" + HTML_IDS.SIDE_MENU.ID).on("click", ".sideMenuItem", (e) => {
     let menuItem = e.currentTarget;
     onSideMenuClick(menuItem.id);
@@ -99,6 +107,7 @@ function onSideMenuClick(menuItemId) {
     case HTML_IDS.SIDE_MENU.EXPERT:
       break;
     case HTML_IDS.SIDE_MENU.PROPOSAL_SWITCH:
+      loadProposalSelection(false);
       break;
     case HTML_IDS.SIDE_MENU.FAQ:
       break;
@@ -196,4 +205,9 @@ function loadProposalSelection(isRequired = false) {
   });
   openInformation.setContent(html);
   openInformation.show(!isRequired);
+}
+
+function switchProposal(proposalId) {
+  currentProposalId = proposalId;
+  openInformation.hide();
 }

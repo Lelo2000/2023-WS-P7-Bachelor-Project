@@ -20,6 +20,10 @@ export class Object {
     this.rules = [];
   }
 
+  fromServerData(data) {
+    window.Object.assign(this, data);
+  }
+
   hasCategorie(categorie) {
     return this.categories.indexOf(categorie) >= 0;
   }

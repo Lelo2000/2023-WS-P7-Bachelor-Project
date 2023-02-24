@@ -26,15 +26,15 @@ const informationBubble = new InformationBubble(
   informationBubbleContainer,
   informationBubbleContent
 );
+const viewManager = new ViewManager();
+
 const bottomMenu = $("#" + HTML_IDS.BOTTOM_MENU.ID);
-const bottomMenuController = new BottomMenuController(bottomMenu);
+const bottomMenuController = new BottomMenuController(bottomMenu, viewManager);
 
 const openInformation = new OpenInformationController();
 let currentFoldOut = false;
 
 const messageManager = new MessageManager(socket);
-
-const viewManager = new ViewManager();
 
 const proposals = new Map();
 let currentProposalId;
@@ -58,10 +58,8 @@ $(document).ready(function () {
     }
   );
   $("#" + HTML_IDS.FOLD_OUT.ID).on("click", ".playMessage", (e) => {
-    console.log("MESSAGE PLAY", e);
-    console.log(e.currentTarget.id);
-    viewManager.loadChangesToCanvas(
-      messageManager.getMessageChanges(e.currentTarget.id)
+    viewManager.playMessage(
+      messageManager.messages.get(Number(e.currentTarget.id))
     );
   });
   $("#" + HTML_IDS.SIDE_MENU.ID).on("click", ".sideMenuItem", (e) => {

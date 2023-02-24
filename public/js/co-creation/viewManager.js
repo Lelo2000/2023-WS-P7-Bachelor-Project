@@ -1,30 +1,35 @@
 import { CHANGES, EVENTS } from "../constants.js";
+import { Object } from "../simulation/object.js";
 import Change from "./change.js";
 
 export default class ViewManager {
   constructor() {
     this.currentProposal;
     this.savedView = new Map();
-    this.saveQue = new Map();
     this.isSaving = false;
     this.currentChanges = [];
+    this.proposalObjectList = new Map();
+    this.activeMessagesObjectList = new Map();
+    this.playingMessage;
+    this.currentObjectsList = new Map();
   }
 
   registerEvents() {
-    window.addEventListener(EVENTS.SIMULATION.LOADED_OBJECT, (eventData) => {
-      this.saveQue.delete(eventData.detail.objectId);
-      if (this.saveQue.size === 0) {
-        console.log("SAVE");
-        this.requestCanvasObjects((list) => {
-          this.saveView(list);
-        });
-      }
-    });
     window.addEventListener(
       EVENTS.SIMULATION.SEND_CANVAS_OBJECTS,
       (eventData) => {
         eventData.detail.opt.callback(eventData.detail.list);
       }
+    );
+  }
+
+  addNewObjectToView(objectData) {
+    let newObject = new Object("a");
+    newObject.fromServerData(objectData);
+    this.currentObjectsList.set(newObject.id, newObject);
+    console.log("CURRENT OBJECT LIST: ", this.currentObjectsList);
+    window.dispatchEvent(
+      new CustomEvent(EVENTS.SIMULATION.ADD_OBJECT, { detail: newObject })
     );
   }
 
@@ -36,8 +41,6 @@ export default class ViewManager {
 
   compareView(list) {
     this.currentChanges = [];
-    console.log("SAVED LIST: ", this.savedView);
-    console.log("LISTE:", list);
     list.forEach((object, key) => {
       if (!this.savedView.has(key)) {
         let newChange = new Change(CHANGES.TYPES.ADDED, {
@@ -71,14 +74,17 @@ export default class ViewManager {
 
   loadProposalObjectsToCanvas() {
     let objects = this.currentProposal.objects;
-    this.queForSaving(objects);
-    for (let id in this.currentProposal.objects) {
+    for (let id in objects) {
+      let newObject = new Object("error");
+      newObject.fromServerData(objects[id]);
+      this.proposalObjectList.set(newObject.id, newObject);
       window.dispatchEvent(
         new CustomEvent(EVENTS.SIMULATION.LOAD_OBJECT, {
-          detail: { object: objects[id] },
+          detail: { object: newObject },
         })
       );
     }
+    console.log("PROPOSAL LIST: ", this.proposalObjectList);
   }
 
   clearCanvas() {
@@ -86,7 +92,6 @@ export default class ViewManager {
   }
 
   loadChangesToCanvas(changes) {
-    console.log(changes);
     this.clearCanvas();
     this.loadProposalObjectsToCanvas();
     changes.forEach((change) => {
@@ -98,9 +103,17 @@ export default class ViewManager {
     });
   }
 
-  queForSaving(objects) {
-    for (let id in objects) {
-      this.saveQue.set(Number(id), objects[id]);
-    }
+  playMessage(message) {
+    this.playingMessage = message;
+    message.changes.forEach((change) => {
+      switch (change.type) {
+        case CHANGES.TYPES.ADDED:
+          let newObject = new Object("error");
+          newObject.fromServerData(change.options.addedObject);
+          this.activeMessagesObjectList.set(newObject.id, newObject);
+      }
+    });
+    console.log(this.activeMessagesObjectList);
+    this.loadChangesToCanvas(message.changes);
   }
 }

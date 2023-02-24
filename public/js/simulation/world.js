@@ -59,13 +59,9 @@ export default class World {
       this.render();
     });
   }
-  /**
-   * Fügt ein Bild direkt zum Canvas hinzu
-   * @param {string} imgURL URL des Images
-   * @param {object} position Position bei der das Bild hinzugefügt werden soll. Standard: {x: 0, y: 0}
-   */
-  addObjectFromObjectData(objectData, position) {
-    fabric.Image.fromURL(objectData.imageUrl, (oImg) => {
+
+  addObjectFromObjectData(newObject, position) {
+    fabric.Image.fromURL(newObject.imageUrl, (oImg) => {
       let positionTransformed = fabric.util.transformPoint(
         position,
         this.canvas.viewportTransform
@@ -79,7 +75,7 @@ export default class World {
       oImg.originY = "center";
 
       if (
-        objectData.categories.indexOf(TRAFFIC_SIM.CATEGORIES.STREET_SIGNS) >= 0
+        newObject.categories.indexOf(TRAFFIC_SIM.CATEGORIES.STREET_SIGNS) >= 0
       ) {
         oImg.scaleToWidth(this.map.resolution);
         oImg.scaleToHeight(this.map.resolution);
@@ -100,13 +96,8 @@ export default class World {
       });
       this.canvas.add(oImg);
       this.canvas.setActiveObject(oImg);
-      let newObject = new Object(oImg);
       oImg.id = newObject.id;
-      newObject.name = objectData.name;
-      newObject.explanation = objectData.explanation;
-      newObject.tags = objectData.tags;
-      newObject.categories = objectData.categories;
-      this.applySpecialObjectAttributes(newObject, objectData);
+      newObject.displayObject = oImg;
       this.objectList.set(newObject.id, newObject);
     });
   }
@@ -339,42 +330,66 @@ export default class World {
     );
   }
 
-  loadObjectToCanvas(object, changeType = false) {
-    return new Promise((resolve) => {
-      let newObject = new Object("a");
-      window.Object.assign(newObject, object);
-      fabric.Image.fromObject(newObject.displayObject, (oImg) => {
-        newObject.displayObject = oImg;
-        newObject.displayObject.id = newObject.id;
+  loadObjectToCanvas(newObject) {
+    fabric.Image.fromObject(newObject.displayObject, (oImg) => {
+      newObject.displayObject = oImg;
+      newObject.displayObject.id = newObject.id;
 
-        this.objectList.set(newObject.id, newObject);
-        oImg.setControlsVisibility({
-          mt: newObject.isScaleable,
-          mb: newObject.isScaleable,
-          ml: newObject.isScaleable,
-          mr: newObject.isScaleable,
-          bl: newObject.isScaleable,
-          br: newObject.isScaleable,
-          tl: newObject.isScaleable,
-          tr: newObject.isScaleable,
-          mtr: newObject.isRotateable,
-          deleteControl: newObject.isDeleteable,
-        });
-        oImg.lockMovementX = !newObject.isMoveable;
-        oImg.lockMovementY = !newObject.isMoveable;
-        if (changeType) {
-          newObject.showChangeType(changeType);
-        }
-        this.canvas.add(oImg);
-        window.dispatchEvent(
-          new CustomEvent(EVENTS.SIMULATION.LOADED_OBJECT, {
-            detail: { objectId: newObject.id },
-          })
-        );
-        resolve();
+      this.objectList.set(newObject.id, newObject);
+      oImg.setControlsVisibility({
+        mt: newObject.isScaleable,
+        mb: newObject.isScaleable,
+        ml: newObject.isScaleable,
+        mr: newObject.isScaleable,
+        bl: newObject.isScaleable,
+        br: newObject.isScaleable,
+        tl: newObject.isScaleable,
+        tr: newObject.isScaleable,
+        mtr: newObject.isRotateable,
+        deleteControl: newObject.isDeleteable,
       });
+      oImg.lockMovementX = !newObject.isMoveable;
+      oImg.lockMovementY = !newObject.isMoveable;
+      this.canvas.add(oImg);
     });
   }
+
+  // loadObjectToCanvas(object, changeType = false) {
+  //   return new Promise((resolve) => {
+  //     let newObject = new Object("a");
+  //     window.Object.assign(newObject, object);
+  //     fabric.Image.fromObject(newObject.displayObject, (oImg) => {
+  //       newObject.displayObject = oImg;
+  //       newObject.displayObject.id = newObject.id;
+
+  //       this.objectList.set(newObject.id, newObject);
+  //       oImg.setControlsVisibility({
+  //         mt: newObject.isScaleable,
+  //         mb: newObject.isScaleable,
+  //         ml: newObject.isScaleable,
+  //         mr: newObject.isScaleable,
+  //         bl: newObject.isScaleable,
+  //         br: newObject.isScaleable,
+  //         tl: newObject.isScaleable,
+  //         tr: newObject.isScaleable,
+  //         mtr: newObject.isRotateable,
+  //         deleteControl: newObject.isDeleteable,
+  //       });
+  //       oImg.lockMovementX = !newObject.isMoveable;
+  //       oImg.lockMovementY = !newObject.isMoveable;
+  //       if (changeType) {
+  //         newObject.showChangeType(changeType);
+  //       }
+  //       this.canvas.add(oImg);
+  //       window.dispatchEvent(
+  //         new CustomEvent(EVENTS.SIMULATION.LOADED_OBJECT, {
+  //           detail: { objectId: newObject.id },
+  //         })
+  //       );
+  //       resolve();
+  //     });
+  //   });
+  // }
 
   saveCanvas() {
     return new Promise((resolve) => {

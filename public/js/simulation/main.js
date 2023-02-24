@@ -6,8 +6,8 @@ const socket = window.socket;
 const world = new World("simulationCanvas", socket);
 
 window.addEventListener(EVENTS.SIMULATION.ADD_OBJECT, (eventData) => {
-  let objectData = eventData.detail;
-  world.addObjectFromObjectData(objectData, {
+  let newObject = eventData.detail;
+  world.addObjectFromObjectData(newObject, {
     x: world.canvas.getWidth() / 2,
     y: world.canvas.getHeight() / 2,
   });

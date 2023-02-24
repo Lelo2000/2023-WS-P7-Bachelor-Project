@@ -1,8 +1,13 @@
+import ViewManager from "../co-creation/viewManager.js";
 import { HTML_IDS, EVENTS, TRAFFIC_SIM } from "../constants.js";
 
 export default class BottomMenuController {
-  constructor(bottomMenu) {
+  /**
+   * @param {ViewManager} viewManager
+   */
+  constructor(bottomMenu, viewManager) {
     this.bottomMenu = bottomMenu;
+    this.viewManager = viewManager;
     this.grabLine = bottomMenu.find(".grabLine");
     this.expandedOption = HTML_IDS.BOTTOM_MENU.OPTIONS.OBJECTS;
     this.optionSimulation = bottomMenu.find(
@@ -127,13 +132,15 @@ export default class BottomMenuController {
       <span>${obj.name}</span><img class="icon-information" />
     </div>
   </div>`);
+
       newObject.on("click", () => {
         this.onObjectAdded(obj);
-        window.dispatchEvent(
-          new CustomEvent(EVENTS.SIMULATION.ADD_OBJECT, {
-            detail: obj,
-          })
-        );
+        this.viewManager.addNewObjectToView(obj);
+        // window.dispatchEvent(
+        //   new CustomEvent(EVENTS.SIMULATION.ADD_OBJECT, {
+        //     detail: obj,
+        //   })
+        // );
       });
       this.objectsContainer.append(newObject);
     });

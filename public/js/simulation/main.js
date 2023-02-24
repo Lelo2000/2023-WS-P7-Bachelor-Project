@@ -12,6 +12,11 @@ window.addEventListener(EVENTS.SIMULATION.ADD_OBJECT, (eventData) => {
     y: world.canvas.getHeight() / 2,
   });
 });
+
+window.addEventListener(EVENTS.SIMULATION.LOAD_OBJECT, (eventData) => {
+  let object = eventData.detail.object;
+  world.loadObjectToCanvas(object);
+});
 // const messageManager = new MessageManager(
 //   socket,
 //   world,

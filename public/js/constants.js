@@ -120,6 +120,7 @@ const EVENTS = {
     ADD_OBJECT: "addObject",
     TOGGLE_PAUSE: "togglePause",
     SET_TRAFFIC: "setTraffic",
+    LOAD_OBJECT: "loadObject",
   },
 };
 

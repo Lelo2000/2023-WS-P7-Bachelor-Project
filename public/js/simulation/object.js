@@ -17,6 +17,7 @@ export class Object {
     this.isVisible = true;
     this.name = "";
     this.explanation = "";
+    this.rules = [];
   }
 
   hasCategorie(categorie) {

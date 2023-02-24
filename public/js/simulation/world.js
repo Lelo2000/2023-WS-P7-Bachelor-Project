@@ -358,6 +358,7 @@ export default class World {
           tl: newObject.isScaleable,
           tr: newObject.isScaleable,
           mtr: newObject.isRotateable,
+          deleteControl: newObject.isDeleteable,
         });
         oImg.lockMovementX = !newObject.isMoveable;
         oImg.lockMovementY = !newObject.isMoveable;

@@ -6,6 +6,7 @@ import { EVENTS, HTML_IDS } from "../constants.js";
 import Message from "./message.js";
 import MessageManager from "./messageManager.js";
 import Proposal from "./proposal.js";
+import ViewManager from "./viewManager.js";
 
 const socket = io();
 window.socket = socket;
@@ -32,6 +33,8 @@ const openInformation = new OpenInformationController();
 let currentFoldOut = false;
 
 const messageManager = new MessageManager(socket);
+
+const viewManager = new ViewManager();
 
 const proposals = new Map();
 let currentProposalId;
@@ -208,6 +211,6 @@ function loadProposalSelection(isRequired = false) {
 }
 
 function switchProposal(proposalId) {
-  currentProposalId = proposalId;
+  viewManager.switchProposal(proposals.get(Number(proposalId)));
   openInformation.hide();
 }

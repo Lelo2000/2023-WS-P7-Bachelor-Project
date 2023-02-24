@@ -366,6 +366,11 @@ export default class World {
           newObject.showChangeType(changeType);
         }
         this.canvas.add(oImg);
+        window.dispatchEvent(
+          new CustomEvent(EVENTS.SIMULATION.LOADED_OBJECT, {
+            detail: { objectId: newObject.id },
+          })
+        );
         resolve();
       });
     });
@@ -503,6 +508,10 @@ export default class World {
     console.log(id);
     this.canvas.remove(this.objectList.get(id).displayObject);
     this.objectList.delete(id);
+  }
+
+  getCanvasObjects() {
+    return this.objectList;
   }
 }
 

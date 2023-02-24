@@ -17,6 +17,22 @@ window.addEventListener(EVENTS.SIMULATION.LOAD_OBJECT, (eventData) => {
   let object = eventData.detail.object;
   world.loadObjectToCanvas(object);
 });
+
+window.addEventListener(
+  EVENTS.SIMULATION.REQUEST_CANVAS_OBJECTS,
+  (eventData) => {
+    let objectList = world.getCanvasObjects();
+    window.dispatchEvent(
+      new CustomEvent(EVENTS.SIMULATION.SEND_CANVAS_OBJECTS, {
+        detail: { list: objectList, opt: eventData.detail.opt },
+      })
+    );
+  }
+);
+
+window.addEventListener(EVENTS.SIMULATION.CLEAR_CANVAS, () => {
+  world.clearCanvas();
+});
 // const messageManager = new MessageManager(
 //   socket,
 //   world,

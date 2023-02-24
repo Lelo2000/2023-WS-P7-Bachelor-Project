@@ -27,7 +27,7 @@ export default class Message extends MessageBaseObject {
           <p class="date">${this.getDate()}</p>
         </div>
       </div>
-      <div class="tagIcon">
+      <div class="tagIcon playMessage" id="${this.id}">
         <img class="icon-play">
       </div>
     </div>
@@ -56,6 +56,10 @@ export default class Message extends MessageBaseObject {
       </div>
     </div>`;
     return bottomSpaceAfterComments;
+  }
+
+  addChanges(changeArray) {
+    this.changes = this.changes.concat(changeArray);
   }
 
   addDependency(message) {

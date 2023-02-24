@@ -14,9 +14,14 @@ export default class MessageManager {
     });
   }
 
+  getMessageChanges(messageId) {
+    return this.messages.get(Number(messageId)).changes;
+  }
+
   addMessage(message) {
     let newMessage = new Message();
     newMessage.fromServerData(message);
+    console.log(message);
     this.messages.set(newMessage.id, newMessage);
   }
 

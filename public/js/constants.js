@@ -121,6 +121,10 @@ const EVENTS = {
     TOGGLE_PAUSE: "togglePause",
     SET_TRAFFIC: "setTraffic",
     LOAD_OBJECT: "loadObject",
+    LOADED_OBJECT: "loadedObject",
+    REQUEST_CANVAS_OBJECTS: "reuqestCanvasObejcts",
+    SEND_CANVAS_OBJECTS: "sendCAnvasObjects",
+    CLEAR_CANVAS: "clearCanvas",
   },
 };
 

@@ -57,6 +57,13 @@ $(document).ready(function () {
       switchProposal(e.currentTarget.id);
     }
   );
+  $("#" + HTML_IDS.FOLD_OUT.ID).on("click", ".playMessage", (e) => {
+    console.log("MESSAGE PLAY", e);
+    console.log(e.currentTarget.id);
+    viewManager.loadChangesToCanvas(
+      messageManager.getMessageChanges(e.currentTarget.id)
+    );
+  });
   $("#" + HTML_IDS.SIDE_MENU.ID).on("click", ".sideMenuItem", (e) => {
     let menuItem = e.currentTarget;
     onSideMenuClick(menuItem.id);
@@ -70,6 +77,7 @@ $(document).ready(function () {
   });
   bottomMenuController.init();
   messageManager.registerEvents();
+  viewManager.registerEvents();
 
   socket.on(EVENTS.SERVER.SEND_OBJECTS_DATA, (serverMsg) => {
     bottomMenuController.loadObjectsForAdding(serverMsg.data);
@@ -149,12 +157,13 @@ function sendContribution() {
   newMessage.title = title;
   newMessage.text = text;
   newMessage.addTags(tags);
-  console.log(newMessage);
+  newMessage.addChanges(viewManager.currentChanges);
   socket.emit(EVENTS.CLIENT.SEND_MESSAGE, { data: newMessage });
   openInformation.hide();
 }
 
 function openNewContribution() {
+  viewManager.requestCompareView();
   openInformation.setWidth("450px");
 
   let content = `

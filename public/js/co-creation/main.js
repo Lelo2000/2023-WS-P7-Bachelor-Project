@@ -58,9 +58,15 @@ $(document).ready(function () {
     }
   );
   $("#" + HTML_IDS.FOLD_OUT.ID).on("click", ".playMessage", (e) => {
-    viewManager.playMessage(
-      messageManager.messages.get(Number(e.currentTarget.id))
-    );
+    e.stopPropagation();
+    let msg = messageManager.messages.get(Number(e.currentTarget.id));
+    messageManager.setPlayingMessage(msg);
+    viewManager.playMessage(msg);
+  });
+  $("#" + HTML_IDS.FOLD_OUT.ID).on("click", ".message", (e) => {
+    let classes = $(e.currentTarget).attr("class").split(" ");
+    let msg = messageManager.messages.get(Number(classes[1]));
+    loadMessageClicked(msg);
   });
   $("#" + HTML_IDS.SIDE_MENU.ID).on("click", ".sideMenuItem", (e) => {
     let menuItem = e.currentTarget;
@@ -156,9 +162,16 @@ function sendContribution() {
   newMessage.text = text;
   newMessage.addTags(tags);
   newMessage.addChanges(viewManager.currentChanges);
+  if (messageManager.getPlayingMessage()) {
+    newMessage.addDependency(messageManager.getPlayingMessage());
+  }
   viewManager.clearCurrentObjectsList();
   socket.emit(EVENTS.CLIENT.SEND_MESSAGE, { data: newMessage });
   openInformation.hide();
+}
+
+function loadMessageClicked(msg) {
+  $("#discussionMessagesContainer").empty();
 }
 
 function openNewContribution() {

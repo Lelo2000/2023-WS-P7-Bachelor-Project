@@ -6,6 +6,21 @@ export default class MessageManager {
     /**@type {Map<Number, Message} */
     this.messages = new Map();
     this.socket = socket;
+    /**@type {Map<Number, Message} */
+    this.activeMessages = new Map();
+    this.playingMessage;
+  }
+
+  setPlayingMessage(message) {
+    this.playingMessage = message;
+  }
+
+  getPlayingMessage() {
+    return this.playingMessage;
+  }
+
+  addActiveMessage(message) {
+    this.activeMessages.set(message.id, message);
   }
 
   registerEvents() {
@@ -23,10 +38,15 @@ export default class MessageManager {
     newMessage.fromServerData(message);
     console.log(message);
     this.messages.set(newMessage.id, newMessage);
+    console.log(newMessage);
   }
 
   getHtmlAllMessages() {
-    return this.getHtmlOfMessageArray(Array.from(this.messages.values()));
+    let messagesWithOutDependencies = [];
+    this.messages.forEach((msg) => {
+      if (msg.dependencies.length === 0) messagesWithOutDependencies.push(msg);
+    });
+    return this.getHtmlOfMessageArray(messagesWithOutDependencies);
   }
 
   /**@param {Array<Message>} messageArray */

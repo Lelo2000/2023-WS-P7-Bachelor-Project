@@ -8,6 +8,8 @@ export default class ViewManager {
     this.savedView = new Map();
     this.isSaving = false;
     this.currentChanges = [];
+    this.dependencyChangesList = new Map();
+    this.dependencyObjectList = new Map();
     this.proposalObjectList = new Map();
     this.activeMessagesObjectList = new Map();
     this.playingMessage;
@@ -30,6 +32,9 @@ export default class ViewManager {
         }
         if (this.activeMessagesObjectList.has(objectId)) {
           this.activeMessagesObjectList.delete(objectId);
+        }
+        if (this.dependencyObjectList.has(objectId)) {
+          this.dependencyObjectList.delete(objectId);
         }
       }
     );
@@ -76,6 +81,7 @@ export default class ViewManager {
     this.savedView = new Map();
     this.addTosaveView(this.proposalObjectList);
     this.addTosaveView(this.activeMessagesObjectList);
+    this.addTosaveView(this.dependencyObjectList);
     console.log("SAVED VIEW:", this.savedView);
   }
 
@@ -113,9 +119,10 @@ export default class ViewManager {
     window.dispatchEvent(new CustomEvent(EVENTS.SIMULATION.CLEAR_CANVAS));
   }
 
-  loadChangesToCanvas(objectList) {
+  loadObjectsToCanvas(objectList) {
     // this.clearCanvas();
     // this.loadProposalObjectsToCanvas();
+    console.log("Lade Objekte von List", objectList);
     objectList.forEach((obj) => {
       window.dispatchEvent(
         new CustomEvent(EVENTS.SIMULATION.LOAD_OBJECT, {
@@ -132,29 +139,94 @@ export default class ViewManager {
   clearObjectList(list) {
     if (list.size > 0) {
       list.forEach((obj) => {
-        window.dispatchEvent(
-          new CustomEvent(EVENTS.SIMULATION.DELETE_OBJECT, {
-            detail: { object: obj },
-          })
-        );
+        this.deleteObjectFromCanvas(obj);
         list.delete(obj.id);
       });
     }
   }
 
-  playMessage(message) {
-    this.playingMessage = message;
-    this.clearObjectList(this.activeMessagesObjectList);
-    message.changes.forEach((change) => {
-      switch (change.type) {
-        case CHANGES.TYPES.ADDED:
-          let newObject = new Object("error");
-          newObject.fromServerData(change.options.addedObject);
-          this.activeMessagesObjectList.set(newObject.id, newObject);
+  deleteObjectFromCanvas(obj) {
+    window.dispatchEvent(
+      new CustomEvent(EVENTS.SIMULATION.DELETE_OBJECT, {
+        detail: { object: obj },
+      })
+    );
+  }
+
+  addDependencyChanges(message) {
+    if (message.dependencies.length > 0)
+      if (!this.dependencyChangesList.has(message.id)) {
+        this.dependencyChangesList.set(message.id, message.dependencies);
+        console.log("DEPENDENCY CHANGES LIST:", this.dependencyChangesList);
+      }
+  }
+
+  deleteDependencyChanges(messageId) {
+    if (this.dependencyChangesList.has(messageId)) {
+      //   this.deleteDependencyChangesFromCanvas();
+      this.dependencyChangesList.delete(messageId);
+    }
+  }
+
+  //   deleteDependencyChangesFromCanvas() {
+  //     this.dependencyChangesList.forEach((dependencyList) => {
+  //       dependencyList.forEach((dependency) => {
+  //         dependency.changes.forEach((change) => {
+  //           switch (change.type) {
+  //             case CHANGES.TYPES.ADDED:
+  //               let addedObject = change.options.addedObject;
+  //               let addedObjectId = addedObject.id;
+  //               if (this.dependencyObjectList.has(addedObjectId)) {
+  //                 this.dependencyChangesList.delete(addedObjectId);
+  //                 this.deleteObjectFromCanvas(addedObject);
+  //               }
+  //               break;
+  //           }
+  //         });
+  //       });
+  //     });
+  //   }
+
+  loadDepencyChangesToCanvas() {
+    this.clearObjectList(this.dependencyObjectList);
+    this.dependencyChangesList.forEach((dependencyList) => {
+      this.recursiveDependencyChanges(dependencyList);
+    });
+    this.loadObjectsToCanvas(this.dependencyObjectList);
+  }
+
+  recursiveDependencyChanges(dependencyList) {
+    dependencyList.forEach((dependency) => {
+      dependency.changes.forEach((change) => {
+        this.applyChangeToList(change, this.dependencyObjectList);
+      });
+      if (dependency.dependencies.length > 0) {
+        this.recursiveDependencyChanges(dependency.dependencies);
       }
     });
+  }
+
+  applyChangeToList(change, list) {
+    switch (change.type) {
+      case CHANGES.TYPES.ADDED:
+        let newObject = new Object("error");
+        newObject.fromServerData(change.options.addedObject);
+        list.set(newObject.id, newObject);
+    }
+  }
+
+  playMessage(message) {
+    if (this.playingMessage)
+      this.deleteDependencyChanges(this.playingMessage.id);
+    this.playingMessage = message;
+    this.clearObjectList(this.activeMessagesObjectList);
+    this.addDependencyChanges(message);
+    this.loadDepencyChangesToCanvas();
+    message.changes.forEach((change) => {
+      this.applyChangeToList(change, this.activeMessagesObjectList);
+    });
     console.log(this.activeMessagesObjectList);
-    this.loadChangesToCanvas(this.activeMessagesObjectList);
+    this.loadObjectsToCanvas(this.activeMessagesObjectList);
     this.saveView();
   }
 }

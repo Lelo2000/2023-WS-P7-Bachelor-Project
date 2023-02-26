@@ -2,6 +2,7 @@ import BottomMenuController from "../baseClasses/bottomMenuController.js";
 import FoldOutController from "../baseClasses/FoldOutController.js";
 import InformationBubble from "../baseClasses/informationBubble.js";
 import OpenInformationController from "../baseClasses/openInformationController.js";
+import ViewManager from "../co-creation/viewManager.js";
 import { EVENTS, HTML_IDS } from "../constants.js";
 import Attribute from "./attribute.js";
 
@@ -23,8 +24,11 @@ const informationBubble = new InformationBubble(
   informationBubbleContainer,
   informationBubbleContent
 );
+
+const viewManager = new ViewManager();
+
 const bottomMenu = $("#" + HTML_IDS.BOTTOM_MENU.ID);
-const bottomMenuController = new BottomMenuController(bottomMenu);
+const bottomMenuController = new BottomMenuController(bottomMenu, viewManager);
 
 const openInformation = new OpenInformationController();
 let currentFoldOut = false;

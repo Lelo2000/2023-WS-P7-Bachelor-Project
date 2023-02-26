@@ -111,7 +111,7 @@ server.listen(port, function () {
 });
 
 function getProjectWithId(searchedId) {
-  projectList.get(Number(searchedId));
+  return projectList.get(Number(searchedId));
 }
 
 function loadObjectsData() {

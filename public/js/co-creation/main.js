@@ -179,12 +179,19 @@ function sendContribution() {
 
 function loadMessageClicked(msg) {
   $("#discussionMessagesContainer").empty();
-  $("#discussionMessagesContainer").append(`
-    <div class=backToOverView>
-    <img class="icon-arrow-left">
-    <span>Beitragsübersicht</span>
-    </div>
-  `);
+  let html = $(`
+  <div class=backToOverView>
+  <img class="icon-arrow-left">
+  <span>Beitragsübersicht</span>
+  </div>
+`);
+  html.on("click", (e) => {
+    openDiscussionFoldOut();
+  });
+  $("#discussionMessagesContainer").append(html);
+  $("#discussionMessagesContainer").append(
+    messageManager.getMessageWithDependenciesHtml(msg)
+  );
 }
 
 function openNewContribution() {

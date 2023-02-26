@@ -42,9 +42,19 @@ export default class MessageManager {
   addMessage(message) {
     let newMessage = new Message();
     newMessage.fromServerData(message);
-    console.log(message);
-    this.messages.set(newMessage.id, newMessage);
     console.log(newMessage);
+    newMessage.dependencies.forEach((dependency) => {
+      if (!this.messages.has(dependency.id)) {
+        console.warn(
+          "EINE NACHRICHT OHNE IHRE BENÖTIGTE NACHRICHT GELADEN:",
+          dependency
+        );
+        return;
+      }
+      this.messages.get(dependency.id).necessaryFor.push(newMessage);
+    });
+    this.messages.set(newMessage.id, newMessage);
+    console.log("NEUE NACHRICHT:", newMessage);
   }
 
   getHtmlAllMessages() {
@@ -62,6 +72,21 @@ export default class MessageManager {
       console.log(message);
       html.push(message.html);
     });
+    return html;
+  }
+
+  /**
+   * @param {Message} message
+   */
+  getMessageWithDependenciesHtml(message) {
+    let html = $(`
+    <div></div>
+    `);
+    if (!message.htmlWithNecessaries) {
+      message.createHtmlWithNecessaries();
+    }
+
+    html.append(message.htmlWithNecessaries);
     return html;
   }
 }

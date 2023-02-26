@@ -253,4 +253,28 @@
   align-items: center;
   justify-content: start;
   gap: 8px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.backToOverView span {
+  font-family: Inter-Semi-Bold;
+  font-size: 12px;
+}
+
+.dependendMessageContainer {
+  border-left: 1px solid black;
+  width: 100%;
+  padding-left: 8px;
+  box-sizing: border-box;
+}
+
+.dependendMessageContainer .message {
+  filter: none;
+}
+
+.dependendMessage .messagesBefore {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
 }

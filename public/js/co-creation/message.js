@@ -45,16 +45,33 @@ export default class Message extends MessageBaseObject {
         <img class="icon-dislike" />
       </div>
     </div>
-      <div class="dependendMessageContainer">
-        <div class="messagesBefore">
-        <span>(5 weitere Kommentare)</span><img class="icon-arrow-down"></div>
-        <div class="dependendMessage"></div>
+      <div class="dependendMessageContainer 0">
+     
       </div>
   </div>
     `);
+    this.necessaryFor.forEach((dependendMessage) => {});
 
-    $(".dependendMessage", this.htmlWithNecessaries).append(
+    $(".dependendMessageContainer.0", this.htmlWithNecessaries).append(
+      `
+      <div class="dependendMessageContainer 1"></div>
+      <div class="messagesBefore">
+      <span>(5 weitere Kommentare)</span><img class="icon-arrow-down"></div>
+      <div class="dependendMessage 0"></div>`
+    );
+    $(".dependendMessageContainer.1", this.htmlWithNecessaries).append(
+      `
+      <div class="dependendMessageContainer 2"></div>
+      <div class="messagesBefore">
+      <span>(5 weitere Kommentare)</span><img class="icon-arrow-down"></div>
+      <div class="dependendMessage 1"></div>`
+    );
+
+    $(".dependendMessage.0", this.htmlWithNecessaries).append(
       this.necessaryFor[0].html
+    );
+    $(".dependendMessage.1", this.htmlWithNecessaries).append(
+      this.necessaryFor[1].html
     );
 
     $(".icon-like", this.htmlWithNecessaries).on("click", () => {

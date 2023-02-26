@@ -307,9 +307,9 @@ export default class World {
     document.addEventListener("keydown", (event) => {
       let keyCode = event.code;
       if (keyCode === "KeyP") {
-        this.saveCanvas().then((results) => {
-          console.log(results);
-        });
+        // this.saveCanvas().then((results) => {
+        //   console.log(results);
+        // });
       }
     });
   }

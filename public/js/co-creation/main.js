@@ -165,10 +165,12 @@ function sendContribution() {
   newMessage.title = title;
   newMessage.text = text;
   newMessage.addTags(tags);
+  console.log("Verschicke NAchrichten");
   newMessage.addChanges(viewManager.currentChanges);
   if (messageManager.getPlayingMessage()) {
     newMessage.addDependency(messageManager.getPlayingMessage());
   }
+  console.log("Verschicke NAchrichten");
   viewManager.clearCurrentObjectsList();
   socket.emit(EVENTS.CLIENT.SEND_MESSAGE, {
     data: newMessage,

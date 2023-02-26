@@ -50,29 +50,18 @@ export default class Message extends MessageBaseObject {
       </div>
   </div>
     `);
-    this.necessaryFor.forEach((dependendMessage) => {});
-
-    $(".dependendMessageContainer.0", this.htmlWithNecessaries).append(
-      `
-      <div class="dependendMessageContainer 1"></div>
-      <div class="messagesBefore">
-      <span>(5 weitere Kommentare)</span><img class="icon-arrow-down"></div>
-      <div class="dependendMessage 0"></div>`
-    );
-    $(".dependendMessageContainer.1", this.htmlWithNecessaries).append(
-      `
-      <div class="dependendMessageContainer 2"></div>
-      <div class="messagesBefore">
-      <span>(5 weitere Kommentare)</span><img class="icon-arrow-down"></div>
-      <div class="dependendMessage 1"></div>`
-    );
-
-    $(".dependendMessage.0", this.htmlWithNecessaries).append(
-      this.necessaryFor[0].html
-    );
-    $(".dependendMessage.1", this.htmlWithNecessaries).append(
-      this.necessaryFor[1].html
-    );
+    this.necessaryFor.forEach((dependendMessage, index) => {
+      $(`.dependendMessageContainer.${index}`, this.htmlWithNecessaries).append(
+        `
+        <div class="dependendMessageContainer ${Number(index) + 1}"></div>
+        <div class="messagesBefore">
+        <span>(5 weitere Kommentare)</span><img class="icon-arrow-down"></div>
+        <div class="dependendMessage ${index}"></div>`
+      );
+      $(`.dependendMessage.${index}`, this.htmlWithNecessaries).append(
+        this.necessaryFor[index].html
+      );
+    });
 
     $(".icon-like", this.htmlWithNecessaries).on("click", () => {
       this.addLike();

@@ -10,18 +10,14 @@ export default class MessageManager {
 
   newConnection(socket) {
     socket.on(EVENTS.CLIENT.SEND_MESSAGE, (clientMsg) => {
-      console.log(clientMsg);
       let msg = clientMsg.data;
       let proposalId = clientMsg.proposalId;
-      console.log("PROPOSAL ID:", proposalId);
       msg.time = Date.now();
       this.onAddedMessage(msg);
       this.setMessage(proposalId, msg);
     });
     socket.on(EVENTS.CLIENT.REQUEST_MESSAGES, (propsalData) => {
       let proposalId = propsalData.id;
-      console.log(proposalId);
-      console.log(this.getMessages(Number(proposalId)));
       socket.emit(EVENTS.SERVER.SEND_MESSAGES, {
         messages: this.getMessages(Number(proposalId)),
       });

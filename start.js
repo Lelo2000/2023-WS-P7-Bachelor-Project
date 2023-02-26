@@ -30,6 +30,10 @@ console.log("Lade Projektliste...");
 try {
   let proposalsJSON = readFileSync("./storage/project.json");
   JSON.parse(proposalsJSON).projects.forEach((project) => {
+    if (project.phase === PROJECT.PHASE.CO_CREATION)
+      project.proposals.forEach((proposal) => {
+        messageManager.loadMessagesFromArray(proposal.messages, proposal.id);
+      });
     projectList.set(project.id, project);
   });
 } catch (err) {

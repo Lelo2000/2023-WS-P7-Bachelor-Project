@@ -89,7 +89,6 @@ $(document).ready(function () {
   socket.emit(EVENTS.CLIENT.REQUEST_OBJECTS_DATA);
 
   //Server Absprache
-  socket.emit(EVENTS.CLIENT.REQUEST_PROPOSALS);
   socket.on(EVENTS.SERVER.SEND_PROPOSALS, async (payload) => {
     payload.data.forEach((proposal) => {
       let newProposal = new Proposal();
@@ -97,6 +96,11 @@ $(document).ready(function () {
       proposals.set(newProposal.id, newProposal);
     });
     loadProposalSelection(true);
+  });
+  socket.emit(EVENTS.CLIENT.REQUEST_PROPOSALS);
+  socket.on(EVENTS.SERVER.SEND_MESSAGES, (eventData) => {
+    let messages = eventData.messages;
+    messageManager.addMessages(messages);
   });
   console.log(proposals);
 });
@@ -166,12 +170,21 @@ function sendContribution() {
     newMessage.addDependency(messageManager.getPlayingMessage());
   }
   viewManager.clearCurrentObjectsList();
-  socket.emit(EVENTS.CLIENT.SEND_MESSAGE, { data: newMessage });
+  socket.emit(EVENTS.CLIENT.SEND_MESSAGE, {
+    data: newMessage,
+    proposalId: currentProposalId,
+  });
   openInformation.hide();
 }
 
 function loadMessageClicked(msg) {
   $("#discussionMessagesContainer").empty();
+  $("#discussionMessagesContainer").append(`
+    <div class=backToOverView>
+    <img class="icon-arrow-left">
+    <span>Beitragsübersicht</span>
+    </div>
+  `);
 }
 
 function openNewContribution() {
@@ -232,6 +245,8 @@ function loadProposalSelection(isRequired = false) {
 }
 
 function switchProposal(proposalId) {
+  currentProposalId = proposalId;
   viewManager.switchProposal(proposals.get(Number(proposalId)));
   openInformation.hide();
+  socket.emit(EVENTS.CLIENT.REQUEST_MESSAGES, { id: currentProposalId });
 }

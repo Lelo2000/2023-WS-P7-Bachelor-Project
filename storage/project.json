@@ -336,7 +336,153 @@
               "name": "Springbrunnen",
               "explanation": "Ist eine Springbrunnen. Wasser nicht trinkbar."
             }
-          }
+          },
+          "messages": [
+            {
+              "text": " Ich fände es toll, wenn wir auf dem kahlen Platz ein wenig Grün hinzufügen könnten. Das würde das Ambiente zum hinsetzten um einiges aufwerten und zudem tut es den Insekten gut. Man könnte sich ja überlegen, ob dort Wildblumen oder ähnliches eingepflanzt werden.",
+              "title": "Bäume",
+              "author": "Test autor",
+              "time": 1677409683597,
+              "votes": {
+                "likes": 0,
+                "dislikes": 0
+              },
+              "id": 0.8282836365844102,
+              "tags": ["Umwelt"],
+              "comments": [],
+              "categorie": "testCategorie",
+              "changes": [
+                {
+                  "type": "added",
+                  "options": {
+                    "id": 0.8348661107163993,
+                    "addedObject": {
+                      "id": 0.8348661107163993,
+                      "tags": ["Umwelt"],
+                      "categories": ["Grün"],
+                      "displayObject": {
+                        "type": "image",
+                        "version": "5.3.0",
+                        "originX": "center",
+                        "originY": "center",
+                        "left": 1019,
+                        "top": 1024.5,
+                        "width": 232,
+                        "height": 317,
+                        "fill": "rgb(0,0,0)",
+                        "stroke": null,
+                        "strokeWidth": 0,
+                        "strokeDashArray": null,
+                        "strokeLineCap": "butt",
+                        "strokeDashOffset": 0,
+                        "strokeLineJoin": "miter",
+                        "strokeUniform": false,
+                        "strokeMiterLimit": 4,
+                        "scaleX": 1,
+                        "scaleY": 1,
+                        "angle": 0,
+                        "flipX": false,
+                        "flipY": false,
+                        "opacity": 1,
+                        "shadow": null,
+                        "visible": true,
+                        "backgroundColor": "",
+                        "fillRule": "nonzero",
+                        "paintFirst": "fill",
+                        "globalCompositeOperation": "source-over",
+                        "skewX": 0,
+                        "skewY": 0,
+                        "cropX": 0,
+                        "cropY": 0,
+                        "src": "http://localhost:8090/images/simulation/objects/bush.svg",
+                        "crossOrigin": null,
+                        "filters": []
+                      },
+                      "isCollided": false,
+                      "collidedObjectIds": [],
+                      "isMoveable": true,
+                      "isDeleteable": true,
+                      "isRotateable": true,
+                      "isScaleable": false,
+                      "messagesWithObject": [],
+                      "isVisible": true,
+                      "name": "Busch",
+                      "explanation": "Ist grün. Macht O2",
+                      "rules": [],
+                      "imageUrl": "/images/simulation/objects/bush.svg"
+                    }
+                  }
+                },
+                {
+                  "type": "added",
+                  "options": {
+                    "id": 0.861061165099622,
+                    "addedObject": {
+                      "id": 0.861061165099622,
+                      "tags": ["Umwelt"],
+                      "categories": ["Grün"],
+                      "displayObject": {
+                        "type": "image",
+                        "version": "5.3.0",
+                        "originX": "center",
+                        "originY": "center",
+                        "left": 1835,
+                        "top": 1014.5,
+                        "width": 232,
+                        "height": 317,
+                        "fill": "rgb(0,0,0)",
+                        "stroke": null,
+                        "strokeWidth": 0,
+                        "strokeDashArray": null,
+                        "strokeLineCap": "butt",
+                        "strokeDashOffset": 0,
+                        "strokeLineJoin": "miter",
+                        "strokeUniform": false,
+                        "strokeMiterLimit": 4,
+                        "scaleX": 1,
+                        "scaleY": 1,
+                        "angle": 0,
+                        "flipX": false,
+                        "flipY": false,
+                        "opacity": 1,
+                        "shadow": null,
+                        "visible": true,
+                        "backgroundColor": "",
+                        "fillRule": "nonzero",
+                        "paintFirst": "fill",
+                        "globalCompositeOperation": "source-over",
+                        "skewX": 0,
+                        "skewY": 0,
+                        "cropX": 0,
+                        "cropY": 0,
+                        "src": "http://localhost:8090/images/simulation/objects/bush.svg",
+                        "crossOrigin": null,
+                        "filters": []
+                      },
+                      "isCollided": false,
+                      "collidedObjectIds": [],
+                      "isMoveable": true,
+                      "isDeleteable": true,
+                      "isRotateable": true,
+                      "isScaleable": false,
+                      "messagesWithObject": [],
+                      "isVisible": true,
+                      "name": "Busch",
+                      "explanation": "Ist grün. Macht O2",
+                      "rules": [],
+                      "imageUrl": "/images/simulation/objects/bush.svg"
+                    }
+                  }
+                }
+              ],
+              "dependencies": [],
+              "answers": [],
+              "html": {
+                "0": {},
+                "length": 1
+              }
+            }
+          ]
         }
       ]
     }

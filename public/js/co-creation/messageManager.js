@@ -33,6 +33,12 @@ export default class MessageManager {
     return this.messages.get(Number(messageId)).changes;
   }
 
+  addMessages(messages) {
+    messages.forEach((msg) => {
+      this.addMessage(msg);
+    });
+  }
+
   addMessage(message) {
     let newMessage = new Message();
     newMessage.fromServerData(message);

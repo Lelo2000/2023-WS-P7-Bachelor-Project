@@ -156,6 +156,7 @@ function sendContribution() {
   newMessage.text = text;
   newMessage.addTags(tags);
   newMessage.addChanges(viewManager.currentChanges);
+  viewManager.clearCurrentObjectsList();
   socket.emit(EVENTS.CLIENT.SEND_MESSAGE, { data: newMessage });
   openInformation.hide();
 }

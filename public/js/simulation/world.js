@@ -98,8 +98,14 @@ export default class World {
       this.canvas.setActiveObject(oImg);
       oImg.id = newObject.id;
       newObject.displayObject = oImg;
-      this.objectList.set(newObject.id, newObject);
+      this.addToObjectList(newObject);
     });
+  }
+
+  addToObjectList(obj) {
+    let ownObject = new Object(obj.displayObject);
+    ownObject.fromServerData(obj);
+    this.objectList.set(ownObject.id, ownObject);
   }
 
   /**
@@ -335,7 +341,6 @@ export default class World {
       newObject.displayObject = oImg;
       newObject.displayObject.id = newObject.id;
 
-      this.objectList.set(newObject.id, newObject);
       oImg.setControlsVisibility({
         mt: newObject.isScaleable,
         mb: newObject.isScaleable,
@@ -351,6 +356,7 @@ export default class World {
       oImg.lockMovementX = !newObject.isMoveable;
       oImg.lockMovementY = !newObject.isMoveable;
       this.canvas.add(oImg);
+      this.addToObjectList(newObject);
     });
   }
 
@@ -520,7 +526,12 @@ export default class World {
   }
 
   deleteObject(id) {
-    console.log(id);
+    console.log("OBJECT WIRD GELÖSCHT: ", this.objectList.get(id));
+    window.dispatchEvent(
+      new CustomEvent(EVENTS.SIMULATION.ON_OBJECT_DELETION, {
+        detail: { id: id },
+      })
+    );
     this.canvas.remove(this.objectList.get(id).displayObject);
     this.objectList.delete(id);
   }

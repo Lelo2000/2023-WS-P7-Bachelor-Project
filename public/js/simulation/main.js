@@ -18,6 +18,11 @@ window.addEventListener(EVENTS.SIMULATION.LOAD_OBJECT, (eventData) => {
   world.loadObjectToCanvas(object);
 });
 
+window.addEventListener(EVENTS.SIMULATION.DELETE_OBJECT, (eventData) => {
+  let object = eventData.detail.object;
+  world.deleteObject(object.id);
+});
+
 window.addEventListener(
   EVENTS.SIMULATION.REQUEST_CANVAS_OBJECTS,
   (eventData) => {

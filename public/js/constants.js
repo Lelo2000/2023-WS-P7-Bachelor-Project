@@ -125,6 +125,8 @@ const EVENTS = {
     REQUEST_CANVAS_OBJECTS: "reuqestCanvasObejcts",
     SEND_CANVAS_OBJECTS: "sendCAnvasObjects",
     CLEAR_CANVAS: "clearCanvas",
+    DELETE_OBJECT: "deleteObject",
+    ON_OBJECT_DELETION: "onObjectDeletion",
   },
 };
 

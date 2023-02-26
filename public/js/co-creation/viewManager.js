@@ -21,6 +21,18 @@ export default class ViewManager {
         eventData.detail.opt.callback(eventData.detail.list);
       }
     );
+    window.addEventListener(
+      EVENTS.SIMULATION.ON_OBJECT_DELETION,
+      (eventData) => {
+        let objectId = eventData.detail.id;
+        if (this.currentObjectsList.has(objectId)) {
+          this.currentObjectsList.delete(objectId);
+        }
+        if (this.activeMessagesObjectList.has(objectId)) {
+          this.activeMessagesObjectList.delete(objectId);
+        }
+      }
+    );
   }
 
   addNewObjectToView(objectData) {
@@ -60,20 +72,30 @@ export default class ViewManager {
     );
   }
 
-  saveView(list) {
+  saveView() {
     this.savedView = new Map();
-    list.forEach((element) => {
-      this.savedView.set(element.id, element);
+    this.addTosaveView(this.proposalObjectList);
+    this.addTosaveView(this.activeMessagesObjectList);
+    console.log("SAVED VIEW:", this.savedView);
+  }
+
+  addTosaveView(objectList) {
+    objectList.forEach((obj) => {
+      let newObject = new Object("error");
+      newObject.fromServerData(obj);
+      this.savedView.set(obj.id, obj);
     });
   }
 
   switchProposal(proposal) {
     this.currentProposal = proposal;
     this.loadProposalObjectsToCanvas();
+    this.saveView();
   }
 
   loadProposalObjectsToCanvas() {
     let objects = this.currentProposal.objects;
+    this.clearObjectList(this.proposalObjectList);
     for (let id in objects) {
       let newObject = new Object("error");
       newObject.fromServerData(objects[id]);
@@ -91,20 +113,38 @@ export default class ViewManager {
     window.dispatchEvent(new CustomEvent(EVENTS.SIMULATION.CLEAR_CANVAS));
   }
 
-  loadChangesToCanvas(changes) {
-    this.clearCanvas();
-    this.loadProposalObjectsToCanvas();
-    changes.forEach((change) => {
+  loadChangesToCanvas(objectList) {
+    // this.clearCanvas();
+    // this.loadProposalObjectsToCanvas();
+    objectList.forEach((obj) => {
       window.dispatchEvent(
         new CustomEvent(EVENTS.SIMULATION.LOAD_OBJECT, {
-          detail: { object: change.options.addedObject },
+          detail: { object: obj },
         })
       );
     });
   }
 
+  clearCurrentObjectsList() {
+    this.clearObjectList(this.currentObjectsList);
+  }
+
+  clearObjectList(list) {
+    if (list.size > 0) {
+      list.forEach((obj) => {
+        window.dispatchEvent(
+          new CustomEvent(EVENTS.SIMULATION.DELETE_OBJECT, {
+            detail: { object: obj },
+          })
+        );
+        list.delete(obj.id);
+      });
+    }
+  }
+
   playMessage(message) {
     this.playingMessage = message;
+    this.clearObjectList(this.activeMessagesObjectList);
     message.changes.forEach((change) => {
       switch (change.type) {
         case CHANGES.TYPES.ADDED:
@@ -114,6 +154,7 @@ export default class ViewManager {
       }
     });
     console.log(this.activeMessagesObjectList);
-    this.loadChangesToCanvas(message.changes);
+    this.loadChangesToCanvas(this.activeMessagesObjectList);
+    this.saveView();
   }
 }

@@ -13,7 +13,6 @@ export default class World {
   constructor(htmlAnchorId, socket) {
     this.socket = socket;
     this.canvas = new fabric.Canvas(htmlAnchorId, {
-      backgroundColor: "#8C8C8C",
       fireMiddleClick: true,
       renderOnAddRemove: false,
     });
@@ -32,7 +31,8 @@ export default class World {
     this.currentTime = 0;
     this.deltaTime = 0;
     this.interval = 1000 / 30;
-    this.bounderies = 2400;
+    this.bounderies = 2520;
+    this.bounderiesY = 1860;
     this.initializeWorld();
   }
 
@@ -205,8 +205,8 @@ export default class World {
         }
         if (vpt[5] >= 0) {
           vpt[5] = 0;
-        } else if (vpt[5] < this.canvas.getHeight() - this.bounderies * zoom) {
-          vpt[5] = this.canvas.getHeight() - this.bounderies * zoom;
+        } else if (vpt[5] < this.canvas.getHeight() - this.bounderiesY * zoom) {
+          vpt[5] = this.canvas.getHeight() - this.bounderiesY * zoom;
         }
       }
     });
@@ -239,9 +239,9 @@ export default class World {
             vpt[5] = 0;
           } else if (
             vpt[5] <
-            this.canvas.getHeight() - this.bounderies * zoom
+            this.canvas.getHeight() - this.bounderiesY * zoom
           ) {
-            vpt[5] = this.canvas.getHeight() - this.bounderies * zoom;
+            vpt[5] = this.canvas.getHeight() - this.bounderiesY * zoom;
           }
         }
         this.canvas.requestRenderAll();
@@ -290,6 +290,17 @@ export default class World {
   }
 
   initializeStandardElements() {
+    fabric.Image.fromURL("/images/simulation/tiles/background.svg", (oImg) => {
+      oImg.set({
+        top: 0,
+        left: 0,
+        hasControls: false,
+        selectable: false,
+        opacity: 1,
+      });
+      this.canvas.add(oImg);
+    });
+
     //Standard Elemente
     this.errorText = new fabric.Text("", {
       fill: "red",

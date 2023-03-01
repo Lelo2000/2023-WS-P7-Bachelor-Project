@@ -8,6 +8,15 @@ export default class CarManager {
     this.pause = false;
     this.flow = 0;
     this.spawnInterval;
+    this.spawnPoints = [
+      { ix: 12, iy: 1 },
+      { ix: this.map.iWidth - 1, iy: 10 },
+      { ix: 1, iy: 11 },
+      { ix: 1, iy: 26 },
+      { ix: 23, iy: this.map.iHeight - 1 },
+      { ix: 25, iy: 1 },
+      { ix: 42, iy: this.map.iHeight - 1 },
+    ];
     this.startIntveral();
   }
 
@@ -21,12 +30,10 @@ export default class CarManager {
 
   spawnCars() {
     if (this.pause) return;
-    let rnd = Math.random();
-    if (rnd < 0.5) {
-      this.spawnCar(15, 1);
-    } else {
-      this.spawnCar(1, 15);
-    }
+    let rnd = Math.floor(Math.random() * this.spawnPoints.length);
+    console.log(rnd);
+
+    this.spawnCar(this.spawnPoints[rnd]);
   }
 
   togglePause() {
@@ -47,7 +54,9 @@ export default class CarManager {
     this.cars.delete(id);
   }
 
-  spawnCar(ix, iy) {
+  spawnCar(point) {
+    let ix = point.ix;
+    let iy = point.iy;
     let tile = this.map.grid[ix][iy];
     let newCar = new Car(tile);
     tile.addVehicle(newCar.id, newCar);

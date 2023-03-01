@@ -8,18 +8,30 @@ export default class TrafficMap {
     this.resolution = TRAFFIC_SIM.GRID.RESOLUTION;
     this.x = -TRAFFIC_SIM.GRID.RESOLUTION * 3;
     this.y = -TRAFFIC_SIM.GRID.RESOLUTION * 3;
-    this.width = this.canvas.width * 2;
-    this.height = this.canvas.height * 2;
+    this.width = 2520 + 60 * 3;
+    this.height = 1860 + 60 * 3;
     this.iWidth = 0;
     this.iHeight = 0;
     this.grid = [];
     this.createGrid();
-    this.createRoad({ ix: 0, iy: 15 }, { ix: this.iWidth, iy: 15 });
-    this.createRoad({ ix: this.iWidth, iy: 14 }, { ix: 0, iy: 14 });
-    this.createRoad({ ix: 15, iy: 0 }, { ix: 15, iy: this.iHeight });
-    this.createRoad({ ix: 16, iy: this.iHeight }, { ix: 16, iy: 0 });
-    this.createRoad({ ix: 16, iy: 6 }, { ix: this.iWidth, iy: 6 });
-    this.createRoad({ ix: 32, iy: 6 }, { ix: 32, iy: 14 });
+    this.createRoad({ ix: 12, iy: 0 }, { ix: 12, iy: 26 });
+    this.createRoad({ ix: 13, iy: 26 }, { ix: 13, iy: 0 });
+
+    this.createRoad({ ix: this.iWidth, iy: 10 }, { ix: 0, iy: 10 });
+    this.createRoad({ ix: 0, iy: 11 }, { ix: this.iWidth, iy: 11 });
+
+    this.createRoad({ ix: 23, iy: 25 }, { ix: 0, iy: 25 });
+    this.createRoad({ ix: 0, iy: 26 }, { ix: 23, iy: 26 });
+
+    this.createRoad({ ix: 22, iy: 25 }, { ix: 22, iy: this.iHeight });
+    this.createRoad({ ix: 23, iy: this.iHeight }, { ix: 23, iy: 25 });
+
+    this.createRoad({ ix: 25, iy: 0 }, { ix: 25, iy: 11 });
+    this.createRoad({ ix: 26, iy: 11 }, { ix: 26, iy: 0 });
+
+    this.createRoad({ ix: 41, iy: 10 }, { ix: 41, iy: this.iHeight });
+    this.createRoad({ ix: 42, iy: this.iHeight }, { ix: 42, iy: 10 });
+
     console.log(this);
   }
 

@@ -98,7 +98,7 @@ export default class Tile {
     }
     this.displayObject.set("fill", this.color);
 
-    // this.map.canvas.add(this.displayObject);
+    this.map.canvas.add(this.displayObject);
   }
 
   hide() {

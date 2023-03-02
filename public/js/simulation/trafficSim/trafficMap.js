@@ -21,9 +21,9 @@ export default class TrafficMap {
     this.createRoad({ ix: 0, iy: 11 }, { ix: this.iWidth, iy: 11 });
 
     this.createRoad({ ix: 23, iy: 25 }, { ix: 0, iy: 25 });
-    this.createRoad({ ix: 0, iy: 26 }, { ix: 23, iy: 26 });
+    this.createRoad({ ix: 0, iy: 26 }, { ix: 22, iy: 26 });
 
-    this.createRoad({ ix: 22, iy: 25 }, { ix: 22, iy: this.iHeight });
+    this.createRoad({ ix: 22, iy: 26 }, { ix: 22, iy: this.iHeight });
     this.createRoad({ ix: 23, iy: this.iHeight }, { ix: 23, iy: 25 });
 
     this.createRoad({ ix: 25, iy: 0 }, { ix: 25, iy: 11 });

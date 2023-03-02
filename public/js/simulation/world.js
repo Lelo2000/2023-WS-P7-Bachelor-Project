@@ -296,7 +296,7 @@ export default class World {
         left: 0,
         hasControls: false,
         selectable: false,
-        opacity: 1,
+        opacity: 0.5,
       });
       this.canvas.add(oImg);
     });

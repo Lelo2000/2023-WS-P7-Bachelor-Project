@@ -27,6 +27,11 @@ export default class MessageManager {
     this.socket.on(EVENTS.SERVER.NEW_MESSAGE, (event) => {
       this.addMessage(event.data);
     });
+
+    this.socket.on(EVENTS.SERVER.SEND_MESSAGES, (eventData) => {
+      let messages = eventData.messages;
+      this.addMessages(messages);
+    });
   }
 
   getMessageChanges(messageId) {
@@ -42,7 +47,6 @@ export default class MessageManager {
   addMessage(message) {
     let newMessage = new Message();
     newMessage.fromServerData(message);
-    console.log("Adding new MEssage");
     newMessage.dependencies.forEach((dependency) => {
       if (!this.messages.has(dependency.id)) {
         console.warn(
@@ -52,13 +56,8 @@ export default class MessageManager {
         return;
       }
       this.messages.get(dependency.id).necessaryFor.push(newMessage);
-      console.log(
-        "EINE NACHRICHT ABHÄNGIG GEMACHT UND AN:",
-        this.messages.get(dependency.id)
-      );
     });
     this.messages.set(newMessage.id, newMessage);
-    console.log("NEUE NACHRICHT:", newMessage);
   }
 
   getHtmlAllMessages() {
@@ -73,7 +72,6 @@ export default class MessageManager {
   getHtmlOfMessageArray(messageArray) {
     let html = [];
     messageArray.forEach((message) => {
-      console.log(message);
       html.push(message.html);
     });
     return html;
@@ -86,11 +84,13 @@ export default class MessageManager {
     let html = $(`
     <div></div>
     `);
-    if (!message.htmlWithNecessaries) {
-      message.createHtmlWithNecessaries();
-    }
+    message.createHtmlWithNecessariesDependendOrder();
 
     html.append(message.htmlWithNecessaries);
     return html;
+  }
+
+  loadDependendSubMessages(currentMessage, subMessage) {
+    currentMessage.loadDependenciesFromSubMessage(subMessage);
   }
 }

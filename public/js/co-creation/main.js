@@ -38,6 +38,7 @@ const messageManager = new MessageManager(socket);
 
 const proposals = new Map();
 let currentProposalId;
+let currentMessageViewed;
 
 $(document).ready(function () {
   $("#attributeSpecificBox").on("click", ".addAttribute", function (e) {
@@ -63,15 +64,30 @@ $(document).ready(function () {
     messageManager.setPlayingMessage(msg);
     viewManager.playMessage(msg);
   });
+
   $("#" + HTML_IDS.FOLD_OUT.ID).on("click", ".message", (e) => {
     let classes = $(e.currentTarget).attr("class").split(" ");
-    let msg = messageManager.messages.get(Number(classes[1]));
-    loadMessageClicked(msg);
+    currentMessageViewed = messageManager.messages.get(Number(classes[1]));
+    loadMessageClicked(currentMessageViewed);
   });
+
+  $("#" + HTML_IDS.FOLD_OUT.ID).on("click", ".messagesBefore", (e) => {
+    e.stopPropagation();
+    let classes = $(e.currentTarget).attr("class").split(" ");
+    let currentMessageBeforeClicked = messageManager.messages.get(
+      Number(classes[1])
+    );
+    messageManager.loadDependendSubMessages(
+      currentMessageViewed,
+      currentMessageBeforeClicked
+    );
+  });
+
   $("#" + HTML_IDS.SIDE_MENU.ID).on("click", ".sideMenuItem", (e) => {
     let menuItem = e.currentTarget;
     onSideMenuClick(menuItem.id);
   });
+
   $("#" + HTML_IDS.FOLD_OUT.BUTTON).on("click", (e) => {
     if (currentFoldOut === false) {
       onSideMenuClick(HTML_IDS.SIDE_MENU.DISCUSSION);
@@ -86,6 +102,7 @@ $(document).ready(function () {
   socket.on(EVENTS.SERVER.SEND_OBJECTS_DATA, (serverMsg) => {
     bottomMenuController.loadObjectsForAdding(serverMsg.data);
   });
+
   socket.emit(EVENTS.CLIENT.REQUEST_OBJECTS_DATA);
 
   //Server Absprache
@@ -97,12 +114,15 @@ $(document).ready(function () {
     });
     loadProposalSelection(true);
   });
+
   socket.emit(EVENTS.CLIENT.REQUEST_PROPOSALS);
-  socket.on(EVENTS.SERVER.SEND_MESSAGES, (eventData) => {
-    let messages = eventData.messages;
-    messageManager.addMessages(messages);
-  });
   console.log(proposals);
+
+  socket.on(EVENTS.SERVER.NEW_MESSAGE, (event) => {
+    if (currentFoldOut === HTML_IDS.SIDE_MENU.DISCUSSION) {
+      openDiscussionFoldOut();
+    }
+  });
 });
 
 function onSideMenuClick(menuItemId) {
@@ -152,8 +172,15 @@ function openDiscussionFoldOut() {
         <div class="tabMenuPoint"><span>Meine</span></div>
     </div>
     <div id="discussionMessagesContainer"></div>`);
-
-  $("#discussionMessagesContainer").append(messageManager.getHtmlAllMessages());
+  if (!currentMessageViewed) {
+    $("#discussionMessagesContainer").append(
+      messageManager.getHtmlAllMessages()
+    );
+    return;
+  }
+  if (currentMessageViewed) {
+    loadMessageClicked(currentMessageViewed);
+  }
 }
 
 function sendContribution() {
@@ -165,12 +192,10 @@ function sendContribution() {
   newMessage.title = title;
   newMessage.text = text;
   newMessage.addTags(tags);
-  console.log("Verschicke NAchrichten");
   newMessage.addChanges(viewManager.currentChanges);
   if (messageManager.getPlayingMessage()) {
     newMessage.addDependency(messageManager.getPlayingMessage());
   }
-  console.log("Verschicke NAchrichten");
   viewManager.clearCurrentObjectsList();
   socket.emit(EVENTS.CLIENT.SEND_MESSAGE, {
     data: newMessage,
@@ -188,6 +213,7 @@ function loadMessageClicked(msg) {
   </div>
 `);
   html.on("click", (e) => {
+    currentMessageViewed = false;
     openDiscussionFoldOut();
   });
   $("#discussionMessagesContainer").append(html);

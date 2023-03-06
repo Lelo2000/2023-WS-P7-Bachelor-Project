@@ -5,7 +5,7 @@ export default class MessageBaseObject {
     this.author = "";
     this.time = 0;
     this.votes = { likes: 0, dislikes: 0 };
-    this.id = Math.random();
+    this.id = Math.floor(Math.random() * 1000000000);
     this.tags = [];
     this.comments = [];
   }

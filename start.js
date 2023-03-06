@@ -82,7 +82,6 @@ app.get("/proposal/", async (req, res) => {
   console.log(
     "Proposal mit der Id: " + proposalId + " soll aufgerufen werden."
   );
-  res.sendFile(__dirname + "/public/websites/ideas.html");
 });
 
 /*************************************

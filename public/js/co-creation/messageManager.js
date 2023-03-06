@@ -47,7 +47,7 @@ export default class MessageManager {
   addMessage(message) {
     let newMessage = new Message();
     newMessage.fromServerData(message);
-    newMessage.dependencies.forEach((dependency) => {
+    newMessage.dependencies.forEach((dependency, index) => {
       if (!this.messages.has(dependency.id)) {
         console.warn(
           "EINE NACHRICHT OHNE IHRE BENÖTIGTE NACHRICHT GELADEN:",
@@ -57,7 +57,19 @@ export default class MessageManager {
       }
       this.messages.get(dependency.id).necessaryFor.push(newMessage);
     });
+    this.transformDependenciesFromMessage(newMessage);
     this.messages.set(newMessage.id, newMessage);
+  }
+
+  transformDependenciesFromMessage(msg) {
+    msg.dependencies.forEach((dependency, index) => {
+      if (dependency instanceof Message === false) {
+        let newMsg = new Message();
+        newMsg.fromServerData(dependency);
+        this.transformDependenciesFromMessage(newMsg);
+        msg.dependencies[index] = newMsg;
+      }
+    });
   }
 
   getHtmlAllMessages() {
@@ -91,6 +103,6 @@ export default class MessageManager {
   }
 
   loadDependendSubMessages(currentMessage, subMessage) {
-    currentMessage.loadDependenciesFromSubMessage(subMessage);
+    currentMessage.openDependenciesFromSubMessage(subMessage);
   }
 }

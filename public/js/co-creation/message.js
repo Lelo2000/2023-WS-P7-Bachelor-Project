@@ -120,29 +120,50 @@ export default class Message extends MessageBaseObject {
       );
 
       necessaryForList.forEach((msg) => {
-        let messageBefore = "";
-        let depCount = msg.getAllDependencyCount();
-        if (depCount > 1) {
-          messageBefore = `
-          <div class="messagesBefore ${msg.id}">
-            <span>(${
-              depCount - 1
-            } weitere Kommentare)</span><img class="icon-arrow-down">
-          </div>`;
-        }
-        sameDependendMessageContainer.append(`
-        <div class="subMessage ${msg.id}">
-        ${messageBefore}
-        ${msg.html.html()}
-        </div>
-        `);
+        sameDependendMessageContainer.append(msg.getMessageAsSubMessage());
       });
     });
   }
 
-  loadDependenciesFromSubMessage(subMessage) {
-    console.log(`.subMessage.${subMessage.id}`);
-    console.log(this.htmlWithNecessaries.find(`.subMessage.${subMessage.id}`));
+  getMessageAsSubMessage() {
+    let messageBefore = "";
+    let depCount = this.getAllDependencyCount();
+    if (depCount > 1) {
+      messageBefore = `
+        <div class="dependenciesFromSubMessage"></div>
+          <div class="messagesBefore ${this.id}">
+            <span>(${
+              depCount - 1
+            } weitere Kommentare)</span><img class="icon-arrow-down">
+          </div>
+          `;
+    }
+    return `
+    <div class="subMessage ${this.id}">
+    ${messageBefore}
+    ${this.html.html()}
+    </div>
+    `;
+  }
+
+  /**@param {Message} subMessage */
+  openDependenciesFromSubMessage(subMessage) {
+    let dependenciesFromSubMessage = $("<div></div>");
+    console.log(subMessage);
+    subMessage.dependencies.forEach((message) => {
+      dependenciesFromSubMessage.append(message.getMessageAsSubMessage());
+    });
+    this.closeDependenciesFromSubMessage(subMessage);
+    this.htmlWithNecessaries
+      .find(`.subMessage.${subMessage.id} .dependenciesFromSubMessage`)
+      .append(dependenciesFromSubMessage);
+  }
+
+  /**@param {Message} subMessage */
+  closeDependenciesFromSubMessage(subMessage) {
+    this.htmlWithNecessaries
+      .find(`.subMessage.${subMessage.id} .dependenciesFromSubMessage`)
+      .empty();
   }
 
   getAllDependencyCount() {

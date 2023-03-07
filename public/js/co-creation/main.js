@@ -285,5 +285,7 @@ function switchProposal(proposalId) {
   viewManager.switchProposal(proposals.get(Number(proposalId)));
   openInformation.hide();
   socket.emit(EVENTS.CLIENT.REQUEST_MESSAGES, { id: currentProposalId });
-  onSideMenuClick(HTML_IDS.SIDE_MENU.DISCUSSION);
+  socket.once(EVENTS.SERVER.SEND_MESSAGES, () => {
+    onSideMenuClick(HTML_IDS.SIDE_MENU.DISCUSSION);
+  });
 }

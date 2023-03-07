@@ -20,18 +20,7 @@ export default class Message extends MessageBaseObject {
   createHtmlWithNecessaries() {
     this.htmlWithNecessaries = $(`
     <div class="message ${this.id}">
-    <div class="top">
-      <div class="profileContainer">
-        <img class="icon-profile profile">
-        <div class="authorDate"> 
-          <p class="author">${this.author}</p>
-          <p class="date">${this.getDate()}</p>
-        </div>
-      </div>
-      <div class="tagIcon playMessage" id="${this.id}">
-        <img class="icon-play">
-      </div>
-    </div>
+    ${this.getTopHtml()}
     <div class="text">
       <h2>${this.title}</h2>
       <p>
@@ -74,31 +63,9 @@ export default class Message extends MessageBaseObject {
   createHtmlWithNecessariesDependendOrder() {
     this.htmlWithNecessaries = $(`
     <div class="message ${this.id}">
-    <div class="top">
-      <div class="profileContainer">
-        <img class="icon-profile profile">
-        <div class="authorDate"> 
-          <p class="author">${this.author}</p>
-          <p class="date">${this.getDate()}</p>
-        </div>
-      </div>
-      <div class="tagIcon playMessage" id="${this.id}">
-        <img class="icon-play">
-      </div>
-    </div>
-    <div class="text">
-      <h2>${this.title}</h2>
-      <p>
-        ${this.text}
-      </p>
-    </div>
-    <div class="bottom">
-      <span>Antworten</span>
-      <div class="evaluation">
-        <img class="icon-like" />
-        <img class="icon-dislike" />
-      </div>
-    </div>
+   ${this.getTopHtml()}
+    ${this.getTextHtml()}
+    ${this.getBottomAnwserButtonBar()}
       <div class="dependendMessageContainer">
      
       </div>
@@ -141,7 +108,9 @@ export default class Message extends MessageBaseObject {
     return `
     <div class="subMessage ${this.id}">
     ${messageBefore}
-    ${this.html.html()}
+    ${this.getTopHtml()}
+    ${this.getTextHtml()}
+    ${this.getBottomAnwserButtonBar()}
     </div>
     `;
   }
@@ -182,6 +151,22 @@ export default class Message extends MessageBaseObject {
     return i;
   }
 
+  getAllNecessaryForCount() {
+    let i = this.necessaryFor.length;
+    if (i > 0) {
+      this.necessaryFor.forEach((necessary) => {
+        let necessaryChecked = necessary;
+        if (necessary instanceof Message === false) {
+          let newMsg = new Message();
+          newMsg.fromServerData(necessary);
+          necessaryChecked = newMsg;
+        }
+        i += necessaryChecked.getAllNecessaryForCount();
+      });
+    }
+    return i;
+  }
+
   getLastMessagesBasedOnThisOne(finishedList) {
     if (this.necessaryFor.length > 0) {
       this.necessaryFor.forEach((msg) => {
@@ -195,10 +180,15 @@ export default class Message extends MessageBaseObject {
   // Wenn ja gehe ich Nehme ich alle diese Abhängigkeiten und schaue ob diese welche haben
   // wenn nein dann bin ich Teil des gesuchte Ergebnis
 
-  createHtml() {
-    this.html = $(`
-    <div class="message ${this.id}">
-    <div class="top">
+  getTopHtml() {
+    let playIcon = "";
+    if (this.changes.length > 0) {
+      playIcon = `<div class="tagIcon playMessage" id="${this.id}">
+      <img class="icon-play">
+    </div>`;
+    }
+
+    return `<div class="top">
       <div class="profileContainer">
         <img class="icon-profile profile">
         <div class="authorDate"> 
@@ -206,16 +196,24 @@ export default class Message extends MessageBaseObject {
           <p class="date">${this.getDate()}</p>
         </div>
       </div>
-      <div class="tagIcon playMessage" id="${this.id}">
-        <img class="icon-play">
-      </div>
-    </div>
-    <div class="text">
-      <h2>${this.title}</h2>
-      <p>
-        ${this.text}
-      </p>
-    </div>
+      ${playIcon}
+    </div>`;
+  }
+
+  getTextHtml() {
+    return `<div class="text">
+<h2>${this.title}</h2>
+<p>
+  ${this.text}
+</p>
+</div>`;
+  }
+
+  createHtml() {
+    this.html = $(`
+    <div class="message ${this.id}">
+    ${this.getTopHtml()}
+    ${this.getTextHtml()}
     ${this.getBottomBar()}
   </div>
     `);
@@ -224,11 +222,24 @@ export default class Message extends MessageBaseObject {
     });
   }
 
+  getBottomAnwserButtonBar() {
+    let bottomSpaceAfterComments = "";
+    bottomSpaceAfterComments = `
+    <div class="bottom">
+      <span>Antworten</span>
+      <div class="evaluation">
+        <img class="icon-like" />
+        <img class="icon-dislike" />
+      </div>
+    </div>`;
+    return bottomSpaceAfterComments;
+  }
+
   getBottomBar() {
     let bottomSpaceAfterComments = "";
     bottomSpaceAfterComments = `
     <div class="bottom">
-      <span> ${this.answers.length} Antworten</span>
+      <span> ${this.getAllNecessaryForCount()} Antworten</span>
       <div class="evaluation">
         <img class="icon-like" />
         <img class="icon-dislike" />

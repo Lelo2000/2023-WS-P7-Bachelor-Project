@@ -75,8 +75,12 @@ export default class MessageManager {
   getHtmlAllMessages() {
     let messagesWithOutDependencies = [];
     this.messages.forEach((msg) => {
-      if (msg.dependencies.length === 0) messagesWithOutDependencies.push(msg);
+      if (msg.dependencies.length === 0) {
+        messagesWithOutDependencies.push(msg);
+        msg.createHtml();
+      }
     });
+    console.log(messagesWithOutDependencies);
     return this.getHtmlOfMessageArray(messagesWithOutDependencies);
   }
 

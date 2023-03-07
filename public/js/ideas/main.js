@@ -126,18 +126,22 @@ function updateFoldOutToMenuId(menuId) {
   switch (menuId) {
     case HTML_IDS.SIDE_MENU.ALL:
       let allIdeas = Array.from(ideas.values());
+      $("#sideMenuFoldOutTitle").html(`${allIdeas.length} Ideen & Projekte`);
       addIdeasToFoldOut(allIdeas);
       break;
     case HTML_IDS.SIDE_MENU.ACTIVE:
       let activeIdeas = filterIdeas([{ status: IDEA.STATUS.ACTIVE }]);
+      $("#sideMenuFoldOutTitle").html(`${activeIdeas.length} Projekte`);
       addIdeasToFoldOut(activeIdeas);
       break;
     case HTML_IDS.SIDE_MENU.FINISHED:
       let finishedIdeas = filterIdeas([{ status: IDEA.STATUS.FINISHED }]);
+      $("#sideMenuFoldOutTitle").html(`${finishedIdeas.length} Projekte`);
       addIdeasToFoldOut(finishedIdeas);
       break;
     case HTML_IDS.SIDE_MENU.IDEAS:
       let newIdeas = filterIdeas([{ status: IDEA.STATUS.IDEA }]);
+      $("#sideMenuFoldOutTitle").html(`${newIdeas.length} Ideen`);
       addIdeasToFoldOut(newIdeas);
       break;
     case HTML_IDS.SIDE_MENU.VIEW:

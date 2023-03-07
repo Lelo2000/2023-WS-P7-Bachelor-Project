@@ -11,7 +11,7 @@ export default class IdeaManager {
       author: "Stadt",
       time: 1676134963354,
       votes: { likes: 0, dislikes: 0 },
-      id: 0.2837756259578277,
+      id: 0.2837756259578247,
       tags: [],
       comments: [],
       markerPoint: { lat: 49.8759698310847, lng: 8.649415969848635 },

@@ -10,7 +10,7 @@ export default class BottomMenuController {
     this.viewManager = viewManager;
     this.grabLine = bottomMenu.find(".grabLine");
     this.expandedOption = HTML_IDS.BOTTOM_MENU.OPTIONS.OBJECTS;
-    this.toggleOpen = false;
+    this.toggleOpen = true;
     this.optionSimulation = bottomMenu.find(
       "#" + HTML_IDS.BOTTOM_MENU.OPTIONS.SIMULATION
     );

@@ -37,6 +37,7 @@ const HTML_IDS = {
   },
   BOTTOM_MENU: {
     ID: "simulationBox",
+    BOX_SIZER: "simulationBoxSizer",
     OPTIONS: {
       OBJECTS: "optionObjects",
       SIMULATION: "optionSimulation",

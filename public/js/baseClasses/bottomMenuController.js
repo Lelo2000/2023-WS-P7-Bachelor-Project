@@ -10,6 +10,7 @@ export default class BottomMenuController {
     this.viewManager = viewManager;
     this.grabLine = bottomMenu.find(".grabLine");
     this.expandedOption = HTML_IDS.BOTTOM_MENU.OPTIONS.OBJECTS;
+    this.toggleOpen = false;
     this.optionSimulation = bottomMenu.find(
       "#" + HTML_IDS.BOTTOM_MENU.OPTIONS.SIMULATION
     );
@@ -31,7 +32,18 @@ export default class BottomMenuController {
     this.objectsContainer = bottomMenu.find(
       "#" + HTML_IDS.BOTTOM_MENU.CONTAINER.OBJECTS
     );
+    this.boxSizer = bottomMenu.find("#" + HTML_IDS.BOTTOM_MENU.BOX_SIZER);
     this.expandOption(this.expandedOption);
+  }
+
+  sizeBoxSmall() {
+    this.bottomMenu.css("bottom", "-222px");
+    this.toggleOpen = false;
+  }
+
+  sizeBoxBig() {
+    this.bottomMenu.css("bottom", "25px");
+    this.toggleOpen = true;
   }
 
   init() {
@@ -48,6 +60,15 @@ export default class BottomMenuController {
         playButton.addClass("icon-play");
       }
     });
+    this.boxSizer.on("click", () => {
+      console.log("SIZE BOX");
+      if (this.toggleOpen) {
+        this.sizeBoxSmall();
+      } else {
+        this.sizeBoxBig();
+      }
+    });
+
     let inpuCarTraffic = this.bottomMenu
       .find("#" + HTML_IDS.BOTTOM_MENU.OPTIONS.INPUT_CAR_TRAFFIC)
       .on("change", () => {

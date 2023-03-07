@@ -96,6 +96,7 @@ $(document).ready(function () {
     onSideMenuClick(currentFoldOut);
   });
   bottomMenuController.init();
+  bottomMenuController.sizeBoxSmall();
   messageManager.registerEvents();
   viewManager.registerEvents();
 
@@ -284,4 +285,5 @@ function switchProposal(proposalId) {
   viewManager.switchProposal(proposals.get(Number(proposalId)));
   openInformation.hide();
   socket.emit(EVENTS.CLIENT.REQUEST_MESSAGES, { id: currentProposalId });
+  onSideMenuClick(HTML_IDS.SIDE_MENU.DISCUSSION);
 }

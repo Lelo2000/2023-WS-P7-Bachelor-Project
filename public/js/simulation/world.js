@@ -322,6 +322,11 @@ export default class World {
     //Dokument Eventlistener
     document.addEventListener("keydown", (event) => {
       let keyCode = event.code;
+      if (keyCode === "End") {
+        this.saveCanvas().then((results) => {
+          console.log(results);
+        });
+      }
       if (keyCode === "Space") {
         if (this.isDraggingKeyDown === false) {
           this.isDraggingKeyDown = true;
@@ -330,10 +335,6 @@ export default class World {
             object.displayObject.lockMovementY = true;
           });
         }
-
-        // this.saveCanvas().then((results) => {
-        //   console.log(results);
-        // });
       }
     });
     document.addEventListener("keyup", (event) => {

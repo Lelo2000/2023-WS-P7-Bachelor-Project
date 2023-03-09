@@ -4,7 +4,8 @@
   left: calc(100vw / 2 - 95vw / 2 + 80px);
   width: calc(95vw - 80px);
   height: 310px;
-  background-color: #d2d2d2;
+  background-color: rgba(255, 255, 255, 0.404);
+  backdrop-filter: blur(6px);
   border-radius: 10px;
   z-index: 100;
   padding: 5px 24px 9px 24px;
@@ -12,6 +13,21 @@
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
+}
+
+#simulationBoxSizer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: row-resize;
+  height: 10px;
+}
+
+.simulationBoxTop {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
 }
 
 #simulationOptions {
@@ -365,19 +381,4 @@
   right: 8px;
   top: 4px;
   cursor: pointer;
-}
-
-#simulationBoxSizer {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  height: 10px;
-}
-
-.simulationBoxTop {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
 }

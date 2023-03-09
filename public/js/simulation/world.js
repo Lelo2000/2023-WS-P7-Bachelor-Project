@@ -34,6 +34,8 @@ export default class World {
     this.bounderies = 2520;
     this.bounderiesY = 1860;
     this.initializeWorld();
+    this.isDragging = false;
+    this.isDraggingKeyDown = false;
   }
 
   initializeWorld() {
@@ -211,12 +213,15 @@ export default class World {
       }
     });
     this.canvas.on("mouse:down", (opt) => {
-      var evt = opt.e;
-      if (evt.altKey === true) {
+      let evt = opt.e;
+      if (this.isDraggingKeyDown === true) {
         this.isDragging = true;
         this.canvas.selection = false;
+        this.canvas.discardActiveObject();
+        this.canvas.renderAll();
         this.lastPosX = evt.clientX;
         this.lastPosY = evt.clientY;
+        console.log("EVENT");
       }
     });
     this.canvas.on("mouse:move", (opt) => {
@@ -296,7 +301,7 @@ export default class World {
         left: 0,
         hasControls: false,
         selectable: false,
-        opacity: 0.5,
+        opacity: 1,
       });
       this.canvas.add(oImg);
     });
@@ -317,7 +322,32 @@ export default class World {
     //Dokument Eventlistener
     document.addEventListener("keydown", (event) => {
       let keyCode = event.code;
-      if (keyCode === "KeyP") {
+      if (keyCode === "Space") {
+        if (this.isDraggingKeyDown === false) {
+          this.isDraggingKeyDown = true;
+          this.objectList.forEach((object) => {
+            object.displayObject.lockMovementX = true;
+            object.displayObject.lockMovementY = true;
+          });
+        }
+
+        // this.saveCanvas().then((results) => {
+        //   console.log(results);
+        // });
+      }
+    });
+    document.addEventListener("keyup", (event) => {
+      let keyCode = event.code;
+      if (keyCode === "Space") {
+        if (this.isDraggingKeyDown === true) {
+          this.isDraggingKeyDown = false;
+          this.objectList.forEach((object) => {
+            console.log(object);
+            object.displayObject.lockMovementX = !object.isMoveable;
+            object.displayObject.lockMovementY = !object.isMoveable;
+          });
+        }
+
         // this.saveCanvas().then((results) => {
         //   console.log(results);
         // });

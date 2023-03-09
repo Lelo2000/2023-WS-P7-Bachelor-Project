@@ -1,0 +1,7 @@
+{
+  "name": "Baum",
+  "imageUrl": "/images/simulation/objects/tree.svg",
+  "tags": ["Umwelt"],
+  "categories": ["Grün"],
+  "explanation": "Ist grün. Macht O2"
+}

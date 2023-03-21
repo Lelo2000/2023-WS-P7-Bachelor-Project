@@ -100,6 +100,7 @@ function onSideMenuClick(menuItemId) {
   }
   switch (menuItemId) {
     case HTML_IDS.SIDE_MENU.HOME:
+      window.location.pathname = "/";
       break;
     case HTML_IDS.SIDE_MENU.REDO:
       break;

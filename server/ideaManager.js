@@ -18,7 +18,7 @@ export default class IdeaManager {
       comments: [],
       markerPoint: { lat: 49.874881, lng: 8.650426 },
       status: "active",
-      projectId: 3,
+      projectId: 1,
     });
     this.ideas.set(0.2837756259578247, {
       title: "Fahrradfreundlichere Landwehrstraße",
@@ -40,7 +40,7 @@ export default class IdeaManager {
       comments: [],
       markerPoint: { lat: 49.87868070335318, lng: 8.640192425232668 },
       status: "idea",
-      projectId: 1,
+      projectId: 3,
     });
 
     this.ideas.set(0.2837756259578277, {

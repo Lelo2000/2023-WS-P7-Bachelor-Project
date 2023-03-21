@@ -30,8 +30,10 @@ body {
 
 .blackButtonStyle {
   background-color: black;
+  box-sizing: border-box;
   color: white;
-  width: 95px;
+  padding-left: 10px;
+  padding-right: 10px;
   height: 40px;
   font-size: 12px;
   border-radius: 9999999999px;

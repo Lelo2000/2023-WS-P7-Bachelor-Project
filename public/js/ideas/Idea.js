@@ -160,7 +160,7 @@ export default class Idea extends MessageBaseObject {
         stroke = "idea-greenStroke";
         break;
       case IDEA.STATUS.IDEA:
-        stroke = "idea-blueStroke";
+        stroke = "idea-yellowStroke";
         break;
       case IDEA.STATUS.FINISHED:
         stroke = "idea-invisibleStroke";
@@ -192,11 +192,10 @@ export default class Idea extends MessageBaseObject {
     <img class="icon-dislike" />
   </div>`;
     } else {
-      console.log(this.projectId);
       if (!this.projectId) {
         return;
       }
-      bottomSpaceAfterComments = `<a href="/proposal?proposalId=${this.projectId}"><div class="blackButtonStyle">Zur Simulation</div></a>`;
+      bottomSpaceAfterComments = `<a href="/proposal?proposalId=${this.projectId}"><div class="blackButtonStyle">Zum Projekt</div></a>`;
     }
 
     return `
@@ -213,7 +212,7 @@ export default class Idea extends MessageBaseObject {
     <div class="text">
       <h2>${this.title}</h2>
       <p>
-        ${this.text}
+        ${this.getTextPreview(60)}
       </p>
     </div>
     ${this.getBottomBar()}

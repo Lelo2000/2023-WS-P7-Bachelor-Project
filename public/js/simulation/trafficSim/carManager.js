@@ -6,7 +6,7 @@ export default class CarManager {
     /**@type {Map<String, Car>} */
     this.cars = new Map();
     this.pause = true;
-    this.flow = 100;
+    this.flow = 0;
     this.spawnInterval;
     this.spawnPoints = [
       { ix: 12, iy: 1 },
@@ -17,6 +17,7 @@ export default class CarManager {
       { ix: 25, iy: 1 },
       { ix: 42, iy: this.map.iHeight - 1 },
     ];
+    this.changeOptions({ flow: 100 });
     this.startIntveral();
   }
 
@@ -31,8 +32,6 @@ export default class CarManager {
   spawnCars() {
     if (this.pause) return;
     let rnd = Math.floor(Math.random() * this.spawnPoints.length);
-    console.log(rnd);
-
     this.spawnCar(this.spawnPoints[rnd]);
   }
 

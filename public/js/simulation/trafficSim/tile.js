@@ -121,16 +121,20 @@ export default class Tile {
       case TRAFFIC_SIM.TILES.ROAD:
         this.color = "#777777";
         if (!params) return;
-        if (params.nextTile) this.nextTile.push(params.nextTile);
+        if (params.nextTile) this.addNextTile(params.nextTile);
         this.direction = params.direction;
         break;
       case TRAFFIC_SIM.TILES.CROSSING:
         this.color = "#990099";
         if (!params) return;
-        if (params.nextTile) this.nextTile.push(params.nextTile);
+        if (params.nextTile) this.addNextTile(params.nextTile);
         this.direction = TRAFFIC_SIM.TILES.CROSSING;
         break;
     }
+  }
+
+  addNextTile(nextTile) {
+    this.nextTile.push(nextTile);
   }
 
   applyRule(object, rule) {

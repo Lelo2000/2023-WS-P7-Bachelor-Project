@@ -57,11 +57,14 @@ export default class Car {
           nextTile = this.tile.getNextTile(0);
           break;
         case TRAFFIC_SIM.TILES.CROSSING:
+          console.log("Current Tile", this.tile);
+          console.log("Next Tiles:", this.tile.nextTile);
           let randomIndex = Math.floor(
             Math.random() * this.tile.nextTile.length
           );
           nextTile = this.tile.getNextTile(randomIndex);
       }
+
       if (nextTile && nextTile.isFreeOf(this.id, this.tag)) {
         this.nextTile = nextTile;
         this.nextTile.addVehicle(this.id, this);

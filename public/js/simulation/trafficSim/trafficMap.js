@@ -31,8 +31,31 @@ export default class TrafficMap {
 
     this.createRoad({ ix: 41, iy: 10 }, { ix: 41, iy: this.iHeight });
     this.createRoad({ ix: 42, iy: this.iHeight }, { ix: 42, iy: 10 });
-
+    this.cleanUpGrid();
     console.log(this);
+  }
+
+  cleanUpGrid() {
+    this.grid.forEach((row) => {
+      row.forEach((tile) => {
+        if (
+          tile.type === TRAFFIC_SIM.TILES.ROAD ||
+          tile.type === TRAFFIC_SIM.TILES.CROSSING
+        ) {
+          let correctArray = [];
+          tile.nextTile.forEach((nextTile) => {
+            if (
+              nextTile.type === TRAFFIC_SIM.TILES.ROAD ||
+              nextTile.type === TRAFFIC_SIM.TILES.CROSSING
+            ) {
+              correctArray.push(nextTile);
+            }
+          });
+          tile.nextTile = correctArray;
+          console.log(tile.nextTile);
+        }
+      });
+    });
   }
 
   registerEvents() {

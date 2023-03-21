@@ -343,7 +343,6 @@ export default class World {
         if (this.isDraggingKeyDown === true) {
           this.isDraggingKeyDown = false;
           this.objectList.forEach((object) => {
-            console.log(object);
             object.displayObject.lockMovementX = !object.isMoveable;
             object.displayObject.lockMovementY = !object.isMoveable;
           });

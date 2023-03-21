@@ -45,6 +45,7 @@ export default class MessageManager {
   }
 
   addMessage(message) {
+    console.log(message);
     let newMessage = new Message();
     newMessage.fromServerData(message);
     newMessage.dependencies.forEach((dependency, index) => {

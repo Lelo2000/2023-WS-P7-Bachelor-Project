@@ -48,7 +48,7 @@ app.use(express.static(__dirname + "/public"));
  *************************************/
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/start.html");
+  res.sendFile(__dirname + "/public/websites/ideas.html");
 });
 
 app.get("/simulation", (req, res) => {

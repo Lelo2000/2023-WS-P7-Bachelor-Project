@@ -111,6 +111,7 @@ function foldOut(menuId) {
   }
   updateFoldOutToMenuId(menuId);
   currentFoldOut = menuId;
+  if (currentFoldOut === HTML_IDS.SIDE_MENU.HOME) return;
   foldOut.css("visibility", "visible");
   sideMenuFoldOutButton.css(
     "left",
@@ -146,6 +147,8 @@ function updateFoldOutToMenuId(menuId) {
       break;
     case HTML_IDS.SIDE_MENU.VIEW:
       break;
+    case HTML_IDS.SIDE_MENU.HOME:
+      window.location.pathname = "/";
   }
 }
 

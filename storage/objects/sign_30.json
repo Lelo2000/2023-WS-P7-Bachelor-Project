@@ -1,7 +1,7 @@
 {
   "name": "Schild 30",
   "imageUrl": "/images/simulation/objects/sign_30.svg",
-  "tags": ["Verkehrs beruhigung"],
+  "tags": ["Verkehr"],
   "categories": ["Straßenschild", "Geschwindigkeitsbegrenzung"],
   "explanation": "Ist ein Schild. Man muss langsamer fahren :(",
   "rules": [{ "type": "speed", "value": 0.1 }]

@@ -5,7 +5,7 @@ export default class SimulationManager {
   constructor(world) {
     this.world = world;
     this.carManager = new CarManager(this.world.map);
-    this.pause = false;
+    this.pause = true;
   }
 
   init() {

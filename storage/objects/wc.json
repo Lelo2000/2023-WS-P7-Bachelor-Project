@@ -1,0 +1,7 @@
+{
+  "name": "Toilette",
+  "imageUrl": "/images/simulation/objects/wc.svg",
+  "tags": ["Sauberkeit"],
+  "categories": ["Ordnung"],
+  "explanation": "Kann man Sachen reinstecken"
+}

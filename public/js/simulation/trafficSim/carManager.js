@@ -5,8 +5,8 @@ export default class CarManager {
     this.map = map;
     /**@type {Map<String, Car>} */
     this.cars = new Map();
-    this.pause = false;
-    this.flow = 0;
+    this.pause = true;
+    this.flow = 100;
     this.spawnInterval;
     this.spawnPoints = [
       { ix: 12, iy: 1 },
@@ -34,10 +34,6 @@ export default class CarManager {
     console.log(rnd);
 
     this.spawnCar(this.spawnPoints[rnd]);
-  }
-
-  togglePause() {
-    this.pause = Math.abs(this.pause - 1);
   }
 
   moveCars(deltaTime) {

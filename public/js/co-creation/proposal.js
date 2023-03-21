@@ -20,7 +20,7 @@ export default class Proposal {
     this.html = $(`
     <div class="proposal">
       <h1>${this.name}</h1>
-      <img class="icon-arrow-circle-3d" />
+      <img src="/images/proposal-teaser-image.png"/>
       <p>
         ${this.description}
       </p>

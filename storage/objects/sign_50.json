@@ -1,0 +1,8 @@
+{
+  "name": "Schild 50",
+  "imageUrl": "/images/simulation/objects/sign_50.svg",
+  "tags": ["Verkehrs beruhigung"],
+  "categories": ["Straßenschild", "Geschwindigkeitsbegrenzung"],
+  "explanation": "Ist ein Schild. Man darf wieder schneller fahren :D",
+  "rules": [{ "type": "speed", "value": 0.2 }]
+}

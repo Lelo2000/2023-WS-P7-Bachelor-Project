@@ -2,6 +2,7 @@ import BottomMenuController from "../baseClasses/bottomMenuController.js";
 import FoldOutController from "../baseClasses/FoldOutController.js";
 import InformationBubble from "../baseClasses/informationBubble.js";
 import OpenInformationController from "../baseClasses/openInformationController.js";
+import Proposal from "../co-creation/proposal.js";
 import ViewManager from "../co-creation/viewManager.js";
 import { EVENTS, HTML_IDS } from "../constants.js";
 import Attribute from "./attribute.js";
@@ -26,6 +27,7 @@ const informationBubble = new InformationBubble(
 );
 
 const viewManager = new ViewManager();
+let proposals;
 
 const bottomMenu = $("#" + HTML_IDS.BOTTOM_MENU.ID);
 const bottomMenuController = new BottomMenuController(bottomMenu, viewManager);
@@ -66,6 +68,20 @@ $(document).ready(function () {
       addAttribute(tag);
     });
   };
+
+  console.log("HÄÄÄÄ");
+  viewManager.registerEvents();
+  socket.on(EVENTS.SERVER.SEND_PROPOSALS, async (payload) => {
+    console.log("DATAAAA:", payload);
+    payload.data.forEach((proposal) => {
+      let newProposal = new Proposal();
+      newProposal.fromServerData(proposal);
+      proposals = newProposal;
+      viewManager.switchProposal(proposal);
+    });
+  });
+
+  socket.emit(EVENTS.CLIENT.REQUEST_PROPOSALS);
 
   socket.on(EVENTS.SERVER.SEND_ATTRIBUTES, (serverMsg) => {
     loadAttributesToOpenInformation(serverMsg.data);

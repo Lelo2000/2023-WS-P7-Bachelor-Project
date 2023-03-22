@@ -98,6 +98,12 @@ io.on("connection", (socket) => {
       });
       return;
     }
+    if (socket.handshake.headers.referer.indexOf("attribute") >= 0) {
+      socket.emit(EVENTS.SERVER.SEND_PROPOSALS, {
+        data: projectList.get(1).proposals,
+      });
+      return;
+    }
   });
 
   socket.on(EVENTS.CLIENT.REQUEST_OBJECTS_DATA, () => {
